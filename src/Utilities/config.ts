@@ -11,7 +11,7 @@ const developmentConfiguration : ApplicationConfiguration =
 
 const productionConfiguration : ApplicationConfiguration =
 {
-    apiUrl : "PRODUCTION_MISSING"
+    apiUrl : "https://diabloiiitemsapi20190812080424.azurewebsites.net"
 };
 
 const config = process.env.NODE_ENV === "production" ?
