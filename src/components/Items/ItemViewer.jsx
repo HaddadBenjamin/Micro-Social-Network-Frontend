@@ -107,13 +107,14 @@ class ItemViewer extends React.Component {
                 }
        });
 
-        data.rows = rows.map(function(item) {
-            return {
-                'Name': item.Name,
-                'LevelRequired' : item.LevelRequired,
-                'Stats': item.Item
-            };
-        });
+        data.rows = orderBy(rows
+            .map(function(item) {
+                return {
+                    'Name': item.Name,
+                    'LevelRequired' : item.LevelRequired,
+                    'Stats': item.Item
+                };
+            }), ['LevelRequired']);
 
         return (
             <>
