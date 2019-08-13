@@ -1,6 +1,6 @@
 import React from "react";
 import { orderBy } from 'lodash'
-import * as style from './ItemViewer.css'
+import styles  from './ItemViewer.css'
 import {
     MDBDataTable,
     MDBContainer,
@@ -87,7 +87,7 @@ class ItemViewer extends React.Component {
                     `${item.MinimumTwoHandedDamageMinimum}-${item.MaximumTwoHandedDamageMinimum} to ${item.MinimumTwoHandedDamageMaximum}-${item.MaximumTwoHandedDamageMaximum}`;
 
                 var itemFormatted =   <>
-                    <div className="item" style={style} key={item.Id }>
+                    <div className="item" style={styles} key={item.Id }>
 
                         <div className="unique"> {/*qualité lié à la qualité e l'objet et revoit la couleur */}
                             {item.Name} <br/>
@@ -109,12 +109,29 @@ class ItemViewer extends React.Component {
 
                     </div>
                 </>;
+
+                var width = null;
+                console.log(styles)
+
+                if (item.ImageName == "amu1") {
+                    item.ImageName = 'amu' + ((Math.floor(Math.random() * Math.floor(3)) + 1).toString());
+                    width = '40px';
+                }
+                if (item.ImageName == "ring1")
+                {
+                    item.ImageName = 'ring' + ((Math.floor(Math.random() * Math.floor(5)) + 1).toString());
+                    width = '40px';
+                }
+                const imageStyle = {
+                    width: width,
+                };
+
                 var imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
+
                 //var defaultImageUrl = window.location.origin.toString() + '/longbattlebow.gif';
-                console.log(self);
                 var itemName = <>
                     {item.Name}
-                    <img className="item-image border info rounded mb-0" src={imageUrl}  onError={self.SetDefaultImageOnError}  alt="testImage.." />
+                    <img className="item-image border info rounded mb-0" src={imageUrl}  style={width !== null ? imageStyle : styles } onError={self.SetDefaultImageOnError}  alt="testImage.." />
                 </>;
 
                 return {
@@ -143,7 +160,7 @@ class ItemViewer extends React.Component {
                                     <MDBCol>
                                         <MDBDataTable
                                             className="item"
-                                            style={style}
+                                            style={styles}
                                             data={data}
                                             entries={3}/>
                                     <MDBCol/>
