@@ -206,6 +206,11 @@ table,
     {
         font-size : 0.5rem !important;
     }
+
+    .item-image
+    {
+        width : 60px;
+    }
 }
 
 @media (max-width: 600px){
@@ -222,5 +227,10 @@ table,
     .page-link .page-item, .pagination .page-item .page-link
     {
         font-size : 0.15rem !important;
+    }
+
+    .item-image
+    {
+        width : 40px;
     }
 }
