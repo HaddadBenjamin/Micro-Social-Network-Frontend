@@ -30,15 +30,15 @@ class ItemViewer extends React.Component {
                     width: 150
                 },
                 {
+                    label: 'Stats',
+                    field: 'Stats',
+                    sort : 'disabled'
+                },
+                {
                     label: 'Level Required',
                     field: 'LevelRequired',
                     sort: 'asc',
                     width: 50
-                },
-                {
-                    label: 'Stats',
-                    field: 'Stats',
-                    sort : 'disabled'
                 }
             ]
         };
@@ -97,15 +97,18 @@ class ItemViewer extends React.Component {
                         <div>
                             {attributes}
                         </div>
-                        <img className="item-image border info rounded mb-0" src={testImage} alt="testImage.." />
+
                     </div>
-                    <div className="item-spacing-end"></div>
+                </>;
+                var itemName = <>
+                    {item.Name}
+                    <img className="item-image border info rounded mb-0" src={testImage} alt="testImage.." />
                 </>;
 
                 return {
-                    Name : item.Name,
-                    LevelRequired : item.LevelRequired,
+                    Name : itemName ,
                     Item : itemFormatted,
+                    LevelRequired : item.LevelRequired,
                 }
        });
 
@@ -113,8 +116,8 @@ class ItemViewer extends React.Component {
             .map(function(item) {
                 return {
                     'Name': item.Name,
+                    'Stats': item.Item,
                     'LevelRequired' : item.LevelRequired,
-                    'Stats': item.Item
                 };
             }), ['LevelRequired']);
 
@@ -130,7 +133,7 @@ class ItemViewer extends React.Component {
                                             className="item"
                                             style={style}
                                             data={data}
-                                            entries={2}/>
+                                            entries={3}/>
                                     <MDBCol/>
                                   </MDBCol>
                                 </MDBRow>
