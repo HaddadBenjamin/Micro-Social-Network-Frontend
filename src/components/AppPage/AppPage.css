@@ -42,12 +42,6 @@
 
 @media (max-width: 787px){
     #apppage .view {
-        min-height: 200vh;
-    }
-}
-
-@media (max-width: 411px){
-    #apppage .view {
-        min-height: 250vh;
+        min-height: 195vh;
     }
 }
