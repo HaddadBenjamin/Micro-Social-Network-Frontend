@@ -10,7 +10,6 @@ import {
     MDBCol
 } from 'mdbreact';
 import {connect} from "react-redux";
-import testImage from './Images/longbattlebow.gif';
 
 class ItemViewer extends React.Component {
     constructor(props) {
@@ -100,9 +99,11 @@ class ItemViewer extends React.Component {
 
                     </div>
                 </>;
+                var imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
+                console.log(imageUrl);
                 var itemName = <>
                     {item.Name}
-                    <img className="item-image border info rounded mb-0" src={testImage} alt="testImage.." />
+                    <img className="item-image border info rounded mb-0" src={imageUrl} alt="testImage.." />
                 </>;
 
                 return {

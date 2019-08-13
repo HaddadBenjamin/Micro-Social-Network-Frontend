@@ -8,6 +8,7 @@ interface Item
     LevelRequired : number,
     Level : number,
     Properties : ItemProperty[],
+    ImageName : string,
 
     // Relative to defense :
     MinimumDefenseMinimum  : number,
