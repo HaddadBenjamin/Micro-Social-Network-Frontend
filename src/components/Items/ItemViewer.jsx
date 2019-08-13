@@ -14,10 +14,20 @@ import {connect} from "react-redux";
 class ItemViewer extends React.Component {
     constructor(props) {
         super(props);
+
+        this.SetDefaultImageOnError = this.SetDefaultImageOnError.bind(this);
+    }
+
+    SetDefaultImageOnError(event)
+    {
+        var defaultImageUrl =  window.location.origin.toString() + '/' +  'http_code_404_error.jpg';
+
+        event.target.src = defaultImageUrl;
     }
 
     render()
     {
+        var self = this;
         const data =
         {
             columns:
@@ -100,10 +110,10 @@ class ItemViewer extends React.Component {
                     </div>
                 </>;
                 var imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
-                console.log(imageUrl);
+                console.log(self);
                 var itemName = <>
                     {item.Name}
-                    <img className="item-image border info rounded mb-0" src={imageUrl} alt="testImage.." />
+                    <img className="item-image border info rounded mb-0" src={imageUrl}  onError={self.SetDefaultImageOnError}  alt="testImage.." />
                 </>;
 
                 return {
