@@ -16,7 +16,7 @@ class ItemCategoriesFilters extends React.Component
                 <MDBFormInline className="item-category-filter py-4" style={style}>
                     <MDBContainer>
                     <MDBRow>
-                        <MDBCol md="3" className="font-weight-bold py-4">WEAPONS
+                        <MDBCol md="3" sm="6" xs="6" className="font-weight-bold py-4">WEAPONS
                             <div className="font-weight-normal item-category-link">
                                 <div onClick={() => this.props.onClickArrows()}>Arrows</div>
                                 <div onClick={() => this.props.onClickAxes()}>Axes</div>
@@ -34,7 +34,7 @@ class ItemCategoriesFilters extends React.Component
                                 <div onClick={() => this.props.onClickThrowingWeapons()}>Throwing</div>
                             </div >
                         </MDBCol>
-                        <MDBCol md="3" className="font-weight-bold py-4">ARMORS
+                        <MDBCol md="3" sm="6" xs="6" className="font-weight-bold py-4">ARMORS
                             <div className="font-weight-normal item-category-link">
                                 <div onClick={() => this.props.onClickBodyArmors()}>Armors</div>
                                 <div onClick={() => this.props.onClickBelts()}>Belts</div>
@@ -44,7 +44,7 @@ class ItemCategoriesFilters extends React.Component
                                 <div onClick={() => this.props.onClickShoes()}>Shoes</div>
                             </div >
                         </MDBCol>
-                        <MDBCol md="3" className="font-weight-bold py-4">JEWELRY
+                        <MDBCol md="3" sm="6" xs="6" className="font-weight-bold py-4">JEWELRY
                             <div className="font-weight-normal item-category-link">
                                 <div onClick={() => this.props.onClickAmulets()}>Amulets</div>
                                 <div onClick={() => this.props.onClickCharms()}>Charms</div>
@@ -52,7 +52,7 @@ class ItemCategoriesFilters extends React.Component
                                 <div onClick={() => this.props.onClickRings()}>Rings</div>
                             </div >
                         </MDBCol>
-                        <MDBCol md="3" className="font-weight-bold py-4">CLASSES
+                        <MDBCol md="3" sm="6" xs="6" className="font-weight-bold py-4">CLASSES
                             <div className="font-weight-normal item-category-link">
                                 <div onClick={() => this.props.onClickAmazon()}>Amazon</div>
                                 <div onClick={() => this.props.onClickAssassin()}>Assassin</div>

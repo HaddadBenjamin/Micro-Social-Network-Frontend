@@ -13,3 +13,8 @@
     text-decoration: underline;
     cursor: pointer;
 }
+@media (max-width: 787px) {
+    .col-xs-6.col-sm-6 {
+
+    }
+}

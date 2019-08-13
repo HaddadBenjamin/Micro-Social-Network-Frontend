@@ -109,12 +109,12 @@ class ItemViewer extends React.Component {
 
                     </div>
                 </>;
-                //var imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
-                var defaultImageUrl = window.location.origin.toString() + '/longbattlebow.gif';
+                var imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
+                //var defaultImageUrl = window.location.origin.toString() + '/longbattlebow.gif';
                 console.log(self);
                 var itemName = <>
                     {item.Name}
-                    <img className="item-image border info rounded mb-0" src={defaultImageUrl}  onError={self.SetDefaultImageOnError}  alt="testImage.." />
+                    <img className="item-image border info rounded mb-0" src={imageUrl}  onError={self.SetDefaultImageOnError}  alt="testImage.." />
                 </>;
 
                 return {
