@@ -83,7 +83,7 @@ th.sorting_asc::after
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center center;
-    min-height: 150vh;
+    min-height: 180vh;
 }
 
 .dataTables_length.bs-select, thead:last-child
