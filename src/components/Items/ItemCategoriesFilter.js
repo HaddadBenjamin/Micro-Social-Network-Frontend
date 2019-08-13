@@ -25,11 +25,11 @@ class ItemCategoriesFilters extends React.Component
                                 <div onClick={() => this.props.onClickCrossbows()}>Crossbows</div>
                                 <div onClick={() => this.props.onClickDaggers()}>Daggers</div>
                                 <div onClick={() => this.props.onClickJavelins()}>Javelins</div>
-                                <div onClick={() => this.props.onClickMasses()}>Masses</div>
+                                <div onClick={() => this.props.onClickMasses()}>Maces</div>
                                 <div onClick={() => this.props.onClickPolearms()}>Polearms</div>
                                 <div onClick={() => this.props.onClickScepters()}>Scepters</div>
                                 <div onClick={() => this.props.onClickSpears()}>Spears</div>
-                                <div onClick={() => this.props.onClickStaffs()}>Staffs</div>
+                                <div onClick={() => this.props.onClickStaffs()}>Staves</div>
                                 <div onClick={() => this.props.onClickSwords()}>Swords</div>
                                 <div onClick={() => this.props.onClickThrowingWeapons()}>Throwing</div>
                             </div >
