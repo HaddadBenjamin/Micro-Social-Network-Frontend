@@ -99,6 +99,7 @@ class ItemViewer extends React.Component {
                         </div>
                         <img className="item-image border info rounded mb-0" src={testImage} alt="testImage.." />
                     </div>
+                    <div className="item-spacing-end"></div>
                 </>;
 
                 return {
@@ -129,7 +130,7 @@ class ItemViewer extends React.Component {
                                             className="item"
                                             style={style}
                                             data={data}
-                                            entries={3}/>
+                                            entries={2}/>
                                     <MDBCol/>
                                   </MDBCol>
                                 </MDBRow>
