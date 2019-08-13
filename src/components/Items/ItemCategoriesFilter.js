@@ -6,7 +6,7 @@ import
     MDBCol,
     MDBFormInline,
 } from "mdbreact";
-import * as style from './ItemCategoriesFilter.css'
+import * as style from './ItemCategoriesFilter.module.css'
 
 class ItemCategoriesFilters extends React.Component
 {

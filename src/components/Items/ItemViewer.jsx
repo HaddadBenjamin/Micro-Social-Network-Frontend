@@ -1,6 +1,6 @@
 import React from "react";
 import { orderBy } from 'lodash'
-import * as style from './ItemViewer.css'
+import * as style from './ItemViewer.module.css'
 import {
     MDBDataTable,
     MDBContainer,
