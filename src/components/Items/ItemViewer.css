@@ -33,8 +33,6 @@ th.sorting_asc::after
 }
 .item
 {
-    margin-top : -6px;
-    margin-bottom : -6px;
     background : rgba(1, 1, 1, 0.8) !important;
     text-align: center;
     line-height: 17.3pt;
@@ -141,4 +139,12 @@ table,
 .dataTables_wrapper
 {
     background-color : rgba(1,1 ,1,0.8) !important;
+}
+
+.item-image {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 11.2%;
+    margin-top : 21px;
 }

@@ -10,6 +10,7 @@ import {
     MDBCol
 } from 'mdbreact';
 import {connect} from "react-redux";
+import testImage from './Images/longbattlebow.gif';
 
 class ItemViewer extends React.Component {
     constructor(props) {
@@ -79,7 +80,6 @@ class ItemViewer extends React.Component {
                 var itemFormatted =   <>
                     <div className="item" style={style} key={item.Id }>
 
-                        {/* OBJECT IMAGE */ }
                         <div className="unique"> {/*qualité lié à la qualité e l'objet et revoit la couleur */}
                             {item.Name} <br/>
                             {item.Type}
@@ -97,6 +97,7 @@ class ItemViewer extends React.Component {
                         <div>
                             {attributes}
                         </div>
+                        <img className="item-image border info rounded mb-0" src={testImage} alt="testImage.." />
                     </div>
                 </>;
 
