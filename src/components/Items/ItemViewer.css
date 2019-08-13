@@ -97,19 +97,21 @@ thead tr th
     border-color: #eb0d26 !important;
 }
 .page-link,
-.page-item
+.page-item,
+.pagination .page-item.active .page-link
 {
     background-color : #eb0d26 !important;
-    margin-left : -1.5px;
-    margin-right : -1.5px;
+    margin-left : 2.5px;
+    margin-right : 2.5px;
     padding : 0px;
     border: 0.05em solid white;
+    box-shadow: 2px 2px 4px 0.1px #eb0d26;
 }
+
 .page-link:hover,
 .page-item.active,
 .page-item.active:hover
 {
-    background-color : #7079de !important;
     opacity: 1;
 }
 [aria-label="Previous"],
