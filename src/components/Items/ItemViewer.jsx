@@ -35,7 +35,7 @@ class ItemViewer extends React.Component {
                 {
                     label: 'Name',
                     field: 'Name',
-                    sort: 'asc',
+                    sort : 'disabled',
                     width: 100
                 },
                 {
@@ -111,7 +111,6 @@ class ItemViewer extends React.Component {
                 </>;
 
                 var width = null;
-                console.log(styles)
 
                 if (item.ImageName == "amu1") {
                     item.ImageName = 'amu' + ((Math.floor(Math.random() * Math.floor(3)) + 1).toString());
