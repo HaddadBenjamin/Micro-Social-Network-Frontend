@@ -60,8 +60,20 @@ class ItemViewer extends React.Component {
                 const attributes = item.Properties
                     .map(property =>
                     {
-                        var value = property.Par > 0 ? property.Par : (property.Minimum === property.Maximum ? `${property.Minimum}` :
-                            `${Math.min(property.Minimum, property.Maximum)}-${Math.max(property.Minimum, property.Maximum)}`)
+                        var min = Math.round(Math.min(property.Minimum, property.Maximum));
+                        var max = Math.round(Math.max(property.Minimum, property.Maximum));
+                        var value = '';
+                        
+                        if (property.Par > 0)
+                            value = property.Par;
+                        else if (min == max)
+                            value = min;
+                        else if (min < 0 && max < 0)
+                            value = `${max} To ${min}`;
+                        else if (max < 0)
+                            value =`${min} To ${max}`;
+                        else
+                            value =`${min}-${max}`;
 
                         if (value == '0')
                             value = '';
@@ -110,6 +122,7 @@ class ItemViewer extends React.Component {
                     </div>
                 </>;
 
+                console.log(item.Properties)
                 var width = null;
 
                 if (item.ImageName == "amu1") {
