@@ -78,13 +78,13 @@ class ItemViewer extends React.Component {
                         return <div key={property.Id} className="diablo-attribute">{property.FirstChararacter}{valueDisplayed.replace('--', ' To -')}{property.FormattedName}</div>
                     });
 
-                var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${item.MaximumDefenseMinimum}-${item.MaximumDefenseMaximum}`;
+                var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
                 var oneHandDamage = item.MinimumOneHandedDamageMinimum === item.MinimumOneHandedDamageMaximum && item.MaximumOneHandedDamageMinimum === item.MaximumOneHandedDamageMaximum ?
-                    `${item.MinimumOneHandedDamageMinimum}-${item.MaximumOneHandedDamageMinimum}` :
-                    `${item.MinimumOneHandedDamageMinimum}-${item.MaximumOneHandedDamageMinimum} to ${item.MinimumOneHandedDamageMaximum}-${item.MaximumOneHandedDamageMaximum}`;
-                var twoHandDamage = item.MinimumTwoHandedDamageMinimum === item.MinimumTwoHandedDamageMaximum && item.MaximumTwoHandedDamageMinimum === item.MaximumTwoHandedDamageMaximum ?
-                    `${item.MinimumTwoHandedDamageMinimum}-${item.MaximumTwoHandedDamageMinimum}` :
-                    `${item.MinimumTwoHandedDamageMinimum}-${item.MaximumTwoHandedDamageMinimum} to ${item.MinimumTwoHandedDamageMaximum}-${item.MaximumTwoHandedDamageMaximum}`;
+                    `${Math.min(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}-${Math.max(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}` :
+                    `${Math.min(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}-${Math.max(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)} to ${Math.min(item.MaximumOneHandedDamageMaximum, item.MinimumOneHandedDamageMaximum)}-${Math.max(item.MaximumOneHandedDamageMaximum, item.MinimumOneHandedDamageMaximum)}`;
+                var twoHandDamage = item.MinimumTwoHandedDamageMinimum === item.MinimumTwoHandedDamageMaximum && item.MaximumTwoHandedDamageMinimum === item.MaximumOneHandedDamageMaximum ?
+                    `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}` :
+                    `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)} to ${Math.min(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)}-${Math.max(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)}`;
 
                 var itemFormatted =   <>
                     <div className="item" style={styles} key={item.Id }>
