@@ -234,3 +234,8 @@ table,
         width : 40px;
     }
 }
+
+.dataTables_filter
+{
+    display : none;
+}
