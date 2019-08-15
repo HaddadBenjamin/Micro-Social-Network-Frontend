@@ -1,4 +1,5 @@
 import React from "react";
+import {ReactDOM} from 'react-dom'
 import { orderBy, some } from 'lodash'
 import styles  from './ItemViewer.css'
 import {
@@ -12,6 +13,7 @@ import {
 import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
 import jest from 'jest-mock'
+import Highlight from "../../shared/components/Highlight";
 
 class ItemViewer extends React.PureComponent {
     constructor(props) {
@@ -30,7 +32,6 @@ class ItemViewer extends React.PureComponent {
 
     componentDidUpdate(prevProps)
     {
-        //Typical usage, don't forget to compare the props
         if (this.props.items !== prevProps.items) {
             this.setState({
                 ...this.state,
@@ -48,6 +49,7 @@ class ItemViewer extends React.PureComponent {
 
     render()
     {
+        var searchTerm = this.state.searchedTerm;
         var self = this;
         const data =
         {
@@ -106,7 +108,8 @@ class ItemViewer extends React.PureComponent {
                         if (valueDisplayed === ' ')
                             valueDisplayed = '';
 
-                        return <div key={property.Id} className="diablo-attribute">{property.FirstChararacter}{valueDisplayed.replace('--', ' To -')}{property.FormattedName.replace('--', ' To -')}</div>
+                        var propertyDisplay = property.FirstChararacter +   valueDisplayed.replace('--', ' To -') + property.FormattedName.replace('--', ' To -');
+                        return <div key={property.Id} className="diablo-attribute"> <Highlight text={propertyDisplay} searchTerm={searchTerm} textColor="#6f5df7"/><br/></div>
                     });
 
                 var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
@@ -119,17 +122,16 @@ class ItemViewer extends React.PureComponent {
 
                 var itemFormatted =   <>
                     <div className="item" style={styles} key={item.Id }>
-
-                        <div className="unique"> {/*qualité lié à la qualité e l'objet et revoit la couleur */}
-                            {item.Name} <br/>
-                            {item.Type}
-                        </div>
-                        <div>
-                            {item.MaximumDefenseMinimum > 0 ? <div>Defense : <span className="diablo-attribute">{defense}</span></div> : ''}
-                            {item.MinimumOneHandedDamageMinimum > 0 ? <div>One-Hand Damage : <span className="diablo-attribute">{oneHandDamage}</span></div> : ''}
+                            <div className="unique">
+                                <Highlight text={item.Name} searchTerm={searchTerm} textColor="#c7b790ed"/><br/>
+                                <Highlight text={item.Type} searchTerm={searchTerm} textColor="#c7b790ed"/>
+                                </div>
+                                <div>
+                                {item.MaximumDefenseMinimum > 0 ? <div>Defense : <span className="diablo-attribute">{defense}</span></div> : ''}
+                                {item.MinimumOneHandedDamageMinimum > 0 ? <div>One-Hand Damage : <span className="diablo-attribute">{oneHandDamage}</span></div> : ''}
                             {item.MinimumTwoHandedDamageMinimum > 0 ? <div>Two-Hand Damage : <span className="diablo-attribute">{twoHandDamage}</span></div> : ''}
-                        </div>
-                        <div className="required-attribute">
+                                </div>
+                                <div className="required-attribute">
                             {item.StrengthRequired > 0 ? <div>Required Strength : {item.StrengthRequired} </div> : ''}
                             {item.DexterityRequired > 0 ? <div>Required Dexterity : {item.DexterityRequired} </div> : ''}
                             {item.LevelRequired > 0 ? <div>Required Level : {item.LevelRequired} </div> : ''}
@@ -160,7 +162,7 @@ class ItemViewer extends React.PureComponent {
 
                 //var defaultImageUrl = window.location.origin.toString() + '/longbattlebow.gif';
                 var itemName = <>
-                    {item.Name}
+                   <Highlight text={item.Name} searchTerm={searchTerm}/>
                     <img className="item-image border info rounded mb-0" src={imageUrl}  style={width !== null ? imageStyle : styles } onError={self.SetDefaultImageOnError}  alt="testImage.." />
                 </>;
 
