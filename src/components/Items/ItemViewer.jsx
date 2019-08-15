@@ -231,6 +231,7 @@ class ItemViewer extends React.PureComponent {
 
         return  item.Name.toLowerCase().includes(term) ||
                 item.Type.toLowerCase().replace("_", " ").includes(term) ||
+                item.Category.toLowerCase().replace("_", " ").includes(term) ||
                 item.SubCategory.toLowerCase().replace("_", " ").includes(term) ||
                 some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
