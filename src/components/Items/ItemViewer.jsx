@@ -10,6 +10,7 @@ import {
     MDBCol
 } from 'mdbreact';
 import {connect} from "react-redux";
+import maths from '../../shared/utilities/maths'
 
 class ItemViewer extends React.Component {
     constructor(props) {
@@ -126,12 +127,12 @@ class ItemViewer extends React.Component {
                 var width = null;
 
                 if (item.ImageName == "amu1") {
-                    item.ImageName = 'amu' + ((Math.floor(Math.random() * Math.floor(3)) + 1).toString());
+                    item.ImageName = 'amu' + maths.random(1, 3).toString();
                     width = '40px';
                 }
                 if (item.ImageName == "ring1")
                 {
-                    item.ImageName = 'ring' + ((Math.floor(Math.random() * Math.floor(5)) + 1).toString());
+                    item.ImageName = 'ring' + maths.random(1, 5).toString();
                     width = '40px';
                 }
                 const imageStyle = {
