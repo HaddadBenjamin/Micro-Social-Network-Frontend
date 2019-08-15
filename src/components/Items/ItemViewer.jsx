@@ -13,23 +13,30 @@ import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
 import jest from 'jest-mock'
 
-class ItemViewer extends React.Component {
+class ItemViewer extends React.PureComponent {
     constructor(props) {
         super(props);
-
-        this.state = {
-            items : this.props.items,
-            searchTerm : this.props.searchTerm
-        };
 
         this.SetDefaultImageOnError = this.SetDefaultImageOnError.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.searchFilter = this.searchFilter.bind(this);
+
+        this.state = {
+            filteredItems: this.props.items,
+            items : this.props.items,
+            searchedTerm : ''
+        }
     }
 
-    shouldComponentUpdate(nextProps) {
-        console.log( nextProps)
-        return true;
+    componentDidUpdate(prevProps)
+    {
+        //Typical usage, don't forget to compare the props
+        if (this.props.items !== prevProps.items) {
+            this.setState({
+                ...this.state,
+                items : this.props.items,
+                filteredItems : this.props.items})
+        }
     }
 
     SetDefaultImageOnError(event)
@@ -66,7 +73,7 @@ class ItemViewer extends React.Component {
             ]
         };
         var rows =
-            orderBy(this.props.items, ['Name'])
+            orderBy(this.state.filteredItems, ['Name'])
             .map(function(item)
             {
                 const attributes = item.Properties
@@ -75,7 +82,7 @@ class ItemViewer extends React.Component {
                         var min = Math.round(Math.min(property.Minimum, property.Maximum));
                         var max = Math.round(Math.max(property.Minimum, property.Maximum));
                         var value = '';
-                        
+
                         if (property.Par > 0)
                             value = property.Par;
                         else if (min === max)
@@ -185,7 +192,7 @@ class ItemViewer extends React.Component {
                                     <MDBCol>
                                         <Search
                                             searchFilter={this.searchFilter}
-                                            elements={this.props.items}
+                                            elements={this.state.items}
                                             onSearch={this.onSearch}/>
                                         <MDBDataTable
                                             className="item"
@@ -206,17 +213,15 @@ class ItemViewer extends React.Component {
 
     onSearch(searchResult)
     {
-        console.log(searchResult);
         this.setState({
-            items : searchResult.elements,
+            items : this.props.items,
+            filteredItems : searchResult.elements,
             searchTerm : searchResult.searchedTerm
         })
     }
 
-    searchFilter(item)
+    searchFilter(item, searchTerm)
     {
-        const {searchTerm } = this.state;
-
         return  item.Name.includes(searchTerm);
     }
 }

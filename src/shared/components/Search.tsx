@@ -12,7 +12,7 @@ interface Props<Element>
 {
     elements : Element[],
     onSearch : (elements : SearchResult<Element>) => void,
-    searchFilter: (Element : any) => boolean
+    searchFilter: (Element : any, searchTerm : string) => boolean
 }
 
 class Search extends Component<Props<Element>, {}>
@@ -26,10 +26,9 @@ class Search extends Component<Props<Element>, {}>
 
     onSearch(event : any)
     {
-        console.log(this.props);
         this.props.onSearch({
             searchedTerm: event.target.value,
-            elements: filter(this.props.elements, this.props.searchFilter)
+            elements: filter(this.props.elements, (element) => { return this.props.searchFilter(element, event.target.value) })
         });
     }
 
