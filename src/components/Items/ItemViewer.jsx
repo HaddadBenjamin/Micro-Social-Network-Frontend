@@ -11,6 +11,8 @@ import {
 } from 'mdbreact';
 import {connect} from "react-redux";
 import maths from '../../shared/utilities/maths'
+import Search from '../../shared/components/Search'
+import jest from 'jest-mock'
 
 class ItemViewer extends React.Component {
     constructor(props) {
@@ -163,6 +165,8 @@ class ItemViewer extends React.Component {
                 };
             }), ['LevelRequired']);
 
+        const mock = jest.fn(() => []);
+
         return (
             <>
                 <div id="item-filter-view">
@@ -171,6 +175,7 @@ class ItemViewer extends React.Component {
                             <MDBContainer>
                                 <MDBRow>
                                     <MDBCol>
+                                        <Search items={[]} onSearch={mock}/>
                                         <MDBDataTable
                                             className="item"
                                             style={styles}
