@@ -1,25 +1,47 @@
 import React, {Component} from "react";
 import {MDBCol } from "mdbreact";
+import {filter } from 'lodash'
 
-interface Props
+export interface SearchResult<Element>
 {
-    items : any[],
-    onSearch : () => any[]
-}
-interface State
-{
-    searchTerm : string
+    elements : Element[],
+    searchedTerm : string,
 }
 
-class Search extends Component<Props, State>
+interface Props<Element>
 {
+    elements : Element[],
+    onSearch : (elements : SearchResult<Element>) => void,
+    searchFilter: (Element : any) => boolean
+}
+
+class Search extends Component<Props<Element>, {}>
+{
+    constructor(props : Props<Element>)
+    {
+        super(props);
+
+        this.onSearch = this.onSearch.bind(this);
+    }
+
+    onSearch(event : any)
+    {
+        this.props.onSearch({
+            searchedTerm: event.target.value,
+            elements: filter(this.props.elements, this.props.searchFilter)
+        });
+    }
+
     render()
     {
         return (
             <>
                 <MDBCol md="12" className="form-inline d-flex justify-content-end">
                     <label>Search
-                    <input className="form-control form-control-sm ml-3 w-75" type="text" placeholder="Search (Work in progress)" aria-label="Search" />
+                    <input className="form-control form-control-sm ml-3 w-75"
+                           type="text" placeholder="Search (Work in progress)"
+                           aria-label="Search"
+                           onChange={this.onSearch} />
                     </label>
                 </MDBCol>
                 <div className="py-2"></div>
