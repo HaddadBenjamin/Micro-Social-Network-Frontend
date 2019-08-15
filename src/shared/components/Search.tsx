@@ -38,8 +38,17 @@ class Search extends Component<Props<Element>, {}>
             <>
                 <MDBCol md="12" size="6" className="form-inline d-flex justify-content-end">
                     <label>
-                    <input className="form-control form-control-sm ml-3 w-75"
-                           type="text" placeholder="Search"
+                    <input
+                           style={{
+                               "fontFamily" : "Diablo",
+                                "fontSize": "14.4px",
+                                "color" : "white",
+                                "boxShadow" : "2px 2px 4px 0.1px #eb0d26",
+                                "backgroundColor" : "rgba(1, 1, 1, 0.8)",
+                                "border" : "0.05em solid white"}}
+                           className="form-control form-control-sm ml-3 w-75 shared-search"
+                           type="text"
+                           placeholder="Search"
                            aria-label="Search"
                            onChange={this.onSearch} />
                     </label>
