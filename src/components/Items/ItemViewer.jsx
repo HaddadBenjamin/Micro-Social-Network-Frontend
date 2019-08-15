@@ -11,19 +11,25 @@ import {
 } from 'mdbreact';
 import {connect} from "react-redux";
 import maths from '../../shared/utilities/maths'
-import Search from '../../shared/components/Search'
+import Search, {SearchResult} from '../../shared/components/Search'
 import jest from 'jest-mock'
 
 class ItemViewer extends React.Component {
     constructor(props) {
         super(props);
 
+        this.state = {
+            items : this.props.items,
+            searchTerm : this.props.searchTerm
+        };
+
         this.SetDefaultImageOnError = this.SetDefaultImageOnError.bind(this);
+        this.onSearch = this.onSearch.bind(this);
     }
 
     SetDefaultImageOnError(event)
     {
-        var defaultImageUrl =  window.location.origin.toString() + '/' +  'http_code_404_error.jpg';
+        var defaultImageUrl =  `${window.location.origin.toString()}/http_code_404_error.jpg`;
 
         event.target.src = defaultImageUrl;
     }
@@ -54,10 +60,8 @@ class ItemViewer extends React.Component {
                 }
             ]
         };
-        // 3) revoir l’affichage : fond sombre
-        // rendu en flexbox
         var rows =
-            orderBy(this.props.Items, ['Name'])
+            orderBy(this.props.items, ['Name'])
             .map(function(item)
             {
                 const attributes = item.Properties
@@ -69,7 +73,7 @@ class ItemViewer extends React.Component {
                         
                         if (property.Par > 0)
                             value = property.Par;
-                        else if (min == max)
+                        else if (min === max)
                             value = min;
                         else if (min < 0 && max < 0)
                             value = `${max} To ${min}`;
@@ -78,7 +82,7 @@ class ItemViewer extends React.Component {
                         else
                             value =`${min}-${max}`;
 
-                        if (value == '0')
+                        if (value === '0')
                             value = '';
 
                         if (!isNaN(parseInt(value)) && parseInt(value) < 0)
@@ -125,14 +129,13 @@ class ItemViewer extends React.Component {
                     </div>
                 </>;
 
-                console.log(item.Properties)
                 var width = null;
 
-                if (item.ImageName == "amu1") {
+                if (item.ImageName === "amu1") {
                     item.ImageName = 'amu' + maths.random(1, 3).toString();
                     width = '40px';
                 }
-                if (item.ImageName == "ring1")
+                if (item.ImageName === "ring1")
                 {
                     item.ImageName = 'ring' + maths.random(1, 5).toString();
                     width = '40px';
@@ -175,7 +178,7 @@ class ItemViewer extends React.Component {
                             <MDBContainer>
                                 <MDBRow>
                                     <MDBCol>
-                                        <Search items={[]} onSearch={mock}/>
+                                        <Search elements={this.props.items} onSearch={this.onSearch}/>
                                         <MDBDataTable
                                             className="item"
                                             style={styles}
@@ -192,11 +195,27 @@ class ItemViewer extends React.Component {
                 );
 
     }
+
+    onSearch(searchResult)
+    {
+        console.log(searchResult);
+        this.setState({
+            items : searchResult.elements,
+            searchTerm : searchResult.searchedTerm
+        })
+    }
+
+    /* searchFilter(item)
+    {
+        const {searchTerm } :
+        return item.Name == this.state.searchTerm ||
+
+    }*/
 }
 const mapStateToProps = function (state)
 {
     return {
-        Items: state.searchItems.items
+        items: state.searchItems.items
     };
 };
 

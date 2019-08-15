@@ -26,6 +26,7 @@ class Search extends Component<Props<Element>, {}>
 
     onSearch(event : any)
     {
+        console.log(this.props);
         this.props.onSearch({
             searchedTerm: event.target.value,
             elements: filter(this.props.elements, this.props.searchFilter)

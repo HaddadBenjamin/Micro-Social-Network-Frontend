@@ -1,5 +1,6 @@
 interface Item
 {
+    Id : string,
     Name : string,
     Quality : string,
     Category : string,

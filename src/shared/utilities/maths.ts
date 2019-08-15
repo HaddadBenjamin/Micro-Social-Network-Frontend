@@ -2,7 +2,7 @@ class Maths
 {
     public random(minimum : number, maximum : number) : number
     {
-        return (Math.floor(Math.random() * Math.floor(maximum)) + minimum + 1);
+        return (Math.floor(Math.random() * Math.floor(maximum)) + minimum);
     }
 }
 
