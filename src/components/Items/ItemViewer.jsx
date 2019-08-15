@@ -49,7 +49,6 @@ class ItemViewer extends React.PureComponent {
 
     render()
     {
-        var searchTerm = this.state.searchedTerm;
         var self = this;
         const data =
         {
@@ -74,6 +73,7 @@ class ItemViewer extends React.PureComponent {
                 }
             ]
         };
+        var searchTerm = this.state.searchedTerm;
         var rows =
             orderBy(this.state.filteredItems, ['Name'])
             .map(function(item)
@@ -218,7 +218,7 @@ class ItemViewer extends React.PureComponent {
         this.setState({
             items : this.props.items,
             filteredItems : searchResult.elements,
-            searchTerm : this.state.searchTerm
+            searchTerm : searchResult.searchTerm
         })
     }
 
