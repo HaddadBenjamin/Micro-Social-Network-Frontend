@@ -1,4 +1,4 @@
-import {store} from "../../src/store/store";
+import {store} from "../../store/store";
 import axios from 'axios'
 import config from './config'
 
