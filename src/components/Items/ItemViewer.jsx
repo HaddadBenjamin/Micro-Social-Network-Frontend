@@ -1,5 +1,5 @@
 import React from "react";
-import { orderBy } from 'lodash'
+import { orderBy, map, some } from 'lodash'
 import styles  from './ItemViewer.css'
 import {
     MDBDataTable,
@@ -222,7 +222,12 @@ class ItemViewer extends React.PureComponent {
 
     searchFilter(item, searchTerm)
     {
-        return  item.Name.includes(searchTerm);
+        var term = searchTerm.toLowerCase();
+
+        return  item.Name.toLowerCase().includes(term) ||
+                item.Type.toLowerCase().replace("_", " ").includes(term) ||
+                item.SubCategory.toLowerCase().replace("_", " ").includes(term) ||
+                some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
 }
 
