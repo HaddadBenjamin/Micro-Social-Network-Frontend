@@ -235,3 +235,8 @@ table,
     }
 }
 
+/* Search bar */
+.dataTables_filter
+{
+    display : none;
+}
