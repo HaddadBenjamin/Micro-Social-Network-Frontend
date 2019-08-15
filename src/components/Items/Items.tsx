@@ -1,7 +1,14 @@
 import React, {Component} from 'react';
 import ItemViewer from './ItemViewer'
+import {connect} from "react-redux";
+import {GlobalState} from '../../store/store';
+import Item from './Item';
 
-class Items extends Component<{}, {}>
+interface Props
+{
+    items : Item[]
+}
+class Items extends Component<Props, {}>
 {
     public constructor(props : any)
     {
@@ -12,10 +19,17 @@ class Items extends Component<{}, {}>
     {
         return (
             <>
-                <ItemViewer searchTerm={''}/>
+                <ItemViewer items={this.props.items} searchTerm={''}/>
             </>)
     }
 }
 
-export default Items;
+const mapStateToProps = function (state : GlobalState)
+{
+    return {
+        items: state.searchItems.items
+    };
+};
+
+export default connect(mapStateToProps)(Items)
 

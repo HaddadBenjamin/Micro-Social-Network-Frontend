@@ -9,9 +9,8 @@ import {
     MDBRow,
     MDBCol
 } from 'mdbreact';
-import {connect} from "react-redux";
 import maths from '../../shared/utilities/maths'
-import Search, {SearchResult} from '../../shared/components/Search'
+import Search from '../../shared/components/Search'
 import jest from 'jest-mock'
 
 class ItemViewer extends React.Component {
@@ -25,6 +24,12 @@ class ItemViewer extends React.Component {
 
         this.SetDefaultImageOnError = this.SetDefaultImageOnError.bind(this);
         this.onSearch = this.onSearch.bind(this);
+        this.searchFilter = this.searchFilter.bind(this);
+    }
+
+    shouldComponentUpdate(nextProps) {
+        console.log( nextProps)
+        return true;
     }
 
     SetDefaultImageOnError(event)
@@ -82,7 +87,7 @@ class ItemViewer extends React.Component {
                         else
                             value =`${min}-${max}`;
 
-                        if (value === '0')
+                        if (value === 0)
                             value = '';
 
                         if (!isNaN(parseInt(value)) && parseInt(value) < 0)
@@ -178,7 +183,10 @@ class ItemViewer extends React.Component {
                             <MDBContainer>
                                 <MDBRow>
                                     <MDBCol>
-                                        <Search elements={this.props.items} onSearch={this.onSearch}/>
+                                        <Search
+                                            searchFilter={this.searchFilter}
+                                            elements={this.props.items}
+                                            onSearch={this.onSearch}/>
                                         <MDBDataTable
                                             className="item"
                                             style={styles}
@@ -205,18 +213,12 @@ class ItemViewer extends React.Component {
         })
     }
 
-    /* searchFilter(item)
+    searchFilter(item)
     {
-        const {searchTerm } :
-        return item.Name == this.state.searchTerm ||
+        const {searchTerm } = this.state;
 
-    }*/
+        return  item.Name.includes(searchTerm);
+    }
 }
-const mapStateToProps = function (state)
-{
-    return {
-        items: state.searchItems.items
-    };
-};
 
-export default connect(mapStateToProps)(ItemViewer)
+export default ItemViewer;
