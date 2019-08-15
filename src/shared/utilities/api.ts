@@ -18,8 +18,6 @@ class Api
                         payload : response.data
                     });
             });
-
-        console.log(url);
     }
 
     private getUrl(endpoint : string, queryParameters? : string) : string

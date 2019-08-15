@@ -1,5 +1,4 @@
 import React from "react";
-import { startCase, camelCase } from 'lodash'
 import strings from '../../shared/utilities/strings'
 
 interface Props
@@ -21,10 +20,12 @@ class Highlight extends React.PureComponent<Props, {}>
     {
         var termColor = this.props.color == null ? 'red' : this.props.color;
         var textColor = this.props.textColor == null ? 'white' : this.props.textColor;
-        var term = this.props.searchTerm != null ? this.props.searchTerm :  '';
+        var term = this.props.searchTerm != null ? strings.toTitleCase(this.props.searchTerm) :  '';
         var replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
-        var newText = "<span  style='color : " + textColor + " !important'>" + this.props.text.replace(term, replaceText) + "</span>";
+        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(this.props.text).replace(term, replaceText) + "</span>";
 
+        console.log(newText);
+        console.log(term);
         return (<span dangerouslySetInnerHTML={{__html : newText}}></span>);
     }
 }
