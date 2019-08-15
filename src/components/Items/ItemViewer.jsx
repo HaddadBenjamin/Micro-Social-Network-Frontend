@@ -106,7 +106,7 @@ class ItemViewer extends React.PureComponent {
                         if (valueDisplayed === ' ')
                             valueDisplayed = '';
 
-                        return <div key={property.Id} className="diablo-attribute">{property.FirstChararacter}{valueDisplayed.replace('--', ' To -')}{property.FormattedName}</div>
+                        return <div key={property.Id} className="diablo-attribute">{property.FirstChararacter}{valueDisplayed.replace('--', ' To -')}{property.FormattedName.replace('--', ' To -')}</div>
                     });
 
                 var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
@@ -224,6 +224,10 @@ class ItemViewer extends React.PureComponent {
     {
         var term = searchTerm.toLowerCase();
 
+        this.setState({
+            ...this.state,
+            searchedTerm : term
+        })
         return  item.Name.toLowerCase().includes(term) ||
                 item.Type.toLowerCase().replace("_", " ").includes(term) ||
                 item.SubCategory.toLowerCase().replace("_", " ").includes(term) ||

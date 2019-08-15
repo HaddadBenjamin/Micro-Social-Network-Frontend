@@ -36,8 +36,8 @@ class Search extends Component<Props<Element>, {}>
     {
         return (
             <>
-                <MDBCol md="12" className="form-inline d-flex justify-content-end">
-                    <label>Search
+                <MDBCol md="12" size="6" className="form-inline d-flex justify-content-end">
+                    <label>
                     <input className="form-control form-control-sm ml-3 w-75"
                            type="text" placeholder="Search"
                            aria-label="Search"
