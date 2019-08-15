@@ -24,8 +24,6 @@ class Highlight extends React.PureComponent<Props, {}>
         var replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
         var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(this.props.text).replace(term, replaceText) + "</span>";
 
-        console.log(newText);
-        console.log(term);
         return (<span dangerouslySetInnerHTML={{__html : newText}}></span>);
     }
 }
