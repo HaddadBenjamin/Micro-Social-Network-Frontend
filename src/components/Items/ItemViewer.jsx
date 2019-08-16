@@ -22,6 +22,7 @@ class ItemViewer extends React.PureComponent {
         this.SetDefaultImageOnError = this.SetDefaultImageOnError.bind(this);
         this.onSearch = this.onSearch.bind(this);
         this.searchFilter = this.searchFilter.bind(this);
+        this.calculDamage = this.calculDamage.bind(this);
 
         this.state = {
             filteredItems: this.props.items,
@@ -45,6 +46,17 @@ class ItemViewer extends React.PureComponent {
         var defaultImageUrl =  `${window.location.origin.toString()}/http_code_404_error.jpg`;
 
         event.target.src = defaultImageUrl;
+    }
+
+    calculDamage(minMin, minMax, maxMin, maxMax)
+    {
+        var min = `${Math.min(minMin, maxMin)}`;
+        if (min !== `${Math.min(maxMax, maxMin)}`)
+            min = `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)}`;
+
+        return minMin === minMax && maxMin === maxMax ?
+            `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}` :
+            `${min} to ${Math.max(minMin, maxMin)}-${Math.max(maxMax, minMax)}`;
     }
 
     render()
@@ -113,9 +125,9 @@ class ItemViewer extends React.PureComponent {
                     });
 
                 var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
-                var oneHandDamage = item.MinimumOneHandedDamageMinimum === item.MinimumOneHandedDamageMaximum && item.MaximumOneHandedDamageMinimum === item.MaximumOneHandedDamageMaximum ?
-                    `${Math.min(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}-${Math.max(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}` :
-                    `${Math.min(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}-${Math.min(item.MaximumOneHandedDamageMaximum, item.MinimumOneHandedDamageMaximum)} to ${Math.max(item.MinimumOneHandedDamageMinimum, item.MaximumOneHandedDamageMinimum)}-${Math.max(item.MaximumOneHandedDamageMaximum, item.MinimumOneHandedDamageMaximum)}`;
+
+                var oneHandDamage = self.calculDamage(item.MinimumOneHandedDamageMinimum, item.MinimumOneHandedDamageMaximum, item.MaximumOneHandedDamageMinimum, item.MaximumOneHandedDamageMaximum);
+
                 var twoHandDamage = item.MinimumTwoHandedDamageMinimum === item.MinimumTwoHandedDamageMaximum && item.MaximumTwoHandedDamageMinimum === item.MaximumOneHandedDamageMaximum ?
                     `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}` :
                     `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.min(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)} to ${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)}`;
