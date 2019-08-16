@@ -123,10 +123,7 @@ class ItemViewer extends React.PureComponent {
                 var defense  = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum :`${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
 
                 var oneHandDamage = self.calculDamage(item.MinimumOneHandedDamageMinimum, item.MinimumOneHandedDamageMaximum, item.MaximumOneHandedDamageMinimum, item.MaximumOneHandedDamageMaximum);
-
-                var twoHandDamage = item.MinimumTwoHandedDamageMinimum === item.MinimumTwoHandedDamageMaximum && item.MaximumTwoHandedDamageMinimum === item.MaximumOneHandedDamageMaximum ?
-                    `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}` :
-                    `${Math.min(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.min(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)} to ${Math.max(item.MinimumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMinimum)}-${Math.max(item.MaximumTwoHandedDamageMaximum, item.MinimumTwoHandedDamageMaximum)}`;
+                var twoHandDamage = self.calculDamage(item.MinimumTwoHandedDamageMinimum, item.MinimumTwoHandedDamageMaximum, item.MaximumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMaximum);
 
                 var itemFormatted =   <>
                     <div className="item" style={styles} key={item.Id }>
