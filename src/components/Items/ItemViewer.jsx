@@ -50,13 +50,9 @@ class ItemViewer extends React.PureComponent {
 
     calculDamage(minMin, minMax, maxMin, maxMax)
     {
-        var min = `${Math.min(minMin, maxMin)}`;
-        if (min !== `${Math.min(maxMax, maxMin)}`)
-            min = `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)}`;
-
         return minMin === minMax && maxMin === maxMax ?
             `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}` :
-            `${min} to ${Math.max(minMin, maxMin)}-${Math.max(maxMax, minMax)}`;
+            `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)} to ${Math.min(maxMax, minMax)}-${Math.max(maxMax, minMax)}`;
     }
 
     render()
