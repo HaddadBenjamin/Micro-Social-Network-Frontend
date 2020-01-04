@@ -11,7 +11,7 @@ const developmentConfiguration : ApplicationConfiguration =
 
 const productionConfiguration : ApplicationConfiguration =
 {
-    apiUrl : "https://diabloiiitemsapi20190812080424.azurewebsites.net/api/v1"
+    apiUrl : "https://diablo-2-enriched-documentation.azurewebsites.net/api/v1"
 };
 
 const config = process.env.NODE_ENV === "production" ?
