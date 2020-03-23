@@ -11,18 +11,21 @@ class Api
         axios.get<T>(url)
             .then(response =>
             {
+                console.log(response);
                 // typescript-fsa to be to handle success / fail normal behaviour
                 store.dispatch(
                     {
                         type: action,
                         payload : response.data
                     });
-            });
+            },
+                (error) => { console.log(error) }
+            );
     }
 
     private getUrl(endpoint : string, queryParameters? : string) : string
     {
-        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
+        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`.toLocaleLowerCase()
     }
 }
 
