@@ -8,13 +8,7 @@ class Api
     {
         var url = this.getUrl(endpoint, queryParameters);
 
-        axios.get<T>(url,
-            {
-                headers:
-                {
-                    'Content-Type': 'application/json',
-                    'Access-Control-Allow-Origin': config.websiteUrl,
-                }, data: { } })
+        axios.get<T>(url)
             .then(response =>
             {
                 console.log(response);
@@ -31,7 +25,7 @@ class Api
 
     private getUrl(endpoint : string, queryParameters? : string) : string
     {
-        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`.toLocaleLowerCase();
+        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
     }
 }
 
