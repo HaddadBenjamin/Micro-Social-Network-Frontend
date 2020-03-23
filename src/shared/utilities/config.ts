@@ -1,18 +1,17 @@
 // @ts-ignore
 interface ApplicationConfiguration
 {
-    apiUrl : string,
-    websiteUrl : string
+    apiUrl : string
 }
 
 const developmentConfiguration : ApplicationConfiguration =
 {
-    apiUrl : "http://localhost:56205/api/v1",
+    apiUrl : "http://localhost:56205/api/v1"
 };
 
 const productionConfiguration : ApplicationConfiguration =
 {
-    apiUrl : "https://diablo-2-enriched-documentation.azurewebsites.net/api/v1",
+    apiUrl : "https://diablo-2-enriched-documentation.azurewebsites.net/api/v1"
 };
 
 const config = process.env.NODE_ENV === "production" ?
