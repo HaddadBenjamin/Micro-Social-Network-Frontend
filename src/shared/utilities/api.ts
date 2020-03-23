@@ -8,7 +8,13 @@ class Api
     {
         var url = this.getUrl(endpoint, queryParameters);
 
-        axios.get<T>(url, { headers: { 'Content-Type': 'application/json' }, data: { } })
+        axios.get<T>(url,
+            {
+                headers:
+                {
+                    'Content-Type': 'application/json',
+                    'Access-Control-Allow-Origin': config.websiteUrl,
+                }, data: { } })
             .then(response =>
             {
                 console.log(response);
