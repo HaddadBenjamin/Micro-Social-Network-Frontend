@@ -8,7 +8,7 @@ interface ApplicationConfiguration
 const developmentConfiguration : ApplicationConfiguration =
 {
     apiUrl : "http://localhost:56206/api/v1",
-    websiteUrl : "https://diablo-2-enriched-documentation.netlify.com/"
+    websiteUrl : "http://localhost:3000/"
 };
 
 const productionConfiguration : ApplicationConfiguration =
