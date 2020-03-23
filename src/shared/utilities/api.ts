@@ -25,7 +25,7 @@ class Api
 
     private getUrl(endpoint : string, queryParameters? : string) : string
     {
-        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`.toLocaleLowerCase()
+        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`
     }
 }
 
