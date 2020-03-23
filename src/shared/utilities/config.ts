@@ -6,7 +6,7 @@ interface ApplicationConfiguration
 
 const developmentConfiguration : ApplicationConfiguration =
 {
-    apiUrl : "http://localhost:56205/api/v1"
+    apiUrl : "http://localhost:56206/api/v1"
 };
 
 const productionConfiguration : ApplicationConfiguration =
