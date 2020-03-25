@@ -112,7 +112,7 @@ class SearchItem extends React.Component<Props, State>
 
     public search()
     {
-       api.get<Item[]>(
+       api.getFromUri<Item[]>(
            'Items/searchuniques',
            'SEARCH_ITEMS',
            qs.stringify(

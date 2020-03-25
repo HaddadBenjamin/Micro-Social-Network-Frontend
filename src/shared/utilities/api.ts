@@ -4,28 +4,39 @@ import config from './config'
 
 class Api
 {
-    public get<T>(endpoint : string, action : string, queryParameters? : string)
+    public getFromBody<HttpRequestBody, HttpResponse>(endpoint : string, action : string, bodyParameters : HttpRequestBody)
     {
-        var url = this.getUrl(endpoint, queryParameters);
 
-        axios.get<T>(url)
+    }
+
+    // Use URI to send the parameters.
+    public getFromUri<HttpResponse>(endpoint : string, action : string, queryParameters? : string)
+    {
+        var url = this.getFromUriUrl(endpoint, queryParameters);
+
+        axios.get<HttpResponse>(url)
             .then(response =>
             {
                 console.log(response);
                 // typescript-fsa to be to handle success / fail normal behaviour
                 store.dispatch(
-                    {
-                        type: action,
-                        payload : response.data
-                    });
+                {
+                    type: action,
+                    payload : response.data
+                });
             },
                 (error) => { console.log(error) }
             );
     }
 
-    private getUrl(endpoint : string, queryParameters? : string) : string
+    private getFromUriUrl(endpoint : string, queryParameters? : string) : string
     {
         return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
+    }
+
+    private getFromBodyUrl(endpoint : string) : string
+    {
+        return `${config.apiUrl}/${endpoint}`;
     }
 }
 
