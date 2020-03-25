@@ -2,6 +2,7 @@ import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
 import Item from "./Item";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
+import SearchItemRequest from './SearchItemRequest'
 import {map} from 'lodash'
 import qs from 'qs'
 import api from '../../shared/utilities/api'
@@ -112,7 +113,7 @@ class SearchItem extends React.Component<Props, State>
 
     public search()
     {
-       api.getFromUri<Item[]>(
+       api.getByUri<Item[]>(
            'Items/searchuniques',
            'SEARCH_ITEMS',
            qs.stringify(

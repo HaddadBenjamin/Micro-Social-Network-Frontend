@@ -4,15 +4,30 @@ import config from './config'
 
 class Api
 {
-    public getFromBody<HttpRequestBody, HttpResponse>(endpoint : string, action : string, bodyParameters : HttpRequestBody)
+    public getByBody<HttpRequestBody, HttpResponse>(endpoint : string, action : string, bodyParameters : HttpRequestBody)
     {
+        var url = this.getByBodyUrl(endpoint);
 
+        axios.get<HttpResponse>(url, {
+            data : {  SubCategories : 'Two Handed Polearm'}})
+            .then(response =>
+                {
+                    console.log(response);
+                    // typescript-fsa to be to handle success / fail normal behaviour
+                    store.dispatch(
+                        {
+                            type: action,
+                            payload : response.data
+                        });
+                },
+                (error) => { console.log(error) }
+            );
     }
 
     // Use URI to send the parameters.
-    public getFromUri<HttpResponse>(endpoint : string, action : string, queryParameters? : string)
+    public getByUri<HttpResponse>(endpoint : string, action : string, queryParameters? : string)
     {
-        var url = this.getFromUriUrl(endpoint, queryParameters);
+        var url = this.getByUriUrl(endpoint, queryParameters);
 
         axios.get<HttpResponse>(url)
             .then(response =>
@@ -29,12 +44,12 @@ class Api
             );
     }
 
-    private getFromUriUrl(endpoint : string, queryParameters? : string) : string
+    private getByUriUrl(endpoint : string, queryParameters? : string) : string
     {
         return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
     }
 
-    private getFromBodyUrl(endpoint : string) : string
+    private getByBodyUrl(endpoint : string) : string
     {
         return `${config.apiUrl}/${endpoint}`;
     }

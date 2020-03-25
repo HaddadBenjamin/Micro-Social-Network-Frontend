@@ -32,8 +32,6 @@ interface Item
     DexterityRequired : number,
 }
 
-
-
 interface ItemProperty
 {
     Name : string,
