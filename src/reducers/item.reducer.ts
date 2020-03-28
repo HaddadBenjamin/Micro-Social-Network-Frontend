@@ -9,12 +9,16 @@ const initialState =
 {
     items : []
 };
-export const searchItemsReducer = (state : ItemState = initialState, action : any) => {
+export const searchItemsReducer = (state : ItemState = initialState, action : any) =>
+{
+    console.log(...initialState.items || [])
+    console.log(action.payload)
     switch (action.type)
     {
         case "SEARCH_ITEMS":
             return {
-                items : [...initialState.items, action.payload ]
+                ...initialState.items || [],
+                items : action.payload || []
             };
 
         default:

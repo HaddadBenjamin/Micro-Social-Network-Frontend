@@ -9,25 +9,14 @@ interface Props
     textColor? : string,
 }
 
-class Highlight extends React.PureComponent<Props, {}>
-{
-    constructor(props : Props)
-    {
-        super(props);
-    }
-
-    render()
-    {
-        var termColor = this.props.color || 'red';
-        var textColor = this.props.textColor == null ? 'white' : this.props.textColor;
-        var term = strings.toTitleCase(this.props.searchTerm || '');
+const Highlight = (props : Props) => {
+        var termColor = props.color || 'red';
+        var textColor = props.textColor == null ? 'white' : props.textColor;
+        var term = strings.toTitleCase(props.searchTerm || '');
         var replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
-        console.log(this.props.searchTerm);
-        console.log(replaceText);
-        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(this.props.text || '').replace(term, replaceText) + "</span>";
+        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(props.text || '').replace(term, replaceText) + "</span>";
 
         return (<span dangerouslySetInnerHTML={{__html : newText}}></span>);
-    }
 }
 
 export default Highlight;

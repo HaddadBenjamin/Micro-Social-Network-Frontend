@@ -6,173 +6,204 @@ import {map} from 'lodash'
 import qs from 'qs'
 import api from '../../shared/utilities/api'
 import scrollTo from '../../shared/utilities/animate'
+import {useDispatch} from "react-redux";
 
-interface Props
-{
-    search : SearchItemDto,
+interface Props {
+    search: SearchItemDto,
 }
-interface State
-{
+
+interface State {
 }
-class SearchItem extends React.Component<Props, State>
-{
-    public constructor(props : Props)
-    {
-        super(props);
 
-        this.onClickBodyArmors = this.onClickBodyArmors.bind(this);
-        this.onClickShields = this.onClickShields.bind(this);
-        this.onClickGloves = this.onClickGloves.bind(this);
-        this.onClickShoes = this.onClickShoes.bind(this);
-        this.onClickHelms = this.onClickHelms.bind(this);
-        this.onClickBelts = this.onClickBelts.bind(this);
-
-        this.onClickBows = this.onClickBows.bind(this);
-        this.onClickCrossbows = this.onClickCrossbows.bind(this);
-        this.onClickArrows = this.onClickArrows.bind(this);
-
-        this.onClickStaffs = this.onClickStaffs.bind(this);
-
-        this.onClickSwords = this.onClickSwords.bind(this);
-        this.onClickDaggers = this.onClickDaggers.bind(this);
-
-        this.onClickAxes = this.onClickAxes.bind(this);
-        this.onClickPolearms = this.onClickPolearms.bind(this);
-        this.onClickSpears = this.onClickSpears.bind(this);
-
-        this.onClickMasses = this.onClickMasses.bind(this);
-        this.onClickScepters = this.onClickScepters.bind(this);
-        this.onClickClubs = this.onClickClubs.bind(this);
-
-        this.onClickThrowingWeapons = this.onClickThrowingWeapons.bind(this);
-        this.onClickJavelins = this.onClickJavelins.bind(this);
-
-        this.onClickAmulets = this.onClickAmulets.bind(this);
-        this.onClickRings = this.onClickRings.bind(this);
-        this.onClickCharms = this.onClickCharms.bind(this);
-        this.onClickJewels = this.onClickJewels.bind(this);
-
-        this.onClickAmazon = this.onClickAmazon.bind(this);
-        this.onClickAssassin = this.onClickAssassin.bind(this);
-        this.onClickBarbarian = this.onClickBarbarian.bind(this);
-        this.onClickDruid = this.onClickDruid.bind(this);
-        this.onClickNecromancer = this.onClickNecromancer.bind(this);
-        this.onClickPaladin = this.onClickPaladin.bind(this);
-        this.onClickSorceress = this.onClickSorceress.bind(this);
-
-        this.setSubCategoriesAndSearch = this.setSubCategoriesAndSearch.bind(this);
-    }
+const SearchItem = (props: Props) => {
+    const dispatch = useDispatch();
 
     // Armors :
-    public onClickBodyArmors = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Torso ]);
-    public onClickShields = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Offhand ]);
-    public onClickGloves = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Hands ]);
-    public onClickShoes = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Feet ]);
-    public onClickHelms = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Head ]);
-    public onClickBelts = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Waist ]);
-
-    // Weapons :
-    public onClickBows = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Bow, ItemSubCategory.Two_Handed_Bow ]);
-    public onClickCrossbows = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Crossbow, ItemSubCategory.Two_Handed_Crossbow, ]);
-    public onClickArrows = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Arrows, ItemSubCategory.Bolts ]);
-    public onClickStaffs = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Staff, ItemSubCategory.Two_Handed_Staff ]);
-
-    public onClickSwords = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Sword, ItemSubCategory.Two_And_One_Handed_Sword ]);
-    public onClickDaggers = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Knife ]);
-    public onClickAxes = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Axe, ItemSubCategory.Two_Handed_Axe ]);
-    public onClickPolearms = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Polearm, ItemSubCategory.Two_Handed_Polearm ]);
-    public onClickSpears = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Spear, ItemSubCategory.Two_Handed_Spear ]);
-    public onClickMasses = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Mace, ItemSubCategory.Two_Handed_Hammer, ItemSubCategory.Hammer ]);
-    public onClickScepters = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Scepter ]);
-    public onClickClubs = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Club ]);
-    public onClickThrowingWeapons = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Throwing_Axe, ItemSubCategory.Throwing_Potions, ItemSubCategory.Thorwing_Knife ]);
-    public onClickJavelins = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Javelin ]);
-
-    // Jewelry and others :
-    public onClickAmulets = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Amulet ]);
-    public onClickRings = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Ring ]);
-    public onClickCharms = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Charm ]);
-    public onClickJewels = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Jewel ]);
-
-    // Class specific :
-    public onClickAmazon = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Amazon_Bow, ItemSubCategory.Amazon_Javelin, ItemSubCategory.Amazon_Spear, ItemSubCategory.Two_Handed_Amazon_Bow, ItemSubCategory.Two_Handed_Amazon_Spear ]);
-    public onClickDruid = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Druid_Helm ]);
-    public onClickBarbarian = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Barbarian_Helm ]);
-    public onClickAssassin = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Hand_To_Hand, ItemSubCategory.Hand_To_Hand_Two_Handed, ItemSubCategory.Assassin_Claw ]);
-    public onClickSorceress = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Orb, ItemSubCategory.Sorceress_Orb ]);
-    public onClickNecromancer = ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Wand, ItemSubCategory.Necromancer_Shield ]);
-    public onClickPaladin= ()  => this.setSubCategoriesAndSearch([ ItemSubCategory.Paladin_Shield ]);
-
-    public setSubCategoriesAndSearch(subCategories : ItemSubCategory[])
-    {
-        this.props.search.SubCategories = subCategories;
-
-        this.search();
+    function onClickBodyArmors() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Torso]);
     }
 
-    public search()
-    {
-       api.get<Item[]>(
-           'Items/searchuniques',
-           'SEARCH_ITEMS',
-           qs.stringify(
-       {
-                   SubCategories : map(this.props.search.SubCategories, _ => ItemSubCategory[_]).join(', '),
-           }));
+    function onClickShields() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Offhand]);
+    }
+
+    function onClickGloves() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Hands]);
+    }
+
+    function onClickShoes() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Feet]);
+    }
+
+    function onClickHelms() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Head]);
+    }
+
+    function onClickBelts() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Waist]);
+    }
+
+    // Weapons :
+    function onClickBows() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Bow, ItemSubCategory.Two_Handed_Bow]);
+    }
+
+    function onClickCrossbows() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Crossbow, ItemSubCategory.Two_Handed_Crossbow,]);
+    }
+
+    function onClickArrows() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Arrows, ItemSubCategory.Bolts]);
+    }
+
+    function onClickStaffs() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Staff, ItemSubCategory.Two_Handed_Staff]);
+    }
+
+    function onClickSwords() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Sword, ItemSubCategory.Two_And_One_Handed_Sword]);
+    }
+
+    function onClickDaggers() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Knife]);
+    }
+
+    function onClickAxes() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Axe, ItemSubCategory.Two_Handed_Axe]);
+    }
+
+    function onClickPolearms() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Polearm, ItemSubCategory.Two_Handed_Polearm]);
+    }
+
+    function onClickSpears() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Spear, ItemSubCategory.Two_Handed_Spear]);
+    }
+
+    function onClickMasses() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Mace, ItemSubCategory.Two_Handed_Hammer, ItemSubCategory.Hammer]);
+    }
+
+    function onClickScepters() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Scepter]);
+    }
+
+    function onClickClubs() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Club]);
+    }
+
+    function onClickThrowingWeapons() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Throwing_Axe, ItemSubCategory.Throwing_Potions, ItemSubCategory.Thorwing_Knife]);
+    }
+
+    function onClickJavelins() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Javelin]);
+    }
+
+    // Jewelry and others :
+    function onClickAmulets() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Amulet]);
+    }
+
+    function onClickRings() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Ring]);
+    }
+
+    function onClickCharms() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Charm]);
+    }
+
+    function onClickJewels() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Jewel]);
+    }
+
+    // Class specific :
+    function onClickAmazon() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Amazon_Bow, ItemSubCategory.Amazon_Javelin, ItemSubCategory.Amazon_Spear, ItemSubCategory.Two_Handed_Amazon_Bow, ItemSubCategory.Two_Handed_Amazon_Spear]);
+    }
+
+    function onClickDruid() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Druid_Helm]);
+    }
+
+    function onClickBarbarian() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Barbarian_Helm]);
+    }
+
+    function onClickAssassin() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Hand_To_Hand, ItemSubCategory.Hand_To_Hand_Two_Handed, ItemSubCategory.Assassin_Claw]);
+    }
+
+    function onClickSorceress() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Orb, ItemSubCategory.Sorceress_Orb]);
+    }
+
+    function onClickNecromancer() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Wand, ItemSubCategory.Necromancer_Shield]);
+    }
+
+    function onClickPaladin() {
+        return setSubCategoriesAndSearch([ItemSubCategory.Paladin_Shield]);
+    }
+
+    function setSubCategoriesAndSearch(subCategories: ItemSubCategory[]) {
+        props.search.SubCategories = subCategories;
+
+        search();
+    }
+
+    function search() {
+        api.get<Item[]>(
+            'Items/searchuniques',
+            'SEARCH_ITEMS',
+            qs.stringify(
+                {
+                    SubCategories: map(props.search.SubCategories, _ => ItemSubCategory[_]).join(', '),
+                }));
 
         scrollTo('#item-filter-view');
     }
 
-    // 1) This function is PURE, that's mean it should be extarnalised in another file with dedicated tests.
-    // 2) We should have 3 events : search, search done, search failed.
-    //    search should be an epic that do the search.
-    //    then (search.success(response.data))
-    //    failed (search.failed('can't search)
+    return (
+        <>
+            <ItemCategoriesFilters
+                onClickBows={onClickBows}
+                onClickCrossbows={onClickCrossbows}
+                onClickClubs={onClickClubs}
+                onClickArrows={onClickArrows}
+                onClickStaffs={onClickStaffs}
+                onClickSwords={onClickSwords}
+                onClickDaggers={onClickDaggers}
+                onClickAxes={onClickAxes}
+                onClickPolearms={onClickPolearms}
+                onClickSpears={onClickSpears}
+                onClickMasses={onClickMasses}
+                onClickScepters={onClickScepters}
+                onClickThrowingWeapons={onClickThrowingWeapons}
+                onClickJavelins={onClickJavelins}
 
+                onClickBodyArmors={onClickBodyArmors}
+                onClickShields={onClickShields}
+                onClickGloves={onClickGloves}
+                onClickShoes={onClickShoes}
+                onClickHelms={onClickHelms}
+                onClickBelts={onClickBelts}
 
-    render()
-    {
-        return (
-            <>
-                <ItemCategoriesFilters
-                    onClickBows={this.onClickBows}
-                    onClickCrossbows={this.onClickCrossbows}
-                    onClickClubs={this.onClickClubs}
-                    onClickArrows={this.onClickArrows}
-                    onClickStaffs={this.onClickStaffs}
-                    onClickSwords={this.onClickSwords}
-                    onClickDaggers={this.onClickDaggers}
-                    onClickAxes={this.onClickAxes}
-                    onClickPolearms={this.onClickPolearms}
-                    onClickSpears={this.onClickSpears}
-                    onClickMasses={this.onClickMasses}
-                    onClickScepters={this.onClickScepters}
-                    onClickThrowingWeapons={this.onClickThrowingWeapons}
-                    onClickJavelins={this.onClickJavelins}
+                onClickAmulets={onClickAmulets}
+                onClickRings={onClickRings}
+                onClickCharms={onClickCharms}
+                onClickJewels={onClickJewels}
 
-                    onClickBodyArmors={this.onClickBodyArmors}
-                    onClickShields={this.onClickShields}
-                    onClickGloves={this.onClickGloves}
-                    onClickShoes={this.onClickShoes}
-                    onClickHelms={this.onClickHelms}
-                    onClickBelts={this.onClickBelts}
-
-                    onClickAmulets={this.onClickAmulets}
-                    onClickRings={this.onClickRings}
-                    onClickCharms={this.onClickCharms}
-                    onClickJewels={this.onClickJewels}
-
-                    onClickAmazon={this.onClickAmazon}
-                    onClickAssassin={this.onClickAssassin}
-                    onClickBarbarian={this.onClickBarbarian}
-                    onClickDruid={this.onClickDruid}
-                    onClickPaladin={this.onClickPaladin}
-                    onClickNecromancer={this.onClickNecromancer}
-                    onClickSorceress={this.onClickSorceress}
-                />
-            </>
-        );
-    }
+                onClickAmazon={onClickAmazon}
+                onClickAssassin={onClickAssassin}
+                onClickBarbarian={onClickBarbarian}
+                onClickDruid={onClickDruid}
+                onClickPaladin={onClickPaladin}
+                onClickNecromancer={onClickNecromancer}
+                onClickSorceress={onClickSorceress}
+            />
+        </>
+    );
 }
 
 export default SearchItem;

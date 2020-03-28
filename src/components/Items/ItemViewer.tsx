@@ -55,7 +55,7 @@ const ItemViewer = () => {
     function searchFilter(item: Item, searchTerm: any) : boolean {
         var term = searchTerm.toLowerCase();
 
-        searchTerm(term);
+        setSearchTerm(term);
 
         return item.Name.toLowerCase().includes(term) ||
             item.Type.toLowerCase().replace("_", " ").includes(term) ||
@@ -88,15 +88,9 @@ const ItemViewer = () => {
 
     var rows =
         //orderBy(filteredItems, ['Name'])
-        map(filteredItems, function (item: Item) {
-            console.log(item);
+        map(filteredItems, function (item: Item)
+        {
             const attributes = map(item.Properties, (property: ItemProperty) => {
-                console.log('aaaaaaa');
-                console.log(property);
-                console.log(property.FirstCharacter);
-                //console.log(valueDisplayed.replace('--', ' To -'));
-                console.log(property.FormattedName.replace('--', ' To -'));
-
                 var min = Math.round(Math.min(property.Minimum, property.Maximum));
                 var max = Math.round(Math.max(property.Minimum, property.Maximum));
                 var value = '';
@@ -115,7 +109,7 @@ const ItemViewer = () => {
                 if (Number(value) === 0)
                     value = '';
 
-                if (!isNaN(parseInt(value)) && parseInt(value) < 0)
+                if ((!isNaN(parseInt(value)) && parseInt(value) < 0) || property.FirstCharacter == null)
                     property.FirstCharacter = '';
 
                 var isPercent = (property.IsPercent && value !== '' ? '%' : '');
@@ -124,9 +118,6 @@ const ItemViewer = () => {
                 if (valueDisplayed === ' ')
                     valueDisplayed = '';
 
-                console.log(property.FirstCharacter);
-                console.log(valueDisplayed.replace('--', ' To -'));
-                console.log(property.FormattedName.replace('--', ' To -'));
                 var propertyDisplay = property.FirstCharacter + valueDisplayed.replace('--', ' To -') + property.FormattedName.replace('--', ' To -');
                 return <div key={property.Id} className="diablo-attribute"><Highlight text={propertyDisplay}
                                                                                       searchTerm={searchTerm}
@@ -197,7 +188,8 @@ const ItemViewer = () => {
                 Item: itemFormatted,
                 LevelRequired: item.LevelRequired,
             }
-        });
+        }
+        );
 
     data.rows = orderBy
         (rows.map(function (item)
