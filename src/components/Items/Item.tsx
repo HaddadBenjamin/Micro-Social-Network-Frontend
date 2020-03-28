@@ -32,7 +32,7 @@ interface Item
     DexterityRequired : number,
 }
 
-interface ItemProperty
+export interface ItemProperty
 {
     Name : string,
     FormattedName : string,

@@ -18,11 +18,13 @@ class Highlight extends React.PureComponent<Props, {}>
 
     render()
     {
-        var termColor = this.props.color == null ? 'red' : this.props.color;
+        var termColor = this.props.color || 'red';
         var textColor = this.props.textColor == null ? 'white' : this.props.textColor;
-        var term = this.props.searchTerm != null ? strings.toTitleCase(this.props.searchTerm) :  '';
+        var term = strings.toTitleCase(this.props.searchTerm || '');
         var replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
-        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(this.props.text).replace(term, replaceText) + "</span>";
+        console.log(this.props.searchTerm);
+        console.log(replaceText);
+        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(this.props.text || '').replace(term, replaceText) + "</span>";
 
         return (<span dangerouslySetInnerHTML={{__html : newText}}></span>);
     }
