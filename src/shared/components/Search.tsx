@@ -1,23 +1,24 @@
 import React, {Component} from "react";
 import {MDBCol } from "mdbreact";
 import {filter } from 'lodash'
+import Item from "../../components/Items/Item";
 
-export interface SearchResult<Element>
+export interface SearchResult
 {
-    elements : Element[],
+    elements : Item[],
     searchedTerm : string,
 }
 
-interface Props<Element>
+interface Props
 {
-    elements : Element[],
-    onSearch : (elements : SearchResult<Element>) => void,
+    elements : Item[],
+    onSearch : (elements : SearchResult) => void,
     searchFilter: (Element : any, searchTerm : string) => boolean
 }
 
-class Search extends Component<Props<Element>, {}>
+class Search extends Component<Props, {}>
 {
-    constructor(props : Props<Element>)
+    constructor(props : Props)
     {
         super(props);
 

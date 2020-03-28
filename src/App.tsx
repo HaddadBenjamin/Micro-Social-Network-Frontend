@@ -1,13 +1,14 @@
 import React from 'react';
 import './App.css';
 import AppPage from "./components/AppPage/AppPage";
-import Items from "./components/Items/Items";
+import ItemViewer from "./components/Items/ItemViewer";
 
-const App: React.FC = () => {
+const App: React.FC = () =>
+{
   return (
       <>
-              <AppPage/>
-              <Items/>
+        <AppPage/>
+        <ItemViewer />
       </>
   );
 }

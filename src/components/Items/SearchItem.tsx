@@ -2,7 +2,6 @@ import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
 import Item from "./Item";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
-import SearchItemRequest from './SearchItemRequest'
 import {map} from 'lodash'
 import qs from 'qs'
 import api from '../../shared/utilities/api'
