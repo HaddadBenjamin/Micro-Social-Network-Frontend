@@ -71,25 +71,16 @@ const ItemViewer = () =>
 
     function getPropertyValue(property: ItemProperty) : string
     {
-        let minimum = Math.round(Math.min(property.Minimum, property.Maximum));
-        let maximum = Math.round(Math.max(property.Minimum, property.Maximum));
-        let value = '';
+        const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
+        const maximumPropertyValue = Math.round(Math.max(property.Minimum, property.Maximum));
+        const propertyValue : string =
+            property.Par > 0 ? property.Par.toString() :
+            minimumPropertyValue === maximumPropertyValue ? minimumPropertyValue.toString() :
+            minimumPropertyValue < 0 && maximumPropertyValue < 0 ? `${maximumPropertyValue} To ${minimumPropertyValue}` :
+            maximumPropertyValue < 0 ? `${minimumPropertyValue} To ${maximumPropertyValue}` :
+                `${minimumPropertyValue}-${maximumPropertyValue}`;
 
-        if (property.Par > 0)
-            value = property.Par.toString();
-        else if (minimum === maximum)
-            value = minimum.toString();
-        else if (minimum < 0 && maximum < 0)
-            value = `${maximum} To ${minimum}`;
-        else if (maximum < 0)
-            value = `${minimum} To ${maximum}`;
-        else
-            value = `${minimum}-${maximum}`;
-
-        if (Number(value) === 0)
-            value = '';
-
-        return value;
+        return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
     function getPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
