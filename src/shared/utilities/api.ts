@@ -7,7 +7,7 @@ class Api
 
     public get<HttpResponse>(endpoint : string, action : string, queryParameters? : string)
     {
-        var url = this.getUrl(endpoint, queryParameters);
+        let url = this.getUrl(endpoint, queryParameters);
 
         axios.get<HttpResponse>(url, { data : { }})
             .then(response =>

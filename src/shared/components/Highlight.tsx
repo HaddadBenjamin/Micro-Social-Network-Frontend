@@ -3,20 +3,21 @@ import strings from '../../shared/utilities/strings'
 
 interface Props
 {
-    text : string,
-    searchTerm : string,
-    color? : string,
-    textColor? : string,
+    text: string,
+    searchTerm: string,
+    color?: string,
+    textColor?: string,
 }
 
-const Highlight = (props : Props) => {
-        var termColor = props.color || 'red';
-        var textColor = props.textColor == null ? 'white' : props.textColor;
-        var term = strings.toTitleCase(props.searchTerm || '');
-        var replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
-        var newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(props.text || '').replace(term, replaceText) + "</span>";
+const Highlight = (props: Props) =>
+{
+    let termColor = props.color || 'red';
+    let textColor = props.textColor == null ? 'white' : props.textColor;
+    let term = strings.toTitleCase(props.searchTerm || '');
+    let replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
+    let newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(props.text || '').replace(term, replaceText) + "</span>";
 
-        return (<span dangerouslySetInnerHTML={{__html : newText}}></span>);
+    return (<span dangerouslySetInnerHTML={{__html: newText}}></span>);
 }
 
 export default Highlight;

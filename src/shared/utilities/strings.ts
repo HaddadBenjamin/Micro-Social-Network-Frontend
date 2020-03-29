@@ -11,6 +11,6 @@ class Strings
     }
 }
 
-var strings : Strings = new Strings();
+const strings : Strings = new Strings();
 
 export default strings;
