@@ -39,6 +39,7 @@ const ItemViewer = () =>
         event.target.src = notFoundImageUrl;
     }
 
+    //region search logics, it's should be extrated in another component or 2 for the filters.
     function onSearch(searchedElements: Item[], searchedTerm: string): void
     {
         setFilteredItems(searchedElements);
@@ -68,7 +69,9 @@ const ItemViewer = () =>
             shouldFilterItemByType(searchElement, term) ||
             shouldFilterItemByProperties(searchElement, term);
     }
+    //endregion
 
+    //region item calculation
     function getPropertyValue(property: ItemProperty) : string
     {
         const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
@@ -83,21 +86,26 @@ const ItemViewer = () =>
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function getPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculGetPropertyValueDisplayed(property : ItemProperty, propertyValue : string) : string
     {
-        if ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null)
-            property.FirstCharacter = '';
-
-        let isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
+        const isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
         let valueDisplayed = `${propertyValue}${isPercent} `;
 
         if (valueDisplayed === ' ')
             valueDisplayed = '';
 
-        return  property.FirstCharacter +
-                valueDisplayed.replace('--', ' To -') +
-                property.FormattedName.replace('--', ' To -');
+        return valueDisplayed.replace('--', ' To -');
     }
+
+    function getPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    {
+        const propertyValueDisplayed = calculGetPropertyValueDisplayed(property, propertyValue);
+        const propertyFirstCharacter = ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?  '' : property.FirstCharacter;
+        const propertyFormattedName = property.FormattedName.replace('--', ' To -');
+
+        return  `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
+    }
+    //endregion
 
     function getDisplayedAttributes(item : Item)
     {
