@@ -32,13 +32,6 @@ const ItemViewer = () =>
         setFilteredItems(itemFromGlobalState);
     }, [itemFromGlobalState]);
 
-    function onImageError(event: any): void
-    {
-        const notFoundImageUrl = `${window.location.origin.toString()}/http_code_404_error.jpg`;
-
-        event.target.src = notFoundImageUrl;
-    }
-
     //region search logics, it's should be extrated in another component or 2 for the filters.
     function onSearch(searchedElements: Item[], searchedTerm: string): void
     {
@@ -278,7 +271,7 @@ const ItemViewer = () =>
 
     //endregion
 
-    //region data table
+    //region item data table logs related
     function getItemDataTable(items: Item[]): any
     {
         return {
@@ -327,6 +320,13 @@ const ItemViewer = () =>
     }
 
     //endregion
+
+    function onImageError(event: any): void
+    {
+        const notFoundImageUrl = `${window.location.origin.toString()}/http_code_404_error.jpg`;
+
+        event.target.src = notFoundImageUrl;
+    }
 
     const orderedFilteredItems = orderBy(filteredItems, ['LevelRequired', 'Name']);
     const itemDataTable = getItemDataTable(orderedFilteredItems);
