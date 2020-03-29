@@ -47,9 +47,7 @@ const ItemViewer = () =>
 
     function searchFilter(searchElement: Item, searchTerm: string): boolean
     {
-        let term = searchTerm.toLowerCase();
-
-        setSearchTerm(term);
+        const term = searchTerm.toLowerCase();
 
         return searchElement.Name.toLowerCase().includes(term) ||
             searchElement.Type.toLowerCase().replace("_", " ").includes(term) ||
