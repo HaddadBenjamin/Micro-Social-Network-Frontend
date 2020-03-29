@@ -47,19 +47,21 @@ const ItemViewer = () => {
             `${second} to ${third}`;
     }
 
-    function onSearch(searchResult: any) : void {
-        setFilteredItems(searchResult.elements);
-        setSearchTerm(searchResult.searchTerm);
+    function onSearch(searchedElements : Item[], searchedTerm : string) : void {
+        setFilteredItems(searchedElements);
+        setSearchTerm(searchedTerm);
     }
 
-    function searchFilter(item: Item, searchTerm: any) : boolean {
+    function searchFilter(searchElement: Item, searchTerm : string) : boolean {
         var term = searchTerm.toLowerCase();
 
         setSearchTerm(term);
 
-        return item.Name.toLowerCase().includes(term) ||
-            item.Type.toLowerCase().replace("_", " ").includes(term) ||
-            some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
+        console.log(searchTerm);
+
+        return searchElement.Name.toLowerCase().includes(term) ||
+            searchElement.Type.toLowerCase().replace("_", " ").includes(term) ||
+            some(searchElement.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
 
     const data: any =
@@ -119,6 +121,8 @@ const ItemViewer = () => {
                     valueDisplayed = '';
 
                 var propertyDisplay = property.FirstCharacter + valueDisplayed.replace('--', ' To -') + property.FormattedName.replace('--', ' To -');
+                    console.log(propertyDisplay);
+                console.log(searchTerm);
                 return <div key={property.Id} className="diablo-attribute"><Highlight text={propertyDisplay}
                                                                                       searchTerm={searchTerm}
                                                                                       textColor="#6f5df7"/><br/>

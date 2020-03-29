@@ -3,30 +3,23 @@ import {MDBCol} from "mdbreact";
 import {filter} from 'lodash'
 import "./Search.css"
 
-export interface SearchResult<SearchResultContent>
+interface Props<SearchResult>
 {
-    elements: SearchResultContent[],
-    searchedTerm: string,
-}
-
-interface Props<SearchResultContent>
-{
-    elements: SearchResultContent[],
-    onSearch: (elements: SearchResult<SearchResultContent>) => void,
-    searchFilter: (Element: any, searchTerm: string) => boolean
+    elements: SearchResult[],
+    onSearch: (searchedElements: SearchResult[], searchedTerm: string) => void,
+    searchFilter: (searchElement: any, searchTerm: string) => boolean
 }
 
 const Search = (props: Props<any>) =>
 {
     function onSearch(event: any)
     {
-        props.onSearch({
-            searchedTerm: event.target.value,
-            elements: filter(props.elements, (element) =>
-            {
-                return props.searchFilter(element, event.target.value)
-            })
+        let searchedElements = filter(props.elements, (element) =>
+        {
+            return props.searchFilter(element, event.target.value)
         });
+
+        props.onSearch(searchedElements, event.target.value);
     }
 
     return (
