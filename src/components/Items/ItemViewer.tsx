@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {orderBy, some, map, filter} from 'lodash'
+import {orderBy, some, map} from 'lodash'
 import './ItemViewer.css';
 import {
     MDBDataTable,
@@ -46,17 +46,17 @@ const ItemViewer = () =>
         setSearchTerm(searchedTerm);
     }
 
-    function shouldFilterItemByName(item : Item, term : string) : boolean
+    function shouldFilterItemByName(item: Item, term: string): boolean
     {
         return item.Name.toLowerCase().includes(term);
     }
 
-    function shouldFilterItemByType(item : Item, term : string) : boolean
+    function shouldFilterItemByType(item: Item, term: string): boolean
     {
         return item.Type.toLowerCase().replace("_", " ").includes(term);
     }
 
-    function shouldFilterItemByProperties(item : Item, term : string) : boolean
+    function shouldFilterItemByProperties(item: Item, term: string): boolean
     {
         return some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
@@ -65,39 +65,40 @@ const ItemViewer = () =>
     {
         const term = searchTerm.toLowerCase();
 
-        return  shouldFilterItemByName(searchElement, term) ||
+        return shouldFilterItemByName(searchElement, term) ||
             shouldFilterItemByType(searchElement, term) ||
             shouldFilterItemByProperties(searchElement, term);
     }
+
     //endregion
 
     //region item calculation, most of this complex logic could and should be handled by the backend side during the conversion of the database model to the dto response. Because it's not the role to the frontend to do that.
     //region property value
-    function calculPropertyValue(property: ItemProperty) : string
+    function calculPropertyValue(property: ItemProperty): string
     {
         const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
         const maximumPropertyValue = Math.round(Math.max(property.Minimum, property.Maximum));
-        const propertyValue : string =
+        const propertyValue: string =
             property.Par > 0 ? property.Par.toString() :
-            minimumPropertyValue === maximumPropertyValue ? minimumPropertyValue.toString() :
-            minimumPropertyValue < 0 && maximumPropertyValue < 0 ? `${maximumPropertyValue} To ${minimumPropertyValue}` :
-            maximumPropertyValue < 0 ? `${minimumPropertyValue} To ${maximumPropertyValue}` :
-                `${minimumPropertyValue}-${maximumPropertyValue}`;
+                minimumPropertyValue === maximumPropertyValue ? minimumPropertyValue.toString() :
+                    minimumPropertyValue < 0 && maximumPropertyValue < 0 ? `${maximumPropertyValue} To ${minimumPropertyValue}` :
+                        maximumPropertyValue < 0 ? `${minimumPropertyValue} To ${maximumPropertyValue}` :
+                            `${minimumPropertyValue}-${maximumPropertyValue}`;
 
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function calculPropertyDisplayed(property : ItemProperty) : string
+    function calculPropertyDisplayed(property: ItemProperty): string
     {
         const propertyValue = calculPropertyValue(property);
         const propertyValueDisplayed = calculPropertyValueDisplayed(property, propertyValue);
         const propertyFirstCharacter = calculPropertyFirstCharacterDisplayed(property, propertyValue);
         const propertyFormattedName = calculPropertyFormattedNameDisplayed(property);
 
-        return  `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
+        return `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
     }
 
-    function calculPropertyValueDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculPropertyValueDisplayed(property: ItemProperty, propertyValue: string): string
     {
         const isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
         let valueDisplayed = `${propertyValue}${isPercent} `;
@@ -108,21 +109,22 @@ const ItemViewer = () =>
         return valueDisplayed.replace('--', ' To -');
     }
 
-    function calculPropertyFirstCharacterDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculPropertyFirstCharacterDisplayed(property: ItemProperty, propertyValue: string): string
     {
         return ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?
             '' :
             property.FirstCharacter;
     }
 
-    function calculPropertyFormattedNameDisplayed(property : ItemProperty) : string
+    function calculPropertyFormattedNameDisplayed(property: ItemProperty): string
     {
         return property.FormattedName.replace('--', ' To -');
     }
+
     //endregion
 
     //region damage calculation
-    function getOneHandDamage(item : Item) : string
+    function getOneHandDamage(item: Item): string
     {
         return calculDamage(
             item.MinimumOneHandedDamageMinimum,
@@ -131,7 +133,7 @@ const ItemViewer = () =>
             item.MaximumOneHandedDamageMaximum);
     }
 
-    function getTwoHandDamage(item : Item) : string
+    function getTwoHandDamage(item: Item): string
     {
         return calculDamage(
             item.MinimumTwoHandedDamageMinimum,
@@ -151,7 +153,7 @@ const ItemViewer = () =>
             `${calculedLowestMinimumDamage} to ${calculedBiggestMaximumDamage}`;
     }
 
-    function calculMinimumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage : number): string
+    function calculMinimumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number): string
     {
         return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.max(lowestMinimumDamage, lowestMaximumDamage) ?
             Math.min(lowestMinimumDamage, lowestMaximumDamage).toString() :
@@ -161,7 +163,7 @@ const ItemViewer = () =>
     function calculLowestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
     {
         return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.min(biggestMaximumDamage, lowestMaximumDamage) ?
-            Math.min(biggestMaximumDamage, lowestMaximumDamage).toString():
+            Math.min(biggestMaximumDamage, lowestMaximumDamage).toString() :
             `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.min(biggestMaximumDamage, lowestMaximumDamage)}`;
     }
 
@@ -171,12 +173,13 @@ const ItemViewer = () =>
             Math.max(biggestMaximumDamage, biggestMinimumDamage).toString() :
             `${Math.min(biggestMaximumDamage, biggestMinimumDamage)}-${Math.max(biggestMaximumDamage, biggestMinimumDamage)}`;
     }
+
     //endregion
 
     //region calcul item image
-    function calculItemImageStyle(item : Item) : CSS.Properties
+    function calculItemImageStyle(item: Item): CSS.Properties
     {
-        let width : string = '';
+        let width: string = '';
 
         if (item.ImageName === "amu1") {
             item.ImageName = 'amu' + maths.random(1, 3).toString();
@@ -192,22 +195,24 @@ const ItemViewer = () =>
         };
     }
 
-    function calculItemImageUrl(imageName : string) : string
+    function calculItemImageUrl(imageName: string): string
     {
         return `${window.location.origin.toString()}/${imageName}.gif`;
     }
+
     //endregion
 
-    function calculDefence(item : Item) : string
+    function calculDefence(item: Item): string
     {
         return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
             item.MaximumDefenseMinimum.toString() :
             `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`
     }
+
     //endregion
 
     //region display part, those logics should be extract in dedicated functional components.
-    function getDisplayedItem(item : Item)
+    function getDisplayedItem(item: Item)
     {
         const attributes = getDisplayedAttributes(item);
         const defense = calculDefence(item);
@@ -244,20 +249,20 @@ const ItemViewer = () =>
         </>;
     }
 
-    function getDisplayedAttributes(item : Item)
+    function getDisplayedAttributes(item: Item)
     {
         return map(item.Properties, (property: ItemProperty) =>
         {
             const propertyDisplayed = calculPropertyDisplayed(property);
 
             return <div key={property.Id} className="diablo-attribute">
-                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
+                <Highlight text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
                 <br/>
             </div>
         });
     }
 
-    function getItemNameDisplayed(item : Item)
+    function getItemNameDisplayed(item: Item)
     {
         const itemImageSyle = calculItemImageStyle(item);
         const itemImageUrl = calculItemImageUrl(item.ImageName);
@@ -270,59 +275,63 @@ const ItemViewer = () =>
                  alt="testImage.."/>
         </>;
     }
+
     //endregion
 
     //region data table
-    let data: any =
-        {
-            columns:
-                [
-                    {
-                        label: 'Name',
-                        field: 'Name',
-                        sort: 'disabled',
-                        width: 100
-                    },
-                    {
-                        label: 'Stats',
-                        field: 'Stats',
-                        sort: 'disabled'
-                    },
-                    {
-                        label: 'Level Required',
-                        field: 'LevelRequired',
-                        sort: 'asc',
-                        width: 10
-                    }
-                ]
+    function getItemDataTable(items: Item[]): any
+    {
+        return {
+            columns: getItemDataTableColumns(),
+            rows: getItemDataTableRows(orderedFilteredItems)
         };
+    }
 
-    let rows =
-        orderBy(filteredItems, ['Name'])
-        .map(function (item: Item)
-                {
-                    const displayedItem = getDisplayedItem(item);
-                    const displayedItemName = getItemNameDisplayed(item);
+    function getItemDataTableColumns(): any
+    {
+        return [
+            {
+                label: 'Name',
+                field: 'Name',
+                sort: 'disabled',
+                width: 100
+            },
+            {
+                label: 'Stats',
+                field: 'Stats',
+                sort: 'disabled'
+            },
+            {
+                label: 'Level Required',
+                field: 'LevelRequired',
+                sort: 'asc',
+                width: 10
+            }
+        ];
+    }
 
-                    return {
-                        Name: displayedItemName,
-                        Item: displayedItem,
-                        LevelRequired: item.LevelRequired,
-                    }
+    function getItemDataTableRows(orderedFilteredItem: Item[]): any
+    {
+        return map(orderedFilteredItems, function (item: Item)
+            {
+                const displayedItem = getDisplayedItem(item);
+                const displayedItemName = getItemNameDisplayed(item);
+
+                return {
+                    'Name': displayedItemName,
+                    'Stats': displayedItem,
+                    'LevelRequired': item.LevelRequired,
                 }
-            );
+            }
+        );
+    }
 
-        data.rows = orderBy
-        (rows.map(function (item)
-        {
-            return {
-                'Name': item.Name,
-                'Stats': item.Item,
-                'LevelRequired': item.LevelRequired,
-            };
-        }), ['LevelRequired']);
     //endregion
 
+    const orderedFilteredItems = orderBy(filteredItems, ['LevelRequired', 'Name']);
+    const itemDataTable = getItemDataTable(orderedFilteredItems);
+
+    // This part should be a functional component and depends only of searchFilter, items, onSearch and itemDataTable
     return (
         <>
             <div id="item-filter-view">
@@ -337,7 +346,7 @@ const ItemViewer = () =>
                                         onSearch={onSearch}/>
                                     <MDBDataTable
                                         className="item"
-                                        data={data}
+                                        data={itemDataTable}
                                         entries={3}/>
                                     <MDBCol/>
                                 </MDBCol>
