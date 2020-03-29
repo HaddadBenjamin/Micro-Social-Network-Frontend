@@ -1,16 +1,21 @@
 class Strings
 {
-    public toTitleCase(str: string)
+    public toTitleCase(text: string)
     {
-        return str.replace(
+        const FirstCharacterIndex : number = 0;
+        const FromCharacterIndex : number = 0;
+
+        return text.replace(
             /\w\S*/g,
-            function(txt) {
-                return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+            function (textToReplace : string)
+            {
+                return textToReplace.charAt(FirstCharacterIndex).toUpperCase() +
+                       textToReplace.substr(FromCharacterIndex).toLowerCase();
             }
         );
     }
 }
 
-const strings : Strings = new Strings();
+const strings: Strings = new Strings();
 
 export default strings;
