@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {orderBy, some, map} from 'lodash'
+import {orderBy, some, map, filter} from 'lodash'
 import './ItemViewer.css';
 import {
     MDBDataTable,
@@ -11,12 +11,10 @@ import {
 } from 'mdbreact';
 import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
-import jest from 'jest-mock'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../store/store";
 import Item, {ItemProperty} from "./Item";
-
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemViewer = () =>
@@ -96,6 +94,20 @@ const ItemViewer = () =>
                 property.FormattedName.replace('--', ' To -');
     }
 
+    function getDisplayedAttributes(item : Item)
+    {
+        return map(item.Properties, (property: ItemProperty) =>
+        {
+            const propertyValue = getPropertyValue(property);
+            const propertyDisplayed = getPropertyDisplayed(property, propertyValue);
+
+            return <div key={property.Id} className="diablo-attribute">
+                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
+                <br/>
+            </div>
+        });
+    }
+
     function calculDamage(minMin: any, minMax: any, maxMin: any, maxMax: any): string
     {
         const first = Math.min(minMin, maxMin) === Math.max(minMin, maxMin) ? Math.min(minMin, maxMin) : `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}`;
@@ -105,6 +117,45 @@ const ItemViewer = () =>
         return minMin === minMax && maxMin === maxMax ?
             `${first}` :
             `${second} to ${third}`;
+    }
+
+    function getDisplayedItem(item : Item)
+    {
+        const attributes = getDisplayedAttributes(item);
+
+        let defense = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum : `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
+
+        let oneHandDamage = calculDamage(item.MinimumOneHandedDamageMinimum, item.MinimumOneHandedDamageMaximum, item.MaximumOneHandedDamageMinimum, item.MaximumOneHandedDamageMaximum);
+        let twoHandDamage = calculDamage(item.MinimumTwoHandedDamageMinimum, item.MinimumTwoHandedDamageMaximum, item.MaximumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMaximum);
+
+        return <>
+            <div className="item" key={item.Id}>
+                <div className="unique">
+                    <Highlight text={item.Name} searchTerm={searchTerm} textColor="#c7b790ed"/><br/>
+                    <Highlight text={item.Type} searchTerm={searchTerm} textColor="#c7b790ed"/>
+                </div>
+                <div>
+                    {item.MaximumDefenseMinimum > 0 ?
+                        <div>Defense : <span className="diablo-attribute">{defense}</span></div> : ''}
+                    {item.MinimumOneHandedDamageMinimum > 0 ?
+                        <div>One-Hand Damage : <span className="diablo-attribute">{oneHandDamage}</span>
+                        </div> : ''}
+                    {item.MinimumTwoHandedDamageMinimum > 0 ?
+                        <div>Two-Hand Damage : <span className="diablo-attribute">{twoHandDamage}</span>
+                        </div> : ''}
+                </div>
+                <div className="required-attribute">
+                    {item.StrengthRequired > 0 ? <div>Required Strength : {item.StrengthRequired} </div> : ''}
+                    {item.DexterityRequired > 0 ?
+                        <div>Required Dexterity : {item.DexterityRequired} </div> : ''}
+                    {item.LevelRequired > 0 ? <div>Required Level : {item.LevelRequired} </div> : ''}
+                </div>
+                <div>
+                    {attributes}
+                </div>
+
+            </div>
+        </>;
     }
 
     const data: any =
@@ -135,50 +186,7 @@ const ItemViewer = () =>
         //orderBy(filteredItems, ['Name'])
         map(filteredItems, function (item: Item)
             {
-                const attributes = map(item.Properties, (property: ItemProperty) =>
-                {
-                    const propertyValue = getPropertyValue(property);
-                    const propertyDisplayed = getPropertyDisplayed(property, propertyValue);
-
-                    return <div key={property.Id} className="diablo-attribute">
-                            <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
-                            <br/>
-                        </div>
-                });
-
-                let defense = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum : `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
-
-                let oneHandDamage = calculDamage(item.MinimumOneHandedDamageMinimum, item.MinimumOneHandedDamageMaximum, item.MaximumOneHandedDamageMinimum, item.MaximumOneHandedDamageMaximum);
-                let twoHandDamage = calculDamage(item.MinimumTwoHandedDamageMinimum, item.MinimumTwoHandedDamageMaximum, item.MaximumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMaximum);
-
-                let itemFormatted = <>
-                    <div className="item" key={item.Id}>
-                        <div className="unique">
-                            <Highlight text={item.Name} searchTerm={searchTerm} textColor="#c7b790ed"/><br/>
-                            <Highlight text={item.Type} searchTerm={searchTerm} textColor="#c7b790ed"/>
-                        </div>
-                        <div>
-                            {item.MaximumDefenseMinimum > 0 ?
-                                <div>Defense : <span className="diablo-attribute">{defense}</span></div> : ''}
-                            {item.MinimumOneHandedDamageMinimum > 0 ?
-                                <div>One-Hand Damage : <span className="diablo-attribute">{oneHandDamage}</span>
-                                </div> : ''}
-                            {item.MinimumTwoHandedDamageMinimum > 0 ?
-                                <div>Two-Hand Damage : <span className="diablo-attribute">{twoHandDamage}</span>
-                                </div> : ''}
-                        </div>
-                        <div className="required-attribute">
-                            {item.StrengthRequired > 0 ? <div>Required Strength : {item.StrengthRequired} </div> : ''}
-                            {item.DexterityRequired > 0 ?
-                                <div>Required Dexterity : {item.DexterityRequired} </div> : ''}
-                            {item.LevelRequired > 0 ? <div>Required Level : {item.LevelRequired} </div> : ''}
-                        </div>
-                        <div>
-                            {attributes}
-                        </div>
-
-                    </div>
-                </>;
+                const displayedItem = getDisplayedItem(item);
 
                 let width = null;
 
@@ -205,23 +213,21 @@ const ItemViewer = () =>
 
                 return {
                     Name: itemName,
-                    Item: itemFormatted,
+                    Item: displayedItem,
                     LevelRequired: item.LevelRequired,
                 }
             }
         );
 
-    data.rows = orderBy
-    (rows.map(function (item)
-    {
-        return {
-            'Name': item.Name,
-            'Stats': item.Item,
-            'LevelRequired': item.LevelRequired,
-        };
-    }), ['LevelRequired']);
-
-    const mock = jest.fn(() => []);
+        data.rows = orderBy
+        (rows.map(function (item)
+        {
+            return {
+                'Name': item.Name,
+                'Stats': item.Item,
+                'LevelRequired': item.LevelRequired,
+            };
+        }), ['LevelRequired']);
 
     return (
         <>
@@ -237,7 +243,6 @@ const ItemViewer = () =>
                                         onSearch={onSearch}/>
                                     <MDBDataTable
                                         className="item"
-                                        style={undefined}
                                         data={data}
                                         entries={3}/>
                                     <MDBCol/>
