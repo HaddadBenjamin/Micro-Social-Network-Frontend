@@ -15,6 +15,7 @@ import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
 import {GlobalState} from "../../store/store";
 import Item, {ItemProperty} from "./Item";
+import CSS from 'csstype';
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemViewer = () =>
@@ -119,14 +120,37 @@ const ItemViewer = () =>
             `${second} to ${third}`;
     }
 
+    function getDefence(item : Item) : string
+    {
+        return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
+            item.MaximumDefenseMinimum.toString() :
+            `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`
+    }
+
+    function getOneHandDamage(item : Item) : string
+    {
+        return calculDamage(
+            item.MinimumOneHandedDamageMinimum,
+            item.MinimumOneHandedDamageMaximum,
+            item.MaximumOneHandedDamageMinimum,
+            item.MaximumOneHandedDamageMaximum);
+    }
+
+    function getTwoHandDamage(item : Item) : string
+    {
+        return calculDamage(
+            item.MinimumTwoHandedDamageMinimum,
+            item.MinimumTwoHandedDamageMaximum,
+            item.MaximumTwoHandedDamageMinimum,
+            item.MaximumTwoHandedDamageMaximum);
+    }
+
     function getDisplayedItem(item : Item)
     {
         const attributes = getDisplayedAttributes(item);
-
-        let defense = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum : `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
-
-        let oneHandDamage = calculDamage(item.MinimumOneHandedDamageMinimum, item.MinimumOneHandedDamageMaximum, item.MaximumOneHandedDamageMinimum, item.MaximumOneHandedDamageMaximum);
-        let twoHandDamage = calculDamage(item.MinimumTwoHandedDamageMinimum, item.MinimumTwoHandedDamageMaximum, item.MaximumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMaximum);
+        const defense = getDefence(item);
+        const oneHandDamage = getOneHandDamage(item);
+        const twoHandDamage = getTwoHandDamage(item);
 
         return <>
             <div className="item" key={item.Id}>
@@ -155,6 +179,43 @@ const ItemViewer = () =>
                 </div>
 
             </div>
+        </>;
+    }
+
+    function getItemImageStyle(item : Item) : CSS.Properties
+    {
+        let width : string = '';
+
+        if (item.ImageName === "amu1") {
+            item.ImageName = 'amu' + maths.random(1, 3).toString();
+            width = '40px';
+        }
+        if (item.ImageName === "ring1") {
+            item.ImageName = 'ring' + maths.random(1, 5).toString();
+            width = '40px';
+        }
+
+        return {
+                width: width,
+            };
+    }
+
+    function getItemImageUrl(imageName : string) : string
+    {
+        return window.location.origin.toString() + '/' + imageName + '.gif';
+    }
+
+    function getItemNameDisplayed(item : Item)
+    {
+        const itemImageSyle = getItemImageStyle(item);
+        const itemImageUrl = getItemImageUrl(item.ImageName);
+
+        return <>
+            <Highlight text={item.Name} searchTerm={searchTerm}/>
+            <img className="item-image border info rounded mb-0"
+                 src={itemImageUrl}
+                 style={itemImageSyle} onError={SetDefaultImageOnError}
+                 alt="testImage.."/>
         </>;
     }
 
@@ -187,32 +248,10 @@ const ItemViewer = () =>
         map(filteredItems, function (item: Item)
             {
                 const displayedItem = getDisplayedItem(item);
-
-                let width = null;
-
-                if (item.ImageName === "amu1") {
-                    item.ImageName = 'amu' + maths.random(1, 3).toString();
-                    width = '40px';
-                }
-                if (item.ImageName === "ring1") {
-                    item.ImageName = 'ring' + maths.random(1, 5).toString();
-                    width = '40px';
-                }
-                const imageStyle = {
-                    width: width,
-                };
-
-                let imageUrl = window.location.origin.toString() + '/' + item.ImageName + '.gif';
-
-                let itemName = <>
-                    <Highlight text={item.Name} searchTerm={searchTerm}/>
-                    <img className="item-image border info rounded mb-0" src={imageUrl}
-                         style={undefined} onError={SetDefaultImageOnError}
-                         alt="testImage.."/>
-                </>;
+                const displayedItemName = getItemNameDisplayed(item);
 
                 return {
-                    Name: itemName,
+                    Name: displayedItemName,
                     Item: displayedItem,
                     LevelRequired: item.LevelRequired,
                 }
