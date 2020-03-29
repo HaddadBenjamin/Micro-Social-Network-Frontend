@@ -32,11 +32,11 @@ const ItemViewer = () =>
         setFilteredItems(itemFromGlobalState);
     }, [itemFromGlobalState]);
 
-    function SetDefaultImageOnError(event: any): void
+    function onImageError(event: any): void
     {
-        let defaultImageUrl = `${window.location.origin.toString()}/http_code_404_error.jpg`;
+        const notFoundImageUrl = `${window.location.origin.toString()}/http_code_404_error.jpg`;
 
-        event.target.src = defaultImageUrl;
+        event.target.src = notFoundImageUrl;
     }
 
     function onSearch(searchedElements: Item[], searchedTerm: string): void
@@ -202,9 +202,9 @@ const ItemViewer = () =>
 
     function getItemImageUrl(imageName : string) : string
     {
-        return window.location.origin.toString() + '/' + imageName + '.gif';
+        return `${window.location.origin.toString()}/${imageName}.gif`;
     }
-
+    
     function getItemNameDisplayed(item : Item)
     {
         const itemImageSyle = getItemImageStyle(item);
@@ -214,7 +214,7 @@ const ItemViewer = () =>
             <Highlight text={item.Name} searchTerm={searchTerm}/>
             <img className="item-image border info rounded mb-0"
                  src={itemImageUrl}
-                 style={itemImageSyle} onError={SetDefaultImageOnError}
+                 style={itemImageSyle} onError={onImageError}
                  alt="testImage.."/>
         </>;
     }
