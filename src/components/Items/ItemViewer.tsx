@@ -182,10 +182,23 @@ const ItemViewer = () =>
             item.ImageName = 'ring' + maths.random(1, 5).toString();
             width = '40px';
         }
+        if (item.ImageName == "jewel")
+        {
+            item.ImageName = 'jewel0' + maths.random(1, 6).toString();
+            width = '40px';
+        }
+
+        if (item.ImageName == "largecharm")
+        {
+            item.ImageName = 'largecharm0' + maths.random(1, 3).toString();
+            width = '40px';
+        }
 
         if (["katar", "hatchethands",  "scissorskatar", "claws",
             "maidenjavelin",
-        "dragonstone", "sacredglobe", "smokedsphere", "claspedorb", "eagleorb"].includes(item.ImageName))
+        "dragonstone", "sacredglobe", "smokedsphere", "claspedorb", "eagleorb",
+        "arrows", "bolts",
+        "bluecharm", "hellfiretorch"].includes(item.ImageName))
             width = '40px';
         return {
             width: width,
