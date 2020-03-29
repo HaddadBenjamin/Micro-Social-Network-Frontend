@@ -273,7 +273,7 @@ const ItemViewer = () =>
     //endregion
 
     //region data table
-    const data: any =
+    let data: any =
         {
             columns:
                 [
@@ -298,19 +298,19 @@ const ItemViewer = () =>
         };
 
     let rows =
-        //orderBy(filteredItems, ['Name'])
-        map(filteredItems, function (item: Item)
-            {
-                const displayedItem = getDisplayedItem(item);
-                const displayedItemName = getItemNameDisplayed(item);
+        orderBy(filteredItems, ['Name'])
+        .map(function (item: Item)
+                {
+                    const displayedItem = getDisplayedItem(item);
+                    const displayedItemName = getItemNameDisplayed(item);
 
-                return {
-                    Name: displayedItemName,
-                    Item: displayedItem,
-                    LevelRequired: item.LevelRequired,
+                    return {
+                        Name: displayedItemName,
+                        Item: displayedItem,
+                        LevelRequired: item.LevelRequired,
+                    }
                 }
-            }
-        );
+            );
 
         data.rows = orderBy
         (rows.map(function (item)
