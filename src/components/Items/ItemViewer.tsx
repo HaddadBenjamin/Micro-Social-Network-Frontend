@@ -71,7 +71,7 @@ const ItemViewer = () =>
     }
     //endregion
 
-    //region item calculation, all those this complex logic should be handled by the backend side during the conversion of the database model to the dto response.
+    //region item calculation, most of this complex logic could and should be handled by the backend side during the conversion of the database model to the dto response. Because it's not the role to the frontend to do that.
     //region property value
     function calculPropertyValue(property: ItemProperty) : string
     {
@@ -173,6 +173,31 @@ const ItemViewer = () =>
     }
     //endregion
 
+    //region calcul item image
+    function calculItemImageStyle(item : Item) : CSS.Properties
+    {
+        let width : string = '';
+
+        if (item.ImageName === "amu1") {
+            item.ImageName = 'amu' + maths.random(1, 3).toString();
+            width = '40px';
+        }
+        if (item.ImageName === "ring1") {
+            item.ImageName = 'ring' + maths.random(1, 5).toString();
+            width = '40px';
+        }
+
+        return {
+            width: width,
+        };
+    }
+
+    function calculItemImageUrl(imageName : string) : string
+    {
+        return `${window.location.origin.toString()}/${imageName}.gif`;
+    }
+    //endregion
+
     function calculDefence(item : Item) : string
     {
         return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
@@ -181,24 +206,7 @@ const ItemViewer = () =>
     }
     //endregion
 
-    //region display part
-    function getDisplayedAttributes(item : Item)
-    {
-        return map(item.Properties, (property: ItemProperty) =>
-        {
-            const propertyDisplayed = calculPropertyDisplayed(property);
-
-            return <div key={property.Id} className="diablo-attribute">
-                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
-                <br/>
-            </div>
-        });
-    }
-    //endregion
-
-
-
-
+    //region display part, those logics should be extract in dedicated functional components.
     function getDisplayedItem(item : Item)
     {
         const attributes = getDisplayedAttributes(item);
@@ -236,33 +244,23 @@ const ItemViewer = () =>
         </>;
     }
 
-    function getItemImageStyle(item : Item) : CSS.Properties
+    function getDisplayedAttributes(item : Item)
     {
-        let width : string = '';
+        return map(item.Properties, (property: ItemProperty) =>
+        {
+            const propertyDisplayed = calculPropertyDisplayed(property);
 
-        if (item.ImageName === "amu1") {
-            item.ImageName = 'amu' + maths.random(1, 3).toString();
-            width = '40px';
-        }
-        if (item.ImageName === "ring1") {
-            item.ImageName = 'ring' + maths.random(1, 5).toString();
-            width = '40px';
-        }
-
-        return {
-                width: width,
-            };
+            return <div key={property.Id} className="diablo-attribute">
+                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
+                <br/>
+            </div>
+        });
     }
 
-    function getItemImageUrl(imageName : string) : string
-    {
-        return `${window.location.origin.toString()}/${imageName}.gif`;
-    }
-    
     function getItemNameDisplayed(item : Item)
     {
-        const itemImageSyle = getItemImageStyle(item);
-        const itemImageUrl = getItemImageUrl(item.ImageName);
+        const itemImageSyle = calculItemImageStyle(item);
+        const itemImageUrl = calculItemImageUrl(item.ImageName);
 
         return <>
             <Highlight text={item.Name} searchTerm={searchTerm}/>
@@ -272,7 +270,9 @@ const ItemViewer = () =>
                  alt="testImage.."/>
         </>;
     }
+    //endregion
 
+    //region data table
     const data: any =
         {
             columns:
@@ -321,6 +321,7 @@ const ItemViewer = () =>
                 'LevelRequired': item.LevelRequired,
             };
         }), ['LevelRequired']);
+    //endregion
 
     return (
         <>
