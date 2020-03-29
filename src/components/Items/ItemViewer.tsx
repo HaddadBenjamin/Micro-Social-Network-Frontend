@@ -45,13 +45,28 @@ const ItemViewer = () =>
         setSearchTerm(searchedTerm);
     }
 
+    function shouldFilterItemByName(item : Item, term : string) : boolean
+    {
+        return item.Name.toLowerCase().includes(term);
+    }
+
+    function shouldFilterItemByType(item : Item, term : string) : boolean
+    {
+        return item.Type.toLowerCase().replace("_", " ").includes(term);
+    }
+
+    function shouldFilterItemByProperties(item : Item, term : string) : boolean
+    {
+        return some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
+    }
+    
     function searchFilter(searchElement: Item, searchTerm: string): boolean
     {
         const term = searchTerm.toLowerCase();
 
-        return searchElement.Name.toLowerCase().includes(term) ||
-            searchElement.Type.toLowerCase().replace("_", " ").includes(term) ||
-            some(searchElement.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
+        return  shouldFilterItemByName(searchElement, term) ||
+            shouldFilterItemByType(searchElement, term) ||
+            shouldFilterItemByProperties(searchElement, term);
     }
 
     function getPropertyValue(property: ItemProperty) : string
