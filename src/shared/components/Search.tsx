@@ -4,14 +4,14 @@ import {filter} from 'lodash'
 import Item from "../../components/Items/Item";
 import "./Search.css"
 
-export interface SearchResult<T> {
-    elements: Item[],
+export interface SearchResult<SearchResultContent> {
+    elements: SearchResultContent[],
     searchedTerm: string,
 }
 
-interface Props<T> {
-    elements: Item[],
-    onSearch: (elements: SearchResult<T>) => void,
+interface Props<SearchResultContent> {
+    elements: SearchResultContent[],
+    onSearch: (elements: SearchResult<SearchResultContent>) => void,
     searchFilter: (Element: any, searchTerm: string) => boolean
 }
 
