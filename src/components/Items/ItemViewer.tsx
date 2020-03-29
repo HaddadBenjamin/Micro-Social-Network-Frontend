@@ -59,7 +59,7 @@ const ItemViewer = () =>
     {
         return some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
-    
+
     function searchFilter(searchElement: Item, searchTerm: string): boolean
     {
         const term = searchTerm.toLowerCase();
@@ -122,15 +122,34 @@ const ItemViewer = () =>
         });
     }
 
-    function calculDamage(minMin: any, minMax: any, maxMin: any, maxMax: any): string
+    function calculMinimumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage : number): string
     {
-        const first = Math.min(minMin, maxMin) === Math.max(minMin, maxMin) ? Math.min(minMin, maxMin) : `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}`;
-        let second = Math.min(minMin, maxMin) === Math.min(maxMax, maxMin) ? Math.min(maxMax, maxMin) : `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)}`;
-        let third = Math.min(maxMax, minMax) === Math.max(maxMax, minMax) ? Math.max(maxMax, minMax) : `${Math.min(maxMax, minMax)}-${Math.max(maxMax, minMax)}`;
+        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.max(lowestMinimumDamage, lowestMaximumDamage) ?
+            Math.min(lowestMinimumDamage, lowestMaximumDamage).toString() :
+            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.max(lowestMinimumDamage, lowestMaximumDamage)}`;
+    }
+    function calculLowestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.min(biggestMaximumDamage, lowestMaximumDamage) ?
+            Math.min(biggestMaximumDamage, lowestMaximumDamage).toString():
+            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.min(biggestMaximumDamage, lowestMaximumDamage)}`;
+    }
 
-        return minMin === minMax && maxMin === maxMax ?
-            `${first}` :
-            `${second} to ${third}`;
+    function calculBiggestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        return Math.min(biggestMaximumDamage, biggestMinimumDamage) === Math.max(biggestMaximumDamage, biggestMinimumDamage) ?
+            Math.max(biggestMaximumDamage, biggestMinimumDamage).toString() :
+            `${Math.min(biggestMaximumDamage, biggestMinimumDamage)}-${Math.max(biggestMaximumDamage, biggestMinimumDamage)}`;
+    }
+    function calculDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        const calculedMinimumDamage = calculMinimumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage);
+        const calculedLowestMinimumDamage = calculLowestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
+        const calculedBiggestMaximumDamage = calculBiggestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
+
+        return lowestMinimumDamage === biggestMinimumDamage && lowestMaximumDamage === biggestMaximumDamage ?
+            `${calculedMinimumDamage}` :
+            `${calculedLowestMinimumDamage} to ${calculedBiggestMaximumDamage}`;
     }
 
     function getDefence(item : Item) : string
