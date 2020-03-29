@@ -1,7 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {orderBy, some, map} from 'lodash'
 import './ItemViewer.css';
-//import * as styles from './ItemViewer.css'
 import {
     MDBDataTable,
     MDBContainer,
@@ -19,6 +18,7 @@ import {GlobalState} from "../../store/store";
 import Item, {ItemProperty} from "./Item";
 
 
+// Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemViewer = () =>
 {
     const itemFromGlobalState = useSelector<GlobalState, Item[]>(globalState => globalState.searchItems.items);
@@ -40,17 +40,6 @@ const ItemViewer = () =>
         event.target.src = defaultImageUrl;
     }
 
-    function calculDamage(minMin: any, minMax: any, maxMin: any, maxMax: any): string
-    {
-        const first = Math.min(minMin, maxMin) === Math.max(minMin, maxMin) ? Math.min(minMin, maxMin) : `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}`;
-        let second = Math.min(minMin, maxMin) === Math.min(maxMax, maxMin) ? Math.min(maxMax, maxMin) : `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)}`;
-        let third = Math.min(maxMax, minMax) === Math.max(maxMax, minMax) ? Math.max(maxMax, minMax) : `${Math.min(maxMax, minMax)}-${Math.max(maxMax, minMax)}`;
-
-        return minMin === minMax && maxMin === maxMax ?
-            `${first}` :
-            `${second} to ${third}`;
-    }
-
     function onSearch(searchedElements: Item[], searchedTerm: string): void
     {
         setFilteredItems(searchedElements);
@@ -66,6 +55,56 @@ const ItemViewer = () =>
         return searchElement.Name.toLowerCase().includes(term) ||
             searchElement.Type.toLowerCase().replace("_", " ").includes(term) ||
             some(searchElement.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
+    }
+
+    function getPropertyValue(property: ItemProperty) : string
+    {
+        let minimum = Math.round(Math.min(property.Minimum, property.Maximum));
+        let maximum = Math.round(Math.max(property.Minimum, property.Maximum));
+        let value = '';
+
+        if (property.Par > 0)
+            value = property.Par.toString();
+        else if (minimum === maximum)
+            value = minimum.toString();
+        else if (minimum < 0 && maximum < 0)
+            value = `${maximum} To ${minimum}`;
+        else if (maximum < 0)
+            value = `${minimum} To ${maximum}`;
+        else
+            value = `${minimum}-${maximum}`;
+
+        if (Number(value) === 0)
+            value = '';
+
+        return value;
+    }
+
+    function getPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    {
+        if ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null)
+            property.FirstCharacter = '';
+
+        let isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
+        let valueDisplayed = `${propertyValue}${isPercent} `;
+
+        if (valueDisplayed === ' ')
+            valueDisplayed = '';
+
+        return  property.FirstCharacter +
+                valueDisplayed.replace('--', ' To -') +
+                property.FormattedName.replace('--', ' To -');
+    }
+
+    function calculDamage(minMin: any, minMax: any, maxMin: any, maxMax: any): string
+    {
+        const first = Math.min(minMin, maxMin) === Math.max(minMin, maxMin) ? Math.min(minMin, maxMin) : `${Math.min(minMin, maxMin)}-${Math.max(minMin, maxMin)}`;
+        let second = Math.min(minMin, maxMin) === Math.min(maxMax, maxMin) ? Math.min(maxMax, maxMin) : `${Math.min(minMin, maxMin)}-${Math.min(maxMax, maxMin)}`;
+        let third = Math.min(maxMax, minMax) === Math.max(maxMax, minMax) ? Math.max(maxMax, minMax) : `${Math.min(maxMax, minMax)}-${Math.max(maxMax, minMax)}`;
+
+        return minMin === minMax && maxMin === maxMax ?
+            `${first}` :
+            `${second} to ${third}`;
     }
 
     const data: any =
@@ -98,38 +137,13 @@ const ItemViewer = () =>
             {
                 const attributes = map(item.Properties, (property: ItemProperty) =>
                 {
-                    let min = Math.round(Math.min(property.Minimum, property.Maximum));
-                    let max = Math.round(Math.max(property.Minimum, property.Maximum));
-                    let value = '';
+                    const propertyValue = getPropertyValue(property);
+                    const propertyDisplayed = getPropertyDisplayed(property, propertyValue);
 
-                    if (property.Par > 0)
-                        value = property.Par.toString();
-                    else if (min === max)
-                        value = min.toString();
-                    else if (min < 0 && max < 0)
-                        value = `${max} To ${min}`;
-                    else if (max < 0)
-                        value = `${min} To ${max}`;
-                    else
-                        value = `${min}-${max}`;
-
-                    if (Number(value) === 0)
-                        value = '';
-
-                    if ((!isNaN(parseInt(value)) && parseInt(value) < 0) || property.FirstCharacter == null)
-                        property.FirstCharacter = '';
-
-                    let isPercent = (property.IsPercent && value !== '' ? '%' : '');
-                    let valueDisplayed = `${value}${isPercent} `;
-
-                    if (valueDisplayed === ' ')
-                        valueDisplayed = '';
-
-                    let propertyDisplay = property.FirstCharacter + valueDisplayed.replace('--', ' To -') + property.FormattedName.replace('--', ' To -');
-                    return <div key={property.Id} className="diablo-attribute"><Highlight text={propertyDisplay}
-                                                                                          searchTerm={searchTerm}
-                                                                                          textColor="#6f5df7"/><br/>
-                    </div>
+                    return <div key={property.Id} className="diablo-attribute">
+                            <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
+                            <br/>
+                        </div>
                 });
 
                 let defense = item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ? item.MaximumDefenseMinimum : `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`;
@@ -138,7 +152,7 @@ const ItemViewer = () =>
                 let twoHandDamage = calculDamage(item.MinimumTwoHandedDamageMinimum, item.MinimumTwoHandedDamageMaximum, item.MaximumTwoHandedDamageMinimum, item.MaximumTwoHandedDamageMaximum);
 
                 let itemFormatted = <>
-                    <div className="item" style={undefined} key={item.Id}>
+                    <div className="item" key={item.Id}>
                         <div className="unique">
                             <Highlight text={item.Name} searchTerm={searchTerm} textColor="#c7b790ed"/><br/>
                             <Highlight text={item.Type} searchTerm={searchTerm} textColor="#c7b790ed"/>

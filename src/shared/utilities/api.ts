@@ -10,6 +10,7 @@ class Api
         let url = this.getUrl(endpoint, queryParameters);
 
         axios.get<HttpResponse>(url, { data : { }})
+        axios.get<HttpResponse>(url, { data : { }}) // when data is not defined, I get a 415 unsupported types
             .then(response =>
             {
                 console.log(response);

@@ -14,7 +14,7 @@ const Search = (props: Props<any>) =>
 {
     function onSearch(event: any)
     {
-        let searchedElements = filter(props.elements, (element) =>
+        const searchedElements = filter(props.elements, (element) =>
         {
             return props.searchFilter(element, event.target.value)
         });
@@ -26,7 +26,7 @@ const Search = (props: Props<any>) =>
         <>
             <MDBCol size="4" className="form-inline d-flex justify-content-end fa-pull-right">
                 <input
-                    className="form-control form-control-sm ml-3 w-75 shared-searchs py-3"
+                    className="form-control form-control-sm ml-3 w-75 shared-search py-3"
                     type="text"
                     placeholder="Search"
                     aria-label="Search"
