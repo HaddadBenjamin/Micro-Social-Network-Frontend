@@ -2,7 +2,7 @@
     font-family: "Diablo";
     font-size: 15.4px;
     color: white;
-    box-shadow: 2px 2px 4px 0.1px #eb0d26;
+    box-shadow: 2px 2px 4px 0.1px #eb0d26 !important;
     background-color: rgba(1, 1, 1, 0.8) !important;
-    border: 0.05em solid white;
+    border: 0.05em solid white !important;
 }
