@@ -183,6 +183,10 @@ const ItemViewer = () =>
             width = '40px';
         }
 
+        if (["katar", "hatchethands",  "scissorskatar", "claws",
+            "maidenjavelin",
+        "dragonstone", "sacredglobe", "smokedsphere", "claspedorb", "eagleorb"].includes(item.ImageName))
+            width = '40px';
         return {
             width: width,
         };
