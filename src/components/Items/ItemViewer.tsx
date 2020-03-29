@@ -57,8 +57,6 @@ const ItemViewer = () => {
 
         setSearchTerm(term);
 
-        console.log(searchTerm);
-
         return searchElement.Name.toLowerCase().includes(term) ||
             searchElement.Type.toLowerCase().replace("_", " ").includes(term) ||
             some(searchElement.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
@@ -121,8 +119,6 @@ const ItemViewer = () => {
                     valueDisplayed = '';
 
                 var propertyDisplay = property.FirstCharacter + valueDisplayed.replace('--', ' To -') + property.FormattedName.replace('--', ' To -');
-                    console.log(propertyDisplay);
-                console.log(searchTerm);
                 return <div key={property.Id} className="diablo-attribute"><Highlight text={propertyDisplay}
                                                                                       searchTerm={searchTerm}
                                                                                       textColor="#6f5df7"/><br/>
