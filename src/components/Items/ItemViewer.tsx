@@ -86,7 +86,16 @@ const ItemViewer = () =>
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function calculGetPropertyValueDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    {
+        const propertyValueDisplayed = calculPropertyValueDisplayed(property, propertyValue);
+        const propertyFirstCharacter = calculPropertyFirstCharacterDisplayed(property, propertyValue);
+        const propertyFormattedName = calculPropertyFormattedNameDisplayed(property);
+
+        return  `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
+    }
+
+    function calculPropertyValueDisplayed(property : ItemProperty, propertyValue : string) : string
     {
         const isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
         let valueDisplayed = `${propertyValue}${isPercent} `;
@@ -97,13 +106,16 @@ const ItemViewer = () =>
         return valueDisplayed.replace('--', ' To -');
     }
 
-    function getPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculPropertyFirstCharacterDisplayed(property : ItemProperty, propertyValue : string) : string
     {
-        const propertyValueDisplayed = calculGetPropertyValueDisplayed(property, propertyValue);
-        const propertyFirstCharacter = ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?  '' : property.FirstCharacter;
-        const propertyFormattedName = property.FormattedName.replace('--', ' To -');
+        return ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?
+            '' :
+            property.FirstCharacter;
+    }
 
-        return  `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
+    function calculPropertyFormattedNameDisplayed(property : ItemProperty) : string
+    {
+        return property.FormattedName.replace('--', ' To -');
     }
     //endregion
 
@@ -112,7 +124,7 @@ const ItemViewer = () =>
         return map(item.Properties, (property: ItemProperty) =>
         {
             const propertyValue = getPropertyValue(property);
-            const propertyDisplayed = getPropertyDisplayed(property, propertyValue);
+            const propertyDisplayed = calculPropertyDisplayed(property, propertyValue);
 
             return <div key={property.Id} className="diablo-attribute">
                 <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
