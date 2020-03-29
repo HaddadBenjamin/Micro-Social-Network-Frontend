@@ -71,8 +71,9 @@ const ItemViewer = () =>
     }
     //endregion
 
-    //region item calculation
-    function getPropertyValue(property: ItemProperty) : string
+    //region item calculation, all those this complex logic should be handled by the backend side during the conversion of the database model to the dto response.
+    //region property value
+    function calculPropertyValue(property: ItemProperty) : string
     {
         const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
         const maximumPropertyValue = Math.round(Math.max(property.Minimum, property.Maximum));
@@ -86,8 +87,9 @@ const ItemViewer = () =>
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function calculPropertyDisplayed(property : ItemProperty, propertyValue : string) : string
+    function calculPropertyDisplayed(property : ItemProperty) : string
     {
+        const propertyValue = calculPropertyValue(property);
         const propertyValueDisplayed = calculPropertyValueDisplayed(property, propertyValue);
         const propertyFirstCharacter = calculPropertyFirstCharacterDisplayed(property, propertyValue);
         const propertyFormattedName = calculPropertyFormattedNameDisplayed(property);
@@ -119,57 +121,7 @@ const ItemViewer = () =>
     }
     //endregion
 
-    function getDisplayedAttributes(item : Item)
-    {
-        return map(item.Properties, (property: ItemProperty) =>
-        {
-            const propertyValue = getPropertyValue(property);
-            const propertyDisplayed = calculPropertyDisplayed(property, propertyValue);
-
-            return <div key={property.Id} className="diablo-attribute">
-                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
-                <br/>
-            </div>
-        });
-    }
-
-    function calculMinimumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage : number): string
-    {
-        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.max(lowestMinimumDamage, lowestMaximumDamage) ?
-            Math.min(lowestMinimumDamage, lowestMaximumDamage).toString() :
-            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.max(lowestMinimumDamage, lowestMaximumDamage)}`;
-    }
-    function calculLowestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
-    {
-        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.min(biggestMaximumDamage, lowestMaximumDamage) ?
-            Math.min(biggestMaximumDamage, lowestMaximumDamage).toString():
-            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.min(biggestMaximumDamage, lowestMaximumDamage)}`;
-    }
-
-    function calculBiggestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
-    {
-        return Math.min(biggestMaximumDamage, biggestMinimumDamage) === Math.max(biggestMaximumDamage, biggestMinimumDamage) ?
-            Math.max(biggestMaximumDamage, biggestMinimumDamage).toString() :
-            `${Math.min(biggestMaximumDamage, biggestMinimumDamage)}-${Math.max(biggestMaximumDamage, biggestMinimumDamage)}`;
-    }
-    function calculDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
-    {
-        const calculedMinimumDamage = calculMinimumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage);
-        const calculedLowestMinimumDamage = calculLowestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
-        const calculedBiggestMaximumDamage = calculBiggestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
-
-        return lowestMinimumDamage === biggestMinimumDamage && lowestMaximumDamage === biggestMaximumDamage ?
-            `${calculedMinimumDamage}` :
-            `${calculedLowestMinimumDamage} to ${calculedBiggestMaximumDamage}`;
-    }
-
-    function getDefence(item : Item) : string
-    {
-        return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
-            item.MaximumDefenseMinimum.toString() :
-            `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`
-    }
-
+    //region damage calculation
     function getOneHandDamage(item : Item) : string
     {
         return calculDamage(
@@ -188,10 +140,69 @@ const ItemViewer = () =>
             item.MaximumTwoHandedDamageMaximum);
     }
 
+    function calculDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        const calculedMinimumDamage = calculMinimumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage);
+        const calculedLowestMinimumDamage = calculLowestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
+        const calculedBiggestMaximumDamage = calculBiggestMaximumDamage(lowestMinimumDamage, biggestMinimumDamage, lowestMaximumDamage, biggestMaximumDamage);
+
+        return lowestMinimumDamage === biggestMinimumDamage && lowestMaximumDamage === biggestMaximumDamage ?
+            `${calculedMinimumDamage}` :
+            `${calculedLowestMinimumDamage} to ${calculedBiggestMaximumDamage}`;
+    }
+
+    function calculMinimumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage : number): string
+    {
+        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.max(lowestMinimumDamage, lowestMaximumDamage) ?
+            Math.min(lowestMinimumDamage, lowestMaximumDamage).toString() :
+            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.max(lowestMinimumDamage, lowestMaximumDamage)}`;
+    }
+
+    function calculLowestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        return Math.min(lowestMinimumDamage, lowestMaximumDamage) === Math.min(biggestMaximumDamage, lowestMaximumDamage) ?
+            Math.min(biggestMaximumDamage, lowestMaximumDamage).toString():
+            `${Math.min(lowestMinimumDamage, lowestMaximumDamage)}-${Math.min(biggestMaximumDamage, lowestMaximumDamage)}`;
+    }
+
+    function calculBiggestMaximumDamage(lowestMinimumDamage: number, biggestMinimumDamage: number, lowestMaximumDamage: number, biggestMaximumDamage: number): string
+    {
+        return Math.min(biggestMaximumDamage, biggestMinimumDamage) === Math.max(biggestMaximumDamage, biggestMinimumDamage) ?
+            Math.max(biggestMaximumDamage, biggestMinimumDamage).toString() :
+            `${Math.min(biggestMaximumDamage, biggestMinimumDamage)}-${Math.max(biggestMaximumDamage, biggestMinimumDamage)}`;
+    }
+    //endregion
+
+    function calculDefence(item : Item) : string
+    {
+        return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
+            item.MaximumDefenseMinimum.toString() :
+            `${Math.min(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}-${Math.max(item.MaximumDefenseMinimum, item.MaximumDefenseMaximum)}`
+    }
+    //endregion
+
+    //region display part
+    function getDisplayedAttributes(item : Item)
+    {
+        return map(item.Properties, (property: ItemProperty) =>
+        {
+            const propertyDisplayed = calculPropertyDisplayed(property);
+
+            return <div key={property.Id} className="diablo-attribute">
+                <Highlight  text={propertyDisplayed} searchTerm={searchTerm} textColor="#6f5df7"/>
+                <br/>
+            </div>
+        });
+    }
+    //endregion
+
+
+
+
     function getDisplayedItem(item : Item)
     {
         const attributes = getDisplayedAttributes(item);
-        const defense = getDefence(item);
+        const defense = calculDefence(item);
         const oneHandDamage = getOneHandDamage(item);
         const twoHandDamage = getTwoHandDamage(item);
 
