@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {orderBy, some, map} from 'lodash'
+import {orderBy, some, map, forEach} from 'lodash'
 import './ItemViewer.css';
 import {
     MDBDataTable,
@@ -172,36 +172,51 @@ const ItemViewer = () =>
     //region calcul item image
     function calculItemImageStyle(item: Item): CSS.Properties
     {
+        const newWidth : string = '40px';
+        const maxImageWidthIfWidthHaveBeenModified = '40%';
+        const defaultMaxWidth = '100%';
         let width: string = '';
 
-        if (item.ImageName === "amu1") {
-            item.ImageName = 'amu' + maths.random(1, 3).toString();
-            width = '40px';
-        }
-        if (item.ImageName === "ring1") {
-            item.ImageName = 'ring' + maths.random(1, 5).toString();
-            width = '40px';
-        }
-        if (item.ImageName == "jewel")
-        {
-            item.ImageName = 'jewel0' + maths.random(1, 6).toString();
-            width = '40px';
-        }
-
-        if (item.ImageName == "largecharm")
-        {
-            item.ImageName = 'largecharm0' + maths.random(1, 3).toString();
-            width = '40px';
-        }
-
-        if (["katar", "hatchethands",  "scissorskatar", "claws",
+        var imageDatasWhereTheImageNameMustBeRandomized = [
+            { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
+            { imageName : "ring1", newImageName : "ring", firstImageIndex : 1, lastImageIndex : 5 },
+            { imageName : "jewel", newImageName : "jewel0", firstImageIndex : 1, lastImageIndex : 6 },
+            { imageName : "largecharm", newImageName : "largecharm0", firstImageIndex : 1, lastImageIndex : 3 }
+        ];
+        const imagesThatNeedToBeResized = [
+            "katar",
+            "hatchethands",
+            "scissorskatar",
+            "claws",
             "maidenjavelin",
-        "dragonstone", "sacredglobe", "smokedsphere", "claspedorb", "eagleorb",
-        "arrows", "bolts",
-        "bluecharm", "hellfiretorch"].includes(item.ImageName))
-            width = '40px';
+            "dragonstone",
+            "sacredglobe",
+            "smokedsphere",
+            "claspedorb",
+            "eagleorb",
+            "arrows",
+            "bolts",
+            "bluecharm",
+            "hellfiretorch"
+        ];
+
+        forEach(imageDatasWhereTheImageNameMustBeRandomized, function(imageData)
+        {
+            if (item.ImageName == imageData.imageName)
+            {
+                item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString();
+                width = newWidth;
+            }
+        });
+
+        if (imagesThatNeedToBeResized.includes(item.ImageName))
+            width = newWidth;
+
+        const maxWidth = width != '' ? maxImageWidthIfWidthHaveBeenModified : defaultMaxWidth;
+
         return {
             width: width,
+            maxWidth : maxWidth
         };
     }
 
