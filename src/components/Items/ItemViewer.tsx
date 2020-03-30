@@ -173,7 +173,7 @@ const ItemViewer = () =>
     function calculItemImageStyle(item: Item): CSS.Properties
     {
         const newWidth : string = '40px';
-        const maxImageWidthIfWidthHaveBeenModified = '40%';
+        const maxImageWidthOnModifiedWidth = '35%';
         const defaultMaxWidth = '100%';
         let width: string = '';
 
@@ -212,7 +212,7 @@ const ItemViewer = () =>
         if (imagesThatNeedToBeResized.includes(item.ImageName))
             width = newWidth;
 
-        const maxWidth = width != '' ? maxImageWidthIfWidthHaveBeenModified : defaultMaxWidth;
+        const maxWidth = width != '' ? maxImageWidthOnModifiedWidth : defaultMaxWidth;
 
         return {
             width: width,

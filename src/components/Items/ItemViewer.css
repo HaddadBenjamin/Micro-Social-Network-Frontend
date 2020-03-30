@@ -202,10 +202,16 @@ table,
         min-height: 250vh;
     }
 
+    .item.dataTables_wrapper th,
+    .item.dataTables_wrapper span
+    {
+        font-size : 0.65rem !important;
+    }
     .page-link .page-item
     {
         font-size : 0.5rem !important;
     }
+
 
     .item-image
     {
