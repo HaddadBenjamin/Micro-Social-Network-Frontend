@@ -175,14 +175,21 @@ const ItemViewer = () =>
         const newWidth : string = '40px';
         const maxImageWidthOnModifiedWidth = '35%';
         const defaultMaxWidth = '100%';
-        let width: string = '';
+        let width : string = updateTheItemImageSize(item, newWidth);
 
-        var imageDatasWhereTheImageNameMustBeRandomized = [
-            { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
-            { imageName : "ring1", newImageName : "ring", firstImageIndex : 1, lastImageIndex : 5 },
-            { imageName : "jewel", newImageName : "jewel0", firstImageIndex : 1, lastImageIndex : 6 },
-            { imageName : "largecharm", newImageName : "largecharm0", firstImageIndex : 1, lastImageIndex : 3 }
-        ];
+        width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
+
+        const maxWidth = width != '' ? maxImageWidthOnModifiedWidth : defaultMaxWidth;
+
+        return {
+            width: width,
+            maxWidth : maxWidth
+        };
+    }
+
+
+    function updateTheItemImageSize(item : Item, newWidth : string) : string
+    {
         const imagesThatNeedToBeResized = [
             "katar",
             "hatchethands",
@@ -200,6 +207,21 @@ const ItemViewer = () =>
             "hellfiretorch"
         ];
 
+        if (imagesThatNeedToBeResized.includes(item.ImageName))
+            return newWidth;
+
+        return '';
+    }
+
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : string, newWidth : string) : string
+    {
+        var imageDatasWhereTheImageNameMustBeRandomized = [
+            { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
+            { imageName : "ring1", newImageName : "ring", firstImageIndex : 1, lastImageIndex : 5 },
+            { imageName : "jewel", newImageName : "jewel0", firstImageIndex : 1, lastImageIndex : 6 },
+            { imageName : "largecharm", newImageName : "largecharm0", firstImageIndex : 1, lastImageIndex : 3 }
+        ];
+
         forEach(imageDatasWhereTheImageNameMustBeRandomized, function(imageData)
         {
             if (item.ImageName == imageData.imageName)
@@ -209,16 +231,9 @@ const ItemViewer = () =>
             }
         });
 
-        if (imagesThatNeedToBeResized.includes(item.ImageName))
-            width = newWidth;
-
-        const maxWidth = width != '' ? maxImageWidthOnModifiedWidth : defaultMaxWidth;
-
-        return {
-            width: width,
-            maxWidth : maxWidth
-        };
+        return width;
     }
+
 
     function calculItemImageUrl(imageName: string): string
     {
