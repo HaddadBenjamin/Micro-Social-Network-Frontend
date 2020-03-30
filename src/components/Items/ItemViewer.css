@@ -195,13 +195,12 @@ table,
 .page-link .page-item, .pagination .page-item .page-link
 {
     font-size : 1rem !important;
-    padding-bottom: 2px !important;
-    padding-top: 2px !important;
-    padding-right: 6px !important;
-    padding-left: px !important;
-    margin-left : 0px !important;
-    margin-right : 0px !important;
-    margin-bottom : 1px !important;
+    padding-bottom: 3px !important;
+    padding-top: 3px !important;
+    padding-right: 6.5px !important;
+    padding-left: 6.5px !important;
+    margin-left : 2px !important;;
+    margin-right : 2px !important;
     margin-top : 1px !important;
 }
 .shared-search,
@@ -241,15 +240,14 @@ table,
 
     .page-link .page-item, .pagination .page-item .page-link
     {
-        font-size : 0.7rem !important;
-        padding-bottom: 2px !important;
-        padding-top: 2px !important;
-        padding-right: 2px !important;
-        padding-left: 2px !important;
-        margin-left : 0px !important;
-        margin-right : 0px !important;
+        font-size : 0.68rem !important;
+        padding-bottom: 3.5px !important;
+        padding-top: 3.5px !important;
+        padding-right: 10px !important;
+        padding-left: 10px !important;
         margin-bottom : 1px !important;
-        margin-top : 1px !important;
+        margin-top : 0.5px !important;
+        margin-left : 0.5px !important;;
     }
 }
 
@@ -261,14 +259,10 @@ table,
     .page-link .page-item, .pagination .page-item .page-link
     {
         font-size : 0.7rem !important;
-        padding-bottom: 2px !important;
-        padding-top: 2px !important;
-        padding-right: 4px !important;
-        padding-left: 4px !important;
-        margin-left : 0px !important;
-        margin-right : 0px !important;
-        margin-bottom : 1px !important;
-        margin-top : 1px !important;
+        padding-bottom: 2.2px !important;
+        padding-top: 2.2px !important;
+        padding-right: 6.5px !important;
+        padding-left: 6.5px !important;
     }
 
     .item-image
