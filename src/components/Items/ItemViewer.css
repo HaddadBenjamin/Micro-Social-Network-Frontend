@@ -9,7 +9,6 @@
     outline: 0;
     border: 0;
     background-color: transparent;
-    font-size: 0.9rem;
     color: #212529;
 }
 
@@ -68,9 +67,10 @@ th.sorting_asc::after
     line-height: 17.3pt;
     font-family: Diablo;
     font-weight: 100;
-    font-size : 18px;
 
 }
+
+
 .dataTables_length, .dataTables_filter
 {
     margin : 15px;
@@ -193,6 +193,12 @@ table,
 
 
 
+.shared-search,
+.item,
+.item, td, tr
+{
+    font-size : 18px;
+}
 
 @media (max-width: 787px) {
     #item-filter-view .view {
@@ -208,13 +214,13 @@ table,
     .item.dataTables_wrapper td,
     .shared-search
     {
-        font-size : 0.8rem !important;
+        font-size : 0.75rem !important;
     }
 
     .item, td, tr
     {
-        font-size : 0.8rem !important;
-        line-height: 13.8pt;
+        font-size : 0.80rem !important;
+        line-height: 13.2pt;
     }
 
     .item-image
@@ -226,19 +232,6 @@ table,
 @media (max-width: 600px){
     #item-filter-view .view {
         min-height: 400vh;
-    }
-
-    .item.dataTables_wrapper th,
-    .item.dataTables_wrapper td,
-    .shared-search
-    {
-        font-size : 0.7rem !important;
-    }
-
-    .item, td, tr
-    {
-        font-size : 0.7rem !important;
-        line-height: 0.5rem
     }
 
     .page-link .page-item, .pagination .page-item .page-link
