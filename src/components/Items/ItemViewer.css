@@ -77,7 +77,6 @@ th.sorting_asc::after
     padding : 0px;
 }
 
-
 #item-filter-view .view {
     background-image: url('../../background2.jpg');
     background-repeat: no-repeat;
@@ -85,8 +84,6 @@ th.sorting_asc::after
     background-position: center center;
     min-height: 190vh;
 }
-
-
 
 .dataTables_length.bs-select, thead:last-child
 {
@@ -202,16 +199,23 @@ table,
         min-height: 250vh;
     }
 
-    .item.dataTables_wrapper th,
-    .item.dataTables_wrapper td
-    {
-        font-size : 0.66rem !important;
-    }
     .page-link .page-item
     {
-        font-size : 0.5rem !important;
+        font-size : 0.55rem !important;
     }
 
+    .item.dataTables_wrapper th,
+    .item.dataTables_wrapper td,
+    .shared-search
+    {
+        font-size : 0.8rem !important;
+    }
+
+    .item, td, tr
+    {
+        font-size : 0.8rem !important;
+        line-height: 13.8pt;
+    }
 
     .item-image
     {
@@ -224,10 +228,17 @@ table,
         min-height: 400vh;
     }
 
+    .item.dataTables_wrapper th,
+    .item.dataTables_wrapper td,
+    .shared-search
+    {
+        font-size : 0.7rem !important;
+    }
+
     .item, td, tr
     {
-        font-size : 12px;
-        line-height: 12.3pt;
+        font-size : 0.7rem !important;
+        line-height: 0.5rem
     }
 
     .page-link .page-item, .pagination .page-item .page-link
