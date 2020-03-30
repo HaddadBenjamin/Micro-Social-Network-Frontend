@@ -203,9 +203,9 @@ table,
     }
 
     .item.dataTables_wrapper th,
-    .item.dataTables_wrapper span
+    .item.dataTables_wrapper td
     {
-        font-size : 0.65rem !important;
+        font-size : 0.66rem !important;
     }
     .page-link .page-item
     {
