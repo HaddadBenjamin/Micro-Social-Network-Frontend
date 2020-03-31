@@ -191,20 +191,20 @@ const ItemViewer = () =>
     function updateTheItemImageSize(item : Item, newWidth : string) : string
     {
         const imagesThatNeedToBeResized = [
-            "katar.gif",
-            "hatchethands.gif",
-            "scissorskatar.gif",
-            "claws.gif",
-            "maidenjavelin.gif",
-            "dragonstone.gif",
-            "sacredglobe.gif",
-            "smokedsphere.gif",
-            "claspedorb.gif",
-            "eagleorb.gif",
-            "arrows.gif",
-            "bolts.gif",
-            "bluecharm.gif",
-            "hellfiretorch.gif  "
+            "katar",
+            "hatchethands",
+            "scissorskatar",
+            "claws",
+            "maidenjavelin",
+            "dragonstone",
+            "sacredglobe",
+            "smokedsphere",
+            "claspedorb",
+            "eagleorb",
+            "arrows",
+            "bolts",
+            "bluecharm",
+            "hellfiretorch"
         ];
 
         if (imagesThatNeedToBeResized.includes(item.ImageName))
@@ -226,7 +226,7 @@ const ItemViewer = () =>
         {
             if (item.ImageName == imageData.imageName)
             {
-                item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString() + '.gif';
+                item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString();
                 width = newWidth;
             }
         });
@@ -237,7 +237,7 @@ const ItemViewer = () =>
 
     function calculItemImageUrl(imageName: string): string
     {
-        return `${window.location.origin.toString()}/${imageName}`;
+        return `${window.location.origin.toString()}/${imageName}.gif`;
     }
 
     //endregion
