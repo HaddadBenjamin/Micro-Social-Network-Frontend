@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
     MDBNavbar,
@@ -18,6 +18,9 @@ import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
+import api from "src/shared/utilities/api";
+import Item from "src/components/Items/Item";
+import Suggestion from "src/components/Suggestions/Suggestion";
 
 enum ApplicationPage
 {
@@ -29,6 +32,13 @@ const AppPage = () =>
 {
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
     const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
+
+    useEffect(() => {
+        // équivalent à componentdidmount
+        api.get<Suggestion[]>(
+            'Suggestions/getAll',
+            'GET_ALL_SUGGESTIONS', {});
+    }, [])
 
     function onClickOnNavigationBar(): void
     {
