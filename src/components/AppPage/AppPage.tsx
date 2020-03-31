@@ -76,7 +76,7 @@ const AppPage = () =>
                                     </MDBNavItem>
                                     <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Items)}>
                                         <MDBNavLink to="suggestions"
-                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Suggestions)}>Suggestions</MDBNavLink>
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Suggestions)}>Suggestions 🚧</MDBNavLink>
                                     </MDBNavItem>
                                     <MDBFormInline waves>
                                     </MDBFormInline>
