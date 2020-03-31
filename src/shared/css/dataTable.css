@@ -1,0 +1,25 @@
+tr:last-child td,
+thead tr th
+{
+    border-color: #eb0d26 !important;
+    font-family: Diablo;
+    src: url(../../avqest.ttf);
+}
+
+td, th, a, .dataTables_info
+{
+    color : white !important;
+}
+th, tr, td
+{
+    font-size: 17px !important;
+}
+
+@media (max-width: 787px) {
+    th, td, tr
+    {
+        font-size:  0.75rem !important;
+    }
+}
+
+

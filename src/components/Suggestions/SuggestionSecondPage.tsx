@@ -1,17 +1,18 @@
 import {
     MDBContainer,
     MDBListGroupItem,
-    MDBBadge,
     MDBView,
     MDBMask,
     MDBRow,
     MDBCol,
-    MDBDataTable, MDBInput
+    MDBDataTable
 } from "mdbreact";
 import React from "react";
 import './SuggestionSecondPage.css'
 import '../Items/ItemSecondPage.css'
 import '../../shared/css/tabulation.css'
+import '../../shared/css/dataTable.css'
+import '../../shared/css/view.css'
 
 const SuggestionSecondPage = () =>
 {
@@ -78,6 +79,75 @@ const SuggestionSecondPage = () =>
                 'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
                 'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
             },
+            {
+
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Add set
+                    items and runewords to the website 🙂</MDBListGroupItem>,
+                'Rate': <p className="suggestion positive-vote">6</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
+                'Rate': <p className="suggestion default-vote">0</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
+                'Rate': <p className="suggestion thumbs-down">-2</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Add set
+                    items and runewords to the website 🙂</MDBListGroupItem>,
+                'Rate': <p className="suggestion positive-vote">6</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
+                'Rate': <p className="suggestion default-vote">0</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
+                'Rate': <p className="suggestion thumbs-down">-2</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Add set
+                    items and runewords to the website 🙂</MDBListGroupItem>,
+                'Rate': <p className="suggestion positive-vote">6</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
+                'Rate': <p className="suggestion default-vote">0</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
+            {
+                'Content': <MDBListGroupItem
+                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
+                'Rate': <p className="suggestion thumbs-down">-2</p>,
+                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
+                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
+            },
         ];
     }
 
@@ -91,7 +161,7 @@ const SuggestionSecondPage = () =>
                                 <MDBCol>
                                     <MDBDataTable
                                         data={getItemDataTable()}
-                                        entries={15}/>
+                                        entries={5}/>
                                     <MDBCol/>
                                 </MDBCol>
                             </MDBRow>

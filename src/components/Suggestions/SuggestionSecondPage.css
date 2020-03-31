@@ -28,12 +28,6 @@
     cursor: pointer;
 }
 
-@font-face
-{
-    font-family: Diablo;
-    src: url(../../avqest.ttf);
-}
-
 .vote-text,
 .suggestion,
 .create-suggestion,
@@ -81,66 +75,4 @@
 .dataTables_info
 {
     display : none;
-}
-
-.page-link .page-item, .pagination .page-item .page-link
-{
-    font-size : 1rem !important;
-    padding-bottom: 3px !important;
-    padding-top: 3px !important;
-    padding-right: 6.5px !important;
-    padding-left: 6.5px !important;
-    margin-left : 2px !important;;
-    margin-right : 2px !important;
-    margin-top : 1px !important;
-}
-
-#suggestion-view .view {
-    background-image: url('../../background2.jpg');
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-position: center center;
-    min-height: 190vh;
-}
-
-#suggestion-view .gradient {
-    background: -moz-linear-gradient(
-            45deg,
-            rgba(42, 27, 161, 0.7),
-            rgba(210, 29, 133, 0.7) 100%
-    );
-    background: -webkit-linear-gradient(
-            90deg,
-            rgba(42, 27, 161, 0.7),
-            rgba(210, 29, 133, 0.7) 100%
-    );
-    background: -webkit-gradient(
-            linear,
-            90deg,
-            from(rgba(42, 27, 161, 0.7)),
-            to(rgba(210, 29, 133, 0.7))
-    );
-    background: -o-linear-gradient(
-            90deg,
-            rgba(42, 27, 161, 0.7),
-            rgba(210, 29, 133, 0.7) 100%
-    );
-    background: linear-gradient(
-            90deg,
-            rgba(42, 27, 161, 0.3),
-            rgba(210, 8, 4, 0.3) 100%
-    );
-}
-
-@media (max-width: 787px) {
-    #suggestion-view .view {
-        min-height: 250vh;
-    }
-}
-
-
-@media (max-width: 600px){
-    #suggestion-view .view {
-        min-height: 400vh;
-    }
 }

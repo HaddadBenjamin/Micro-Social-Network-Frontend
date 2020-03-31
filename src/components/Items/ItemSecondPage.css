@@ -279,3 +279,12 @@ table,
 
 
 
+tr:last-child td,
+thead tr th
+{
+    border-color: #eb0d26 !important;
+}
+td, th, a, .dataTables_info
+{
+    color : white !important;
+}
