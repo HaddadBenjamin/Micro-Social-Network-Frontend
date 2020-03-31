@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.css';
 import AppPage from "./components/AppPage/AppPage";
-import ItemViewer from "./components/Items/ItemViewer";
+import ItemSecondPage from "./components/Items/ItemSecondPage";
 
 const App: React.FC = () =>
 {

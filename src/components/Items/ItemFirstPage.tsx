@@ -3,7 +3,7 @@ import SearchItem from "./SearchItem";
 import {DefaultSearchItemDto} from "./SearchItemDto";
 import React from "react";
 
-const ItemPage = () =>
+const ItemFirstPage = () =>
 {
     return (
     <MDBRow>
@@ -34,4 +34,4 @@ const ItemPage = () =>
     </MDBRow>);
 }
 
-export default ItemPage;
+export default ItemFirstPage;

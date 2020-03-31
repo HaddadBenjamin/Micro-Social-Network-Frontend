@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import {orderBy, some, map, forEach} from 'lodash'
-import './ItemViewer.css';
+import './ItemSecondPage.css';
 import {
     MDBDataTable,
     MDBContainer,
@@ -18,7 +18,7 @@ import Item, {ItemProperty} from "./Item";
 import CSS from 'csstype';
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
-const ItemViewer = () =>
+const ItemSecondPage = () =>
 {
     const itemFromGlobalState = useSelector<GlobalState, Item[]>(globalState => globalState.searchItems.items);
 
@@ -406,4 +406,4 @@ const ItemViewer = () =>
     );
 }
 
-export default ItemViewer;
+export default ItemSecondPage;

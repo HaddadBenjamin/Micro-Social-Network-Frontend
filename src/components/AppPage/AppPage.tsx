@@ -14,8 +14,9 @@ import {
     MDBNavLink
 } from "mdbreact";
 import "./AppPage.css";
-import ItemPage from "../Items/ItemPage";
-import ItemViewer from "../Items/ItemViewer";
+import ItemFirstPage from "../Items/ItemFirstPage";
+import ItemSecondPage from "../Items/ItemSecondPage";
+import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 
 enum ApplicationPage
 {
@@ -90,13 +91,13 @@ const AppPage = () =>
                         <MDBContainer>
                             <Switch>
                                 <Route path="/items">
-                                    <ItemPage/>
+                                    <ItemFirstPage/>
                                 </Route>
                                 <Route path="/suggestions">
-                                    <></>
+                                    <SuggestionFirstPage/>
                                 </Route>
                                 <Route path="/">
-                                    <ItemPage/>
+                                    <ItemFirstPage/>
                                 </Route>
                             </Switch>
                         </MDBContainer>
@@ -105,13 +106,13 @@ const AppPage = () =>
             </div>
             <Switch>
                 <Route path="/items">
-                    <ItemViewer/>
+                    <ItemSecondPage/>
                 </Route>
                 <Route path="/suggestions">
                     <></>
                 </Route>
                 <Route path="/">
-                    <ItemViewer/>
+                    <ItemSecondPage/>
                 </Route>
             </Switch>
         </Router>
