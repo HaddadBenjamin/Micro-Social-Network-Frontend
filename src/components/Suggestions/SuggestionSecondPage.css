@@ -14,7 +14,7 @@
 }
 .positive-vote
 {
-    color : greenyellow;
+    color : rgba(0,255,0);
 }
 
 .thumbs-up, .thumbs-down, .default-vote
@@ -36,7 +36,8 @@
 
 .vote-text,
 .suggestion,
-.create-suggestion
+.create-suggestion,
+.create-suggestion-button
 {
     background : transparent !important;
     font-size: 17px;
@@ -48,14 +49,35 @@
 {
     color : white !important;
     background-color : rgba(1,1 ,1,0.8) !important;
-    margin-left : -15px !important;
     margin-top : 10px !important;
-    margin-right : -15px !important;
-    padding : 0px !important;;
+    margin-right : 15px !important;
+    margin-left : 15px !important;
+    padding-left : 10px !important;;
     border: 0.05em solid white !important;
     box-shadow: 2px 2px 4px 0.1px #eb0d26 !important;
+    display : inline !important;
+    }
+
+.create-suggestion-button
+{
+    color : rgba(0,255,0) !important;
+    transition: all .2s ease-in-out;
+    margin-top : 10px !important;
+    height: 38px;
+    margin-right : 15px !important;
 }
 
+.create-suggestion-container
+{
+    display: flex;
+    justify-content: space-between;
+}
+
+.create-suggestion-button:hover
+{
+    transform: scale(1.1);
+    cursor: pointer;
+}
 .dataTables_info
 {
     display : none;

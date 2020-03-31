@@ -1,0 +1,41 @@
+.pagination .page-link {
+    transition: all 0.3s linear;
+    outline: 0;
+    border: 0;
+    background-color: transparent;
+    color: #212529;
+    font-family: Diablo;
+    src: url(../../avqest.ttf);
+}
+
+.page-link .pagination page-link
+{
+    font-size : 1rem !important;
+    padding-bottom: 3px !important;
+    padding-top: 3px !important;
+    padding-right: 6.5px !important;
+    padding-left: 6.5px !important;
+    margin-left : 2px !important;;
+    margin-right : 2px !important;
+    margin-top : 1px !important;
+}
+@media (max-width: 787px) {
+    .page-link, .pagination .page-link
+    {
+        font-size : 0.7rem !important;
+        padding-bottom: 2.2px !important;
+        padding-top: 2.2px !important;
+        padding-right: 6.5px !important;
+        padding-left: 6.5px !important;
+    }
+}
+@media (max-width: 600px){
+    .page-link, .pagination .page-link
+    {
+        font-size : 0.7rem !important;
+        padding-bottom: 2.2px !important;
+        padding-top: 2.2px !important;
+        padding-right: 6.5px !important;
+        padding-left: 6.5px !important;
+    }
+}

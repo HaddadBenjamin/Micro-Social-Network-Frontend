@@ -11,6 +11,7 @@ import {
 import React from "react";
 import './SuggestionSecondPage.css'
 import '../Items/ItemSecondPage.css'
+import '../../shared/css/tabulation.css'
 
 const SuggestionSecondPage = () =>
 {
@@ -94,9 +95,11 @@ const SuggestionSecondPage = () =>
                                     <MDBCol/>
                                 </MDBCol>
                             </MDBRow>
-                            <MDBRow>
-                                <input type="text" className="form-control create-suggestion" id="exampleInputEmail1"
-                                       aria-describedby="emailHelp" placeholder="Enter email"/>
+                            <MDBRow className="create-suggestion-container d-flex bd-highlight">
+                                <input type="text"
+                                       className=" create-suggestion text-left flex-fill bd-highlight"
+                                       placeholder="Enter your suggestion"/>
+                                <i className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
                             </MDBRow>
                         </MDBContainer>
                     </MDBMask>
