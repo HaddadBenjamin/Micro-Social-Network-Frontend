@@ -237,7 +237,7 @@ const ItemSecondPage = () =>
 
     function calculItemImageUrl(imageName: string): string
     {
-        return `${window.location.origin.toString()}/${imageName}.gif`;
+        return `${window.location.origin.toString()}/${imageName}`;
     }
 
     //endregion
