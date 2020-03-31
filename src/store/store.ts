@@ -1,7 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
 import {ItemState, searchItemsReducer} from "../reducers/item.reducer";
-import {getAllSuggestionReducer} from "src/reducers/suggestion.reducer";
+import {getAllSuggestionReducer} from "../reducers/suggestion.reducer";
 
 export interface GlobalState
 {

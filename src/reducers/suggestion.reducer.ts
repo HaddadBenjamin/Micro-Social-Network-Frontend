@@ -1,6 +1,5 @@
-import Suggestion from "src/components/Suggestions/Suggestion";
-import GetAllSuggestionsAction from "src/actions/suggestion.action";
-import {SuggestionActionTypes} from "src/actions/item.action";
+import Suggestion from "../components/Suggestions/Suggestion";
+import GetAllSuggestionsAction, {SuggestionActionTypes} from "../actions/suggestion.action";
 
 export interface GetAllSuggestionsState
 {

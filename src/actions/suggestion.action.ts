@@ -1,4 +1,4 @@
-import Suggestion from "src/components/Suggestions/Suggestion";
+import Suggestion from "../components/Suggestions/Suggestion";
 
 interface GetAllSuggestionsAction
 {
