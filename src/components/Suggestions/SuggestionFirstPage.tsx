@@ -16,8 +16,7 @@ const SuggestionFirstPage = () =>
                     <hr className="hr-light"/>
                     <h6 className="mb-4">
                         Welcome dear users, in this page you could create some suggestions about the game and the
-                        website. We would like to know what you're
-                        thinking to make it count in during the development of our tools. To help us to determine which
+                        website. We would like to know what do you think to make it count in during the development of our tools. To help us to determine which
                         suggestions are the most important for you, there is an integrated vote system. Thank you all for your dedication and your contribution.
                     </h6>
 
