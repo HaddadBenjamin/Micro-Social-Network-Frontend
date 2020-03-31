@@ -1,7 +1,7 @@
 @font-face
 {
     font-family: Diablo;
-    src: url(avqest.ttf);
+    src: url(../../avqest.ttf);
 }
 
 .pagination .page-item .page-link {

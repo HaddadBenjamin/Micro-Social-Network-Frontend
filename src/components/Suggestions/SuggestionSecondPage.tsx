@@ -11,19 +11,10 @@ const SuggestionSecondPage = () =>
                 <MDBMask className="d-flex justify-content-center align-items-center gradient">
                     <MDBContainer>
                         <MDBRow >
-                            <MDBListGroup center>
-                                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Cras
-                                    justo odio<MDBBadge color="primary"
-                                                        pill>14</MDBBadge>
-                                </MDBListGroupItem>
-                                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Dapibus
-                                    ac facilisis in<MDBBadge
-                                        color="primary" pill>2</MDBBadge>
-                                </MDBListGroupItem>
-                                <MDBListGroupItem className="d-flex justify-content-between align-items-center">Morbi
-                                    leo risus<MDBBadge color="primary"
-                                                       pill>1</MDBBadge>
-                                </MDBListGroupItem>
+                            <MDBListGroup className="d-flex  col-md-12 align-top">>
+                                <MDBListGroupItem className="suggestion d-flex justify-content-between align-items-center">Add set items a runewords in the website 🙂<MDBBadge color="primary" pill>6</MDBBadge></MDBListGroupItem>
+                                <MDBListGroupItem className="suggestion d-flex justify-content-between align-items-center">Balance the classes 🐻<MDBBadge color="danger" pill>-2</MDBBadge></MDBListGroupItem>
+                                <MDBListGroupItem className="suggestion d-flex justify-content-between align-items-center">Add new areas 🏝️<MDBBadge color="default" pill>0</MDBBadge></MDBListGroupItem>
                             </MDBListGroup>
                             </MDBRow>
                     </MDBContainer>
