@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import {BrowserRouter as Router} from "react-router-dom";
+import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
     MDBNavbar,
     MDBNavbarBrand,
@@ -15,8 +15,9 @@ import {
 } from "mdbreact";
 import "./AppPage.css";
 import ItemPage from "../Items/ItemPage";
+import ItemViewer from "../Items/ItemViewer";
 
-enum ActivePage
+enum ApplicationPage
 {
     Items,
     Suggestions
@@ -25,27 +26,32 @@ enum ActivePage
 const AppPage = () =>
 {
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
+    const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
 
-    function onClickOnNavigationButton()
+    function onClickOnNavigationBar(): void
     {
         setIsNavigationBarIsCollapsed(!isNavigationBarIsCollapsed);
     };
 
-    function onClickOnNavigationBar()
+    function onClickOnNavigationLink(applicationPage: ApplicationPage): void
     {
+        setActivePage(applicationPage);
+    }
 
+    function isActivePageEqualsTo(applicationPage: ApplicationPage): boolean
+    {
+        return applicationPage === activePage;
     }
 
     const overlay = (
         <div
             id="sidenav-overlay"
             style={{backgroundColor: "transparent"}}
-            onClick={onClickOnNavigationButton}
         />);
 
     return (
-        <div id="apppage">
-            <Router>
+        <Router>
+            <div id="apppage">
                 <div>
                     <MDBNavbar
                         color="primary-color"
@@ -59,14 +65,16 @@ const AppPage = () =>
                             <MDBNavbarBrand>
                                 <strong className="white-text">Diablo II - Documentation</strong>
                             </MDBNavbarBrand>
-                            <MDBNavbarToggler onClick={onClickOnNavigationButton}/>
+                            <MDBNavbarToggler onClick={onClickOnNavigationBar}/>
                             <MDBCollapse isOpen={isNavigationBarIsCollapsed} navbar>
                                 <MDBNavbarNav right>
-                                    <MDBNavItem active>
-                                        <MDBNavLink to="#!">Items</MDBNavLink>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Items)}>
+                                        <MDBNavLink to="items"
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Items)}>Items</MDBNavLink>
                                     </MDBNavItem>
-                                    <MDBNavItem>
-                                        <MDBNavLink to="#!">Suggestions</MDBNavLink>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Items)}>
+                                        <MDBNavLink to="suggestions"
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Suggestions)}>Suggestions</MDBNavLink>
                                     </MDBNavItem>
                                     <MDBFormInline waves>
                                     </MDBFormInline>
@@ -77,16 +85,36 @@ const AppPage = () =>
 
                     {isNavigationBarIsCollapsed && overlay}
                 </div>
-            </Router>
-            <MDBView>
-                <MDBMask className="d-flex justify-content-center align-items-center gradient">
-                    <MDBContainer>
-                        <ItemPage/>
-                    </MDBContainer>
-                </MDBMask>
-            </MDBView>
-
-        </div>
+                <MDBView>
+                    <MDBMask className="d-flex justify-content-center align-items-center gradient">
+                        <MDBContainer>
+                            <Switch>
+                                <Route path="/items">
+                                    <ItemPage/>
+                                </Route>
+                                <Route path="/suggestions">
+                                    <></>
+                                </Route>
+                                <Route path="/">
+                                    <ItemPage/>
+                                </Route>
+                            </Switch>
+                        </MDBContainer>
+                    </MDBMask>
+                </MDBView>
+            </div>
+            <Switch>
+                <Route path="/items">
+                    <ItemViewer/>
+                </Route>
+                <Route path="/suggestions">
+                    <></>
+                </Route>
+                <Route path="/">
+                    <ItemViewer/>
+                </Route>
+            </Switch>
+        </Router>
     );
 }
 
