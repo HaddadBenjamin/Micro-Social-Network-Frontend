@@ -1,6 +1,6 @@
 import {MDBAnimation, MDBCol, MDBRow} from "mdbreact";
-import SearchItem from "../Items/SearchItem";
-import {DefaultSearchItemDto} from "../Items/SearchItemDto";
+import SearchItem from "./SearchItem";
+import {DefaultSearchItemDto} from "./SearchItemDto";
 import React from "react";
 
 const ItemPage = () =>
