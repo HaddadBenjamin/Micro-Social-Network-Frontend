@@ -17,6 +17,7 @@ import "./AppPage.css";
 import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
+import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
 
 enum ApplicationPage
 {
@@ -109,7 +110,7 @@ const AppPage = () =>
                     <ItemSecondPage/>
                 </Route>
                 <Route path="/suggestions">
-                    <></>
+                    <SuggestionSecondPage/>
                 </Route>
                 <Route path="/">
                     <ItemSecondPage/>
