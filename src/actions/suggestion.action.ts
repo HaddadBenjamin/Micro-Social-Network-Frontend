@@ -195,3 +195,17 @@ export function addingVoteFailed() : IAddingVoteFailedAction
         type : SuggestionActionTypes.ADDING_VOTE_FAILED
     }
 }
+
+export type SuggestionsAction =
+    typeof getAllSuggestions |
+    typeof gettingAllSuggestions |
+    typeof gotAllSuggestions |
+    typeof gettingAllSuggestionsFailed |
+    typeof createSuggestion |
+    typeof creatingSuggestion |
+    typeof createdSuggestion |
+    typeof creatingSuggestionFailed |
+    typeof addVote |
+    typeof addindVote |
+    typeof addedVote |
+    typeof addingVoteFailed;

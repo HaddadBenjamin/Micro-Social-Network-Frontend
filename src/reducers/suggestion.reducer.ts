@@ -1,27 +1,25 @@
-import ISuggestionItem from "../components/Suggestions/ISuggestionItem";
-import GetAllSuggestionsAction, {SuggestionActionTypes} from "../actions/suggestion.action";
+import ApiStatus from "../models/ApiStatus";
+import ISuggestionItem from "../models/Suggestion";
+import {SuggestionsAction} from "../actions/suggestion.action";
+import produce from "immer";
 
-export interface GetAllSuggestionsState
-{
-    suggestions : ISuggestionItem[]
+export const initialSuggestionState: ISuggestionState = {
+    getAllSuggestionsStatus: ApiStatus.LOADING,
+    votingToASuggestionStatus: ApiStatus.LOADED,
+    createASuggestion: ApiStatus.LOADED,
+    suggestions: []
 }
 
-const initialState : GetAllSuggestionsState =
+export interface ISuggestionState {
+    getAllSuggestionsStatus: ApiStatus;
+    votingToASuggestionStatus: ApiStatus;
+    createASuggestion: ApiStatus;
+    suggestions: ISuggestionItem[];
+}
+
+export default function suggestionsReducer(state : ISuggestionState = initialSuggestionState, action : SuggestionsAction)
 {
-    suggestions : []
-};
+    return produce(state, draft =>{
 
-export const getAllSuggestionReducer = (suggestionState: GetAllSuggestionsState = initialState, action: GetAllSuggestionsAction) =>
-{
-    switch (action.type) {
-        case SuggestionActionTypes.GET_ALL_SUGGESTIONS:
-            return {
-                ...initialState.suggestions,
-                suggestions : action.payload || []
-            };
-
-        default:
-            return suggestionState;
-    }
-};
-
+    })
+}
