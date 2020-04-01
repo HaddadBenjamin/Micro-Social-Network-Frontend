@@ -1,4 +1,4 @@
-interface Suggestion
+interface ISuggestionItem
 {
     Id : string,
     Content : string,
@@ -6,4 +6,4 @@ interface Suggestion
     NegativeVoteCount : 0,
 }
 
-export default Suggestion;
+export default ISuggestionItem;

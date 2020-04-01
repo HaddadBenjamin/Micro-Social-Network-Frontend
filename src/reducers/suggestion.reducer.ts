@@ -1,9 +1,9 @@
-import Suggestion from "../components/Suggestions/Suggestion";
+import ISuggestionItem from "../components/Suggestions/ISuggestionItem";
 import GetAllSuggestionsAction, {SuggestionActionTypes} from "../actions/suggestion.action";
 
 export interface GetAllSuggestionsState
 {
-    suggestions : Suggestion[]
+    suggestions : ISuggestionItem[]
 }
 
 const initialState : GetAllSuggestionsState =

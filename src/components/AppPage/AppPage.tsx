@@ -18,7 +18,7 @@ import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
-import Suggestion from "../Suggestions/Suggestion";
+import ISuggestionItem from "../Suggestions/ISuggestionItem";
 import api from "../../shared/utilities/api";
 
 enum ApplicationPage
@@ -34,7 +34,7 @@ const AppPage = () =>
 
     useEffect(() => {
         // équivalent à componentdidmount
-        api.get<Suggestion[]>(
+        api.get<ISuggestionItem[]>(
             'Suggestions/getAll',
             'GET_ALL_SUGGESTIONS', '');
     }, [])
