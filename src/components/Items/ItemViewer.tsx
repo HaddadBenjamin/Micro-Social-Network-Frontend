@@ -280,14 +280,16 @@ const ItemViewer = () =>
     function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
     {
         const imageThatNeedToBeResizedData = [
+            { Name : "butcherspupil", Size : 55 },
+            { Name : "flayedoneskin", Size : 60 },
             { Name : "vampiregaze", Size : 55 },
             { Name : "ironpelt", Size : 55 },
-            { Name : "rockstopper", Size : 24 },
+            { Name : "rockstopper", Size : 50 },
             { Name : "steelshade", Size : 55 },
             { Name : "darksighthelm", Size : 55 },
             { Name : "durielsshell", Size : 55 },
             { Name : "arkaines", Size : 55 },
-            { Name : "cot", Size : 56 },
+            { Name : "cot", Size : 48 },
             { Name : "nightwingsveil", Size : 56 },
             { Name : "veilofsteel", Size :52},
             { Name : "crownofages", Size : 55},
@@ -295,7 +297,7 @@ const ItemViewer = () =>
             { Name : "tstroke", Size : 45 },
             { Name : "shadowkiller", Size : 45 },
             { Name : "blackhand", Size : 32 },
-            { Name : "coldkill", Size : 52 },
+            { Name : "coldkill", Size : 40 },
             { Name : "stormrider", Size : 60 },
             { Name : "minotaur", Size : 60 },
             { Name : "kukoshakaku", Size : 60 },
