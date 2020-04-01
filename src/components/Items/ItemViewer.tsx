@@ -179,7 +179,7 @@ const ItemViewer = () =>
         width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
         width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
-        const maxWidth = width != 0 ? `${1 * width}%` : defaultMaxWidth.toString();
+        const maxWidth = width != 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
 
         return {
             width: width != 0 ? `${width}px` : '',
@@ -280,40 +280,44 @@ const ItemViewer = () =>
     function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
     {
         const imageThatNeedToBeResizedData = [
-            { Name : "ironpelt", Scale : 1.5 },
-            { Name : "durielsshell", Scale : 1.5 },
-            { Name : "arkaines", Scale : 1.5 },
-            { Name : "cot", Scale : 1.2 },
-            { Name : "nightwingsveil", Scale : 1.3 },
-            { Name : "veilofsteel", Scale : 1.3 },
-            { Name : "crownofages", Scale : 1.3 },
-            { Name : "shako", Scale : 1.2 },
-            { Name : "tstroke", Scale : 1.15 },
-            { Name : "shadowkiller", Scale : 1.15 },
-            { Name : "blackhand", Scale : 0.8 },
-            { Name : "coldkill", Scale : 1.3 },
-            { Name : "stormrider", Scale : 1.5 },
-            { Name : "minotaur", Scale : 1.4 },
-            { Name : "kukoshakaku", Scale : 1.5 },
-            { Name : "stormspike", Scale : 0.9 },
-            { Name : "ghostflame", Scale : 1.3 },
-            { Name : "fleshripper", Scale : 1.3 },
-            { Name : "demonsarch", Scale : 0.8 },
-            { Name : "wraithflight", Scale : 1.5 },
-            { Name : "warpspear", Scale : 0.8 },
-            { Name : "skullcollector", Scale : 1.5 },
-            { Name : "mangsongslesson", Scale : 1.3 },
-            { Name : "atlantian", Scale : 0.9 },
-            { Name : "ginthersrift", Scale : 0.75 },
-            { Name : "headstriker", Scale : 1.5 },
-            { Name : "todesfaelleflamme", Scale : 1.3 },
-            { Name : "flamebellow", Scale : 1.3 },
+            { Name : "vampiregaze", Size : 55 },
+            { Name : "ironpelt", Size : 55 },
+            { Name : "rockstopper", Size : 24 },
+            { Name : "steelshade", Size : 55 },
+            { Name : "darksighthelm", Size : 55 },
+            { Name : "durielsshell", Size : 55 },
+            { Name : "arkaines", Size : 55 },
+            { Name : "cot", Size : 56 },
+            { Name : "nightwingsveil", Size : 56 },
+            { Name : "veilofsteel", Size :52},
+            { Name : "crownofages", Size : 55},
+            { Name : "shako", Size : 48},
+            { Name : "tstroke", Size : 45 },
+            { Name : "shadowkiller", Size : 45 },
+            { Name : "blackhand", Size : 32 },
+            { Name : "coldkill", Size : 52 },
+            { Name : "stormrider", Size : 60 },
+            { Name : "minotaur", Size : 60 },
+            { Name : "kukoshakaku", Size : 60 },
+            { Name : "stormspike", Size : 36 },
+            { Name : "ghostflame", Size : 52 },
+            { Name : "fleshripper", Size : 52 },
+            { Name : "demonsarch", Size : 36 },
+            { Name : "wraithflight", Size : 60 },
+            { Name : "warpspear", Size : 36},
+            { Name : "skullcollector", Size : 60 },
+            { Name : "mangsongslesson", Size : 54 },
+            { Name : "atlantian", Size : 36 },
+            { Name : "ginthersrift", Size : 30 },
+            { Name : "headstriker", Size : 60 },
+            { Name : "todesfaelleflamme", Size : 52 },
+            { Name : "flamebellow", Size : 52 },
         ]
         const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
 
         if (imageThatNeedToBeResized.length != 0)
         {
-            width = imageThatNeedToBeResized[0].Scale * newWidth;
+            width = imageThatNeedToBeResized[0].Size;
             console.log(width);
 
         }
