@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {orderBy, some, map, forEach} from 'lodash'
+import {orderBy, some, map, forEach, filter} from 'lodash'
 import './ItemViewer.css';
 import {
     MDBDataTable,
@@ -172,23 +172,24 @@ const ItemViewer = () =>
     //region calcul item image
     function calculItemImageStyle(item: Item): CSS.Properties
     {
-        const newWidth : string = '40px';
-        const maxImageWidthOnModifiedWidth = '35%';
+        const newWidth : number = 40;
         const defaultMaxWidth = '100%';
-        let width : string = updateTheItemImageSize(item, newWidth);
+        let width : number = updateTheItemImageSize(item, newWidth);
 
         width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
+        width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
-        const maxWidth = width != '' ? maxImageWidthOnModifiedWidth : defaultMaxWidth;
+        console.log(item.ImageName + '' + width);
+        const maxWidth = width != 0 ? `${0.875 * width}%` : defaultMaxWidth.toString() + 'px';
 
         return {
-            width: width,
+            width: width != 0 ? `${width}px` : '',
             maxWidth : maxWidth
         };
     }
 
 
-    function updateTheItemImageSize(item : Item, newWidth : string) : string
+    function updateTheItemImageSize(item : Item, newWidth : number) : number
     {
         const imagesThatNeedToBeResized = [
             "katar",
@@ -204,16 +205,59 @@ const ItemViewer = () =>
             "arrows",
             "bolts",
             "bluecharm",
-            "hellfiretorch"
+            "hellfiretorch",
+            "titans",
+            "tstroke",
+            "bartucs",
+            "shadowkiller",
+            "fireliz",
+            "jadetalon",
+            "coldkill",
+            "anni",
+            "gheeds",
+            "crownofages",
+            "cot",
+            "shako",
+            "nightwingsveil",
+            "veilofsteel",
+            "demonsarch",
+            "gargoylesbite",
+            "shortspear",
+            "wraithflight",
+            "ghostflame",
+            "Stormspike",
+            "fleshripper",
+            "blessedcircle",
+            "skewer",
+            "bladeofalibaba",
+            "atlantian",
+            "headstriker",
+            "warshrike",
+            "gimmershred",
+            "durielsshell",
+            "ironpelt",
+            "arkaines",
+            "flamebellow",
+            "todesfaelleflamme",
+            "stoneraven",
+            "minotaur",
+            "stormrider",
+            "kukoshakaku",
+            "riphook",
+            "warpspear",
+            "skullcollector",
+            "mangsongslesson",
+            "blackhand",
+            "deathsweb",
         ];
 
         if (imagesThatNeedToBeResized.includes(item.ImageName))
             return newWidth;
 
-        return '';
+        return 0;
     }
 
-    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : string, newWidth : string) : string
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : number, newWidth : number) : number
     {
         var imageDatasWhereTheImageNameMustBeRandomized = [
             { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
@@ -230,6 +274,48 @@ const ItemViewer = () =>
                 width = newWidth;
             }
         });
+
+        return width;
+    }
+
+    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
+    {
+        const imageThatNeedToBeResizedData = [
+            { Name : "ironpelt", Scale : 1.3 },
+            { Name : "durielsshell", Scale : 1.3 },
+            { Name : "arkaines", Scale : 1.3 },
+            { Name : "cot", Scale : 1.3 },
+            { Name : "nightwingsveil", Scale : 1.3 },
+            { Name : "veilofsteel", Scale : 1.3 },
+            { Name : "crownofages", Scale : 1.3 },
+            { Name : "shako", Scale : 1.2 },
+            { Name : "tstroke", Scale : 1.15 },
+            { Name : "shadowkiller", Scale : 1.15 },
+            { Name : "blackhand", Scale : 0.8 },
+            { Name : "coldkill", Scale : 1.3 },
+            { Name : "stormrider", Scale : 1.5 },
+            { Name : "minotaur", Scale : 1.4 },
+            { Name : "kukoshakaku", Scale : 1.5 },
+            { Name : "stormspike", Scale : 0.9 },
+            { Name : "ghostflame", Scale : 1.3 },
+            { Name : "fleshripper", Scale : 1.3 },
+            { Name : "demonsarch", Scale : 0.8 },
+            { Name : "wraithflight", Scale : 1.5 },
+            { Name : "warpspear", Scale : 0.8 },
+            { Name : "skullcollector", Scale : 1.5 },
+            { Name : "mangsongslesson", Scale : 1.3 },
+            { Name : "atlantian", Scale : 0.9 },
+            { Name : "ginthersrift", Scale : 0.75 },
+            { Name : "headstriker", Scale : 1.5 },
+            { Name : "todesfaelleflamme", Scale : 1.3 },
+            { Name : "flamebellow", Scale : 1.3 },
+        ]
+        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
+
+        if (imageThatNeedToBeResized.length != 0)
+            width = width != 0 ?
+                imageThatNeedToBeResized[0].Scale * width :
+                imageThatNeedToBeResized[0].Scale * newWidth;
 
         return width;
     }
