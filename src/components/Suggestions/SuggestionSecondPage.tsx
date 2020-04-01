@@ -75,7 +75,7 @@ const SuggestionSecondPage = () =>
             {
                 'Content': <MDBListGroupItem
                     className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
-                'Rate': <p className="suggestion thumbs-down">-2</p>,
+                'Rate': <p className="suggestion negative-vote">-2</p>,
                 'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
                 'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
             },

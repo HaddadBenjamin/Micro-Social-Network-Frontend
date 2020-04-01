@@ -1,4 +1,5 @@
-.thumbs-up
+    .thumbs-up,
+    .suggestion
 {
     color: #6f5df7 !important;
 }
@@ -22,10 +23,14 @@
     transition: all .2s ease-in-out;
 }
 
-.thumbs-up:hover, .thumbs-down:hover, .default-vote:hover
+.thumbs-up:hover, .thumbs-down:hover, .create-suggestion-button:hover
 {
-    transform: scale(1.1);
+    transform: scale(1.15);
     cursor: pointer;
+    -webkit-filter: brightness(1.5);
+    -moz-filter: brightness(1.5);
+    -ms-filter: brightness(1.5);
+    filter: brightness(1.5);
 }
 
 .vote-text,
