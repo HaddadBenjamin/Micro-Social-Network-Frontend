@@ -312,11 +312,13 @@ const ItemViewer = () =>
             { Name : "skullcollector", Size : 60 },
             { Name : "mangsongslesson", Size : 54 },
             { Name : "atlantian", Size : 36 },
-            { Name : "ginthersrift", Size : 30 },
+            { Name : "ginthersrift", Size : 55 },
             { Name : "headstriker", Size : 60 },
-            { Name : "todesfaelleflamme", Size : 52 },
-            { Name : "flamebellow", Size : 52 },
-        ]
+            { Name : "todesfaelleflamme", Size : 55 },
+            { Name : "flamebellow", Size : 46 },
+            { Name : "bladeofalibaba", Size : 30 },
+            { Name : "plaguebearer", Size : 70 },
+            ]
         const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
 
         if (imageThatNeedToBeResized.length != 0)
