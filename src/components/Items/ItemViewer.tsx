@@ -179,8 +179,7 @@ const ItemViewer = () =>
         width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
         width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
-        console.log(item.ImageName + '' + width);
-        const maxWidth = width != 0 ? `${0.875 * width}%` : defaultMaxWidth.toString() + 'px';
+        const maxWidth = width != 0 ? `${1 * width}%` : defaultMaxWidth.toString();
 
         return {
             width: width != 0 ? `${width}px` : '',
@@ -281,10 +280,10 @@ const ItemViewer = () =>
     function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
     {
         const imageThatNeedToBeResizedData = [
-            { Name : "ironpelt", Scale : 1.3 },
-            { Name : "durielsshell", Scale : 1.3 },
-            { Name : "arkaines", Scale : 1.3 },
-            { Name : "cot", Scale : 1.3 },
+            { Name : "ironpelt", Scale : 1.5 },
+            { Name : "durielsshell", Scale : 1.5 },
+            { Name : "arkaines", Scale : 1.5 },
+            { Name : "cot", Scale : 1.2 },
             { Name : "nightwingsveil", Scale : 1.3 },
             { Name : "veilofsteel", Scale : 1.3 },
             { Name : "crownofages", Scale : 1.3 },
@@ -313,9 +312,11 @@ const ItemViewer = () =>
         const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
 
         if (imageThatNeedToBeResized.length != 0)
-            width = width != 0 ?
-                imageThatNeedToBeResized[0].Scale * width :
-                imageThatNeedToBeResized[0].Scale * newWidth;
+        {
+            width = imageThatNeedToBeResized[0].Scale * newWidth;
+            console.log(width);
+
+        }
 
         return width;
     }
