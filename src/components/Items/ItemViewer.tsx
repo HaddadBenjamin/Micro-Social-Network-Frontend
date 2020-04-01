@@ -310,7 +310,7 @@ const ItemViewer = () =>
             { Name : "wraithflight", Size : 40 },
             { Name : "warpspear", Size : 36},
             { Name : "skullcollector", Size : 60 },
-            { Name : "mangsongslesson", Size : 54 },
+            { Name : "mangsongslesson", Size : 60 },
             { Name : "atlantian", Size : 36 },
             { Name : "ginthersrift", Size : 55 },
             { Name : "headstriker", Size : 60 },
