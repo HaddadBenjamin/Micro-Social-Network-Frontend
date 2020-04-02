@@ -5,7 +5,6 @@ import Item from "../../components/Items/Item";
 
 class Api
 {
-
     public get<HttpResponse>(endpoint : string, action : string, queryParameters? : string)
     {
         let url = this.getUrl(endpoint, queryParameters);
@@ -24,7 +23,7 @@ class Api
             );
     }
 
-    private getUrl(endpoint : string, queryParameters? : string) : string
+    public getUrl(endpoint : string, queryParameters? : string) : string
     {
         return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
     }

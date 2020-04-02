@@ -1,14 +1,7 @@
 import { createStore, applyMiddleware, combineReducers } from 'redux';
 import { createEpicMiddleware, combineEpics } from 'redux-observable';
-import {ItemState, searchItemsReducer} from "../reducers/item.reducer";
+import rootReducer from "../reducers";
 
-export interface GlobalState
-{
-    searchItems : ItemState
-}
-export const rootReducer = combineReducers({
-    searchItems : searchItemsReducer
-});
 export const rootEpic = combineEpics(
 );
 

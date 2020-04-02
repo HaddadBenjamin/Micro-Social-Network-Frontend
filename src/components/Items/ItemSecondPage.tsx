@@ -13,14 +13,14 @@ import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
-import {GlobalState} from "../../store/store";
 import Item, {ItemProperty} from "./Item";
 import CSS from 'csstype';
+import {IGlobalState} from "../../reducers";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemSecondPage = () =>
 {
-    const itemFromGlobalState = useSelector<GlobalState, Item[]>(globalState => globalState.searchItems.items);
+    const itemFromGlobalState = useSelector<IGlobalState, Item[]>(globalState => globalState.searchItems.items);
 
     const [items, setItems] = useState(itemFromGlobalState);
     const [filteredItems, setFilteredItems] = useState(itemFromGlobalState);

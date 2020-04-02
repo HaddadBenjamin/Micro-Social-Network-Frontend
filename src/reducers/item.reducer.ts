@@ -6,16 +6,16 @@ export interface ItemState
     items: Item[]
 }
 
-const initialState: ItemState =
+export const initialItemsState: ItemState =
 {
     items: []
 };
-export const searchItemsReducer = (itemState: ItemState = initialState, action: SearchItemsAction) =>
+export const searchItemsReducer = (itemState: ItemState = initialItemsState, action: SearchItemsAction) =>
 {
     switch (action.type) {
         case "SEARCH_ITEMS":
             return {
-                ...initialState.items,
+                ...initialItemsState.items,
                 items: action.payload || []
             };
 

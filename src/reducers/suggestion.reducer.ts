@@ -68,5 +68,5 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 draft.votingToASuggestionStatus = ApiStatus.LOADED;
                 break;
         }
-    })  
+    })
 }

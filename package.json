@@ -33,6 +33,7 @@
     "redux": "^4.0.4",
     "redux-observable": "^1.1.0",
     "sugarss": "^2.0.0",
+    "typesafe-actions": "^5.1.0",
     "typescript": "3.5.3",
     "typescript-fsa": "^3.0.0-beta-2"
   },
