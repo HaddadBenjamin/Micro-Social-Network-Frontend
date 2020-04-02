@@ -5,7 +5,8 @@ import {
     MDBMask,
     MDBRow,
     MDBCol,
-    MDBDataTable
+    MDBDataTable,
+    MDBAlert
 } from "mdbreact";
 import React, {
     ChangeEvent,
@@ -34,28 +35,48 @@ const SuggestionSecondPage = () =>
 {
     const [createSuggestionContent, setCreateSuggestionContent] = useState('');
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
-    const suggestions = useSelector<IGlobalState, ISuggestionItem[]> (state => state.suggestions.suggestions);
+    const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
     const dispatch = useDispatch();
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         // équivalent à la fonction componentDidMount
         dispatch(getAllSuggestions());
     }, []);
 
-    const createNewSuggestion = () => {
+
+    //region relative to create a new suggestion component
+    const createNewSuggestion = () =>
+    {
         dispatch(createSuggestion(createSuggestionContent))
     };
 
-    function onChangeCreateSuggestionContent(event : ChangeEvent<HTMLInputElement>) : void
+    function onChangeCreateSuggestionContent(event: ChangeEvent<HTMLInputElement>): void
     {
         setCreateSuggestionContent(event.target.value);
     }
 
-    function onClickOnCreateSuggestion(event: any) : void
+    function onClickOnCreateSuggestion(event: any): void
     {
         createNewSuggestion();
         setCreateSuggestionContent('');
     }
+
+    function addSuggestionComponent()
+    {
+        if (gettingAllSuggestionStatus === ApiStatus.LOADED)
+        return (
+            <>
+                <input onChange={onChangeCreateSuggestionContent}
+                       type="text"
+                       value={createSuggestionContent}
+                       className=" create-suggestion text-left flex-fill bd-highlight"
+                       placeholder="Enter your suggestion"/>
+                <i onClick={onClickOnCreateSuggestion}
+                   className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
+            </>);
+    }
+    //endregion
 
     //region create item data table
     function getItemDataTable(): any
@@ -100,13 +121,13 @@ const SuggestionSecondPage = () =>
         return map(suggestions, toSuggestionDataTableRow);
     }
 
-    function toSuggestionDataTableRow(suggestion : ISuggestionItem)
+    function toSuggestionDataTableRow(suggestion: ISuggestionItem)
     {
         const voteValue: number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
         const voteClass: string =
             voteValue === 0 ? "default-vote" :
-            voteValue < 0 ? "negative-vote" :
-            "positive-vote";
+                voteValue < 0 ? "negative-vote" :
+                    "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
         const content = <MDBListGroupItem
@@ -122,6 +143,7 @@ const SuggestionSecondPage = () =>
             'VoteNegatively': voteNegatively,
         };
     }
+
     //endregion
 
     return (
@@ -132,20 +154,16 @@ const SuggestionSecondPage = () =>
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
-                                    <MDBDataTable
-                                        data={getItemDataTable()}
-                                        entries={5}/>
-                                    <MDBCol/>
+                                    {gettingAllSuggestionStatus === ApiStatus.FAILED &&
+                                    <MDBAlert color="danger">Failed to load the suggestions.</MDBAlert>}
+                                    {gettingAllSuggestionStatus === ApiStatus.LOADING &&
+                                    <MDBAlert color="primary">Loading all the suggestions...</MDBAlert>}
+                                    {gettingAllSuggestionStatus === ApiStatus.LOADED &&
+                                    <MDBDataTable data={getItemDataTable()} entries={5}/>}
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow className="create-suggestion-container d-flex bd-highlight">
-                                <input onChange={onChangeCreateSuggestionContent}
-                                       type="text"
-                                       value={createSuggestionContent}
-                                       className=" create-suggestion text-left flex-fill bd-highlight"
-                                       placeholder="Enter your suggestion"/>
-                                <i  onClick={onClickOnCreateSuggestion}
-                                    className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
+                                {addSuggestionComponent()}
                             </MDBRow>
                         </MDBContainer>
                     </MDBMask>
