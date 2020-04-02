@@ -27,7 +27,7 @@ import {
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
 import ISuggestionItem from "../../models/Suggestion";
-import map from 'lodash';
+import {map} from 'lodash';
 
 const SuggestionSecondPage = () =>
 {
@@ -84,26 +84,30 @@ const SuggestionSecondPage = () =>
 
     function getItemDataTableRows(): any
     {
-        return map(suggestions, function(suggestion : ISuggestionItem)
-        {
-            const voteValue : number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
-            const voteClass : string =  voteValue === 0 ? "default-vote" :
-                                        voteValue < 0 ? "negative-vote" :
-                                            "positive-vote";
-            const rateClass = `suggestion ${voteClass}`;
+        return map(suggestions, toSuggestionDataTableRow);
+    }
 
-            const content = <MDBListGroupItem className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
-            const rate = <p className={rateClass}>{voteValue}</p>;
-            const votePositively = <i className="fas fa-thumbs-up thumbs-up"></i>;
-            const voteNegatively = <i className="fas fa-thumbs-down thumbs-down" ></i>;
+    function toSuggestionDataTableRow(suggestion : ISuggestionItem)
+    {
+        const voteValue: number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
+        const voteClass: string =
+            voteValue === 0 ? "default-vote" :
+            voteValue < 0 ? "negative-vote" :
+            "positive-vote";
+        const rateClass = `suggestion ${voteClass}`;
 
-            return {
-                'Content': content,
-                'Rate' : rate,
-                'VotePositively': votePositively,
-                'VoteNegatively': voteNegatively,
-            };
-        });
+        const content = <MDBListGroupItem
+            className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
+        const rate = <p className={rateClass}>{voteValue}</p>;
+        const votePositively = <i className="fas fa-thumbs-up thumbs-up"></i>;
+        const voteNegatively = <i className="fas fa-thumbs-down thumbs-down"></i>;
+
+        return {
+            'Content': content,
+            'Rate': rate,
+            'VotePositively': votePositively,
+            'VoteNegatively': voteNegatively,
+        };
     }
 
     return (
