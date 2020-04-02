@@ -1,7 +1,6 @@
 import {
     combineEpics,
     createEpicMiddleware,
-    Epic
 } from 'redux-observable';
 import suggestionEpics from './suggestion.epic'
 import {SuggestionsAction} from "../actions/suggestion.action";

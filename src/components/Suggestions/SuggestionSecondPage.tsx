@@ -8,6 +8,7 @@ import {
     MDBDataTable
 } from "mdbreact";
 import React, {
+    ChangeEvent,
     useEffect,
     useState
 } from "react";
@@ -45,6 +46,18 @@ const SuggestionSecondPage = () =>
         dispatch(createSuggestion(createSuggestionContent))
     };
 
+    function onChangeCreateSuggestionContent(event : ChangeEvent<HTMLInputElement>) : void
+    {
+        setCreateSuggestionContent(event.target.value);
+    }
+
+    function onClickOnCreateSuggestion(event: any) : void
+    {
+        createNewSuggestion();
+        setCreateSuggestionContent('');
+    }
+
+    //region create item data table
     function getItemDataTable(): any
     {
         return {
@@ -109,6 +122,7 @@ const SuggestionSecondPage = () =>
             'VoteNegatively': voteNegatively,
         };
     }
+    //endregion
 
     return (
         <>
@@ -125,10 +139,12 @@ const SuggestionSecondPage = () =>
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow className="create-suggestion-container d-flex bd-highlight">
-                                <input type="text"
+                                <input onChange={onChangeCreateSuggestionContent}
+                                       type="text"
                                        className=" create-suggestion text-left flex-fill bd-highlight"
                                        placeholder="Enter your suggestion"/>
-                                <i className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
+                                <i  onClick={onClickOnCreateSuggestion}
+                                    className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
                             </MDBRow>
                         </MDBContainer>
                     </MDBMask>
