@@ -172,23 +172,23 @@ const ItemSecondPage = () =>
     //region calcul item image
     function calculItemImageStyle(item: Item): CSS.Properties
     {
-        const newWidth : string = '40px';
-        const maxImageWidthOnModifiedWidth = '35%';
+        const newWidth : number = 40;
         const defaultMaxWidth = '100%';
-        let width : string = updateTheItemImageSize(item, newWidth);
+        let width : number = updateTheItemImageSize(item, newWidth);
 
         width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
+        width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
-        const maxWidth = width != '' ? maxImageWidthOnModifiedWidth : defaultMaxWidth;
+        const maxWidth = width != 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
 
         return {
-            width: width,
+            width: width != 0 ? `${width}px` : '',
             maxWidth : maxWidth
         };
     }
 
 
-    function updateTheItemImageSize(item : Item, newWidth : string) : string
+    function updateTheItemImageSize(item : Item, newWidth : number) : number
     {
         const imagesThatNeedToBeResized = [
             "katar",
@@ -204,16 +204,59 @@ const ItemSecondPage = () =>
             "arrows",
             "bolts",
             "bluecharm",
-            "hellfiretorch"
+            "hellfiretorch",
+            "titans",
+            "tstroke",
+            "bartucs",
+            "shadowkiller",
+            "fireliz",
+            "jadetalon",
+            "coldkill",
+            "anni",
+            "gheeds",
+            "crownofages",
+            "cot",
+            "shako",
+            "nightwingsveil",
+            "veilofsteel",
+            "demonsarch",
+            "gargoylesbite",
+            "shortspear",
+            "wraithflight",
+            "ghostflame",
+            "Stormspike",
+            "fleshripper",
+            "blessedcircle",
+            "skewer",
+            "bladeofalibaba",
+            "atlantian",
+            "headstriker",
+            "warshrike",
+            "gimmershred",
+            "durielsshell",
+            "ironpelt",
+            "arkaines",
+            "flamebellow",
+            "todesfaelleflamme",
+            "stoneraven",
+            "minotaur",
+            "stormrider",
+            "kukoshakaku",
+            "riphook",
+            "warpspear",
+            "skullcollector",
+            "mangsongslesson",
+            "blackhand",
+            "deathsweb",
         ];
 
         if (imagesThatNeedToBeResized.includes(item.ImageName))
             return newWidth;
 
-        return '';
+        return 0;
     }
 
-    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : string, newWidth : string) : string
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : number, newWidth : number) : number
     {
         var imageDatasWhereTheImageNameMustBeRandomized = [
             { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
@@ -230,6 +273,60 @@ const ItemSecondPage = () =>
                 width = newWidth;
             }
         });
+
+        return width;
+    }
+
+    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
+    {
+        const imageThatNeedToBeResizedData = [
+            { Name : "gargoylesbite", Size : 40 },
+            { Name : "shortspear", Size : 75 },
+            { Name : "butcherspupil", Size : 55 },
+            { Name : "flayedoneskin", Size : 60 },
+            { Name : "vampiregaze", Size : 55 },
+            { Name : "ironpelt", Size : 55 },
+            { Name : "rockstopper", Size : 50 },
+            { Name : "steelshade", Size : 55 },
+            { Name : "darksighthelm", Size : 55 },
+            { Name : "durielsshell", Size : 55 },
+            { Name : "arkaines", Size : 55 },
+            { Name : "cot", Size : 48 },
+            { Name : "nightwingsveil", Size : 56 },
+            { Name : "veilofsteel", Size :52},
+            { Name : "crownofages", Size : 55},
+            { Name : "shako", Size : 48},
+            { Name : "tstroke", Size : 45 },
+            { Name : "shadowkiller", Size : 45 },
+            { Name : "blackhand", Size : 32 },
+            { Name : "coldkill", Size : 40 },
+            { Name : "stormrider", Size : 60 },
+            { Name : "minotaur", Size : 60 },
+            { Name : "kukoshakaku", Size : 60 },
+            { Name : "stormspike", Size : 36 },
+            { Name : "ghostflame", Size : 40 },
+            { Name : "fleshripper", Size : 48 },
+            { Name : "demonsarch", Size : 28 },
+            { Name : "wraithflight", Size : 40 },
+            { Name : "warpspear", Size : 36},
+            { Name : "skullcollector", Size : 60 },
+            { Name : "mangsongslesson", Size : 60 },
+            { Name : "atlantian", Size : 36 },
+            { Name : "ginthersrift", Size : 55 },
+            { Name : "headstriker", Size : 60 },
+            { Name : "todesfaelleflamme", Size : 55 },
+            { Name : "flamebellow", Size : 46 },
+            { Name : "bladeofalibaba", Size : 30 },
+            { Name : "plaguebearer", Size : 70 },
+            ]
+        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
+
+        if (imageThatNeedToBeResized.length != 0)
+        {
+            width = imageThatNeedToBeResized[0].Size;
+            console.log(width);
+
+        }
 
         return width;
     }
