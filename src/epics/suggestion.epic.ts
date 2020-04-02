@@ -2,7 +2,6 @@ import {
     addedVote,
     addindVote,
     addingVoteFailed,
-    addVote,
     createdSuggestion,
     creatingSuggestion,
     creatingSuggestionFailed,
@@ -33,7 +32,6 @@ import {
 import api from "../shared/utilities/api";
 import axios, {AxiosResponse} from 'axios'
 import ISuggestionItem from "../models/Suggestion";
-import {start} from "repl";
 
 const getAllSuggestionsEpic: Epic<SuggestionsAction, SuggestionsAction, IGlobalState> = (
     action$,

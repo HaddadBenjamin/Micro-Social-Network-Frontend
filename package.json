@@ -31,6 +31,7 @@
     "react-router-dom": "latest",
     "react-scripts": "3.0.1",
     "redux": "^4.0.4",
+    "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.1.0",
     "sugarss": "^2.0.0",
     "typesafe-actions": "^5.1.0",

@@ -18,7 +18,6 @@ import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
-import api from "../../shared/utilities/api";
 
 enum ApplicationPage
 {
@@ -30,11 +29,6 @@ const AppPage = () =>
 {
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
     const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
-
-    useEffect(() => {
-        // équivalent à componentdidmount
-
-    }, [])
 
     function onClickOnNavigationBar(): void
     {

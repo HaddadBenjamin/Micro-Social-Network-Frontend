@@ -1,14 +1,20 @@
-import { createStore, applyMiddleware, combineReducers } from 'redux';
-import { createEpicMiddleware, combineEpics } from 'redux-observable';
-import rootReducer from "../reducers";
+import { applyMiddleware, createStore } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import epicMiddleware, { rootEpic } from './epics';
 
-export const rootEpic = combineEpics(
+import rootReducer, { initialState } from './reducers';
+
+// Ajoute l'onglet redux dans chrome.
+const composeEnhancer = composeWithDevTools({
+    name: 'React Clean Architecture'
+});
+
+const store = createStore(
+    rootReducer,
+    initialState,
+    composeEnhancer(applyMiddleware(epicMiddleware))
 );
 
-const epicMiddleware = createEpicMiddleware();
-
-export const store = createStore(
-    rootReducer,
-    applyMiddleware(epicMiddleware));
-
 epicMiddleware.run(rootEpic);
+
+export default store;

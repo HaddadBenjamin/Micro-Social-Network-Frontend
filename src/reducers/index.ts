@@ -8,15 +8,13 @@ export interface IGlobalState
     suggestions: ISuggestionState
 }
 
-export const initialState: IGlobalState =
+export const initialState : IGlobalState =
 {
     searchItems: initialItemsState,
     suggestions: initialSuggestionState
 };
 
-const rootReducer = combineReducers({
+export default combineReducers({
     searchItems: searchItemsReducer,
     suggestions : suggestionsReducer
 });
-
-export default rootReducer;

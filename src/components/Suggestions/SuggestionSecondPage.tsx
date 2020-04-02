@@ -7,15 +7,44 @@ import {
     MDBCol,
     MDBDataTable
 } from "mdbreact";
-import React from "react";
+import React, {
+    useEffect,
+    useState
+} from "react";
 import './SuggestionSecondPage.css'
 import '../Items/ItemSecondPage.css'
 import '../../shared/css/tabulation.css'
 import '../../shared/css/dataTable.css'
 import '../../shared/css/view.css'
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
+import {
+    createSuggestion,
+    getAllSuggestions
+} from "../../actions/suggestion.action";
+import {IGlobalState} from "../../reducers";
+import ApiStatus from "../../models/ApiStatus";
+import ISuggestionItem from "../../models/Suggestion";
+import map from 'lodash';
 
 const SuggestionSecondPage = () =>
 {
+    const [createSuggestionContent, setCreateSuggestionContent] = useState('');
+    const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
+    const suggestions = useSelector<IGlobalState, ISuggestionItem[]> (state => state.suggestions.suggestions);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        // équivalent à la fonction componentDidMount
+        dispatch(getAllSuggestions());
+    }, []);
+
+    const createNewSuggestion = () => {
+        dispatch(createSuggestion(createSuggestionContent))
+    };
+
     function getItemDataTable(): any
     {
         return {
@@ -55,100 +84,26 @@ const SuggestionSecondPage = () =>
 
     function getItemDataTableRows(): any
     {
-        return [
-            {
+        return map(suggestions, function(suggestion : ISuggestionItem)
+        {
+            const voteValue : number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
+            const voteClass : string =  voteValue === 0 ? "default-vote" :
+                                        voteValue < 0 ? "negative-vote" :
+                                            "positive-vote";
+            const rateClass = `suggestion ${voteClass}`;
 
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Add set
-                    items and runewords to the website 🙂</MDBListGroupItem>,
-                'Rate': <p className="suggestion positive-vote">6</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
-                'Rate': <p className="suggestion default-vote">0</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
-                'Rate': <p className="suggestion negative-vote">-2</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
+            const content = <MDBListGroupItem className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
+            const rate = <p className={rateClass}>{voteValue}</p>;
+            const votePositively = <i className="fas fa-thumbs-up thumbs-up"></i>;
+            const voteNegatively = <i className="fas fa-thumbs-down thumbs-down" ></i>;
 
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Add set
-                    items and runewords to the website 🙂</MDBListGroupItem>,
-                'Rate': <p className="suggestion positive-vote">6</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
-                'Rate': <p className="suggestion default-vote">0</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
-                'Rate': <p className="suggestion thumbs-down">-2</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Add set
-                    items and runewords to the website 🙂</MDBListGroupItem>,
-                'Rate': <p className="suggestion positive-vote">6</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
-                'Rate': <p className="suggestion default-vote">0</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
-                'Rate': <p className="suggestion thumbs-down">-2</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Add set
-                    items and runewords to the website 🙂</MDBListGroupItem>,
-                'Rate': <p className="suggestion positive-vote">6</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Balance all the classes 🐻</MDBListGroupItem>,
-                'Rate': <p className="suggestion default-vote">0</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-            {
-                'Content': <MDBListGroupItem
-                    className="suggestion d-flex justify-content-between align-items-center">Create news areas for the end game 🏝️</MDBListGroupItem>,
-                'Rate': <p className="suggestion thumbs-down">-2</p>,
-                'VotePositively': <i className="fas fa-thumbs-up thumbs-up"></i>,
-                'VoteNegatively': <i className="fas fa-thumbs-down thumbs-down" ></i>,
-            },
-        ];
+            return {
+                'Content': content,
+                'Rate' : rate,
+                'VotePositively': votePositively,
+                'VoteNegatively': voteNegatively,
+            };
+        });
     }
 
     return (

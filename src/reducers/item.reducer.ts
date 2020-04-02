@@ -10,6 +10,7 @@ export const initialItemsState: ItemState =
 {
     items: []
 };
+
 export const searchItemsReducer = (itemState: ItemState = initialItemsState, action: SearchItemsAction) =>
 {
     switch (action.type) {
