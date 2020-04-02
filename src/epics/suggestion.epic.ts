@@ -72,9 +72,9 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             url: api.getUrl('suggestions/vote'),
             headers: {},
             data: {
-                SugggestionId : action.payload.suggestionId,
-                IsPositive : action.payload.isPositive,
-                Ip : action.payload.ip
+                SuggestionId: action.payload.suggestionId,
+                IsPositive: action.payload.isPositive,
+                Ip: action.payload.ip
             }
         })).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => addedVote(response.data)),

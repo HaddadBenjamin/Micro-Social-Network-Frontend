@@ -24,12 +24,13 @@ import {
     useSelector
 } from "react-redux";
 import {
+    addVote,
     createSuggestion,
     getAllSuggestions
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
-import ISuggestionItem from "../../models/Suggestion";
+import ISuggestionItem, {ISuggestionVoteRequest} from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map} from 'lodash';
 
@@ -86,16 +87,39 @@ const SuggestionSecondPage = () =>
         if (gettingAllSuggestionStatus === ApiStatus.LOADED)
         return (
             <>
-                <input onChange={onChangeCreateSuggestionContent}
+                <input onChange={() => onChangeCreateSuggestionContent}
                        type="text"
                        value={createSuggestionContent}
                        className=" create-suggestion text-left flex-fill bd-highlight"
                        placeholder="Enter your suggestion"/>
-                <i onClick={onClickOnCreateSuggestion}
+                <i onClick={() => onClickOnCreateSuggestion}
                    className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
             </>);
     }
     //endregion
+
+    function onClickOnPositiveVote(suggestion : ISuggestionItem) : void
+    {
+        const voteRequest = createVoteRequest(suggestion, true);
+
+        dispatch(addVote(voteRequest));
+    }
+
+    function onClickOnNegativeVote(suggestion : ISuggestionItem) : void
+    {
+        const voteRequest = createVoteRequest(suggestion, false);
+
+        dispatch(addVote(voteRequest));
+    }
+
+    function createVoteRequest(suggestion : ISuggestionItem, isPositive : boolean)
+    {
+        return {
+            SuggestionId : suggestion.Id,
+            IsPositive : isPositive,
+            Ip : userIp
+        };
+    }
 
     //region create item data table
     function getItemDataTable(): any
@@ -152,8 +176,8 @@ const SuggestionSecondPage = () =>
         const content = <MDBListGroupItem
             className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;
-        const votePositively = <i className="fas fa-thumbs-up thumbs-up"></i>;
-        const voteNegatively = <i className="fas fa-thumbs-down thumbs-down"></i>;
+        const votePositively = <i className="fas fa-thumbs-up thumbs-up" onClick={() => onClickOnPositiveVote(suggestion)}></i>;
+        const voteNegatively = <i className="fas fa-thumbs-down thumbs-down" onClick={() => onClickOnNegativeVote(suggestion)}></i>;
 
         return {
             'Content': content,
