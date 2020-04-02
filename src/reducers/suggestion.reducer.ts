@@ -32,8 +32,8 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.GOT_ALL_SUGGESTIONS :
-                draft.gettingAllSuggestionsStatus = ApiStatus.LOADED;
                 draft.suggestions = action.payload.suggestions;
+                draft.gettingAllSuggestionsStatus = ApiStatus.LOADED;
                 break;
 
             case SuggestionActionTypes.CREATE_SUGGESTION :
@@ -47,6 +47,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
             case SuggestionActionTypes.CREATED_SUGGESTION :
                 draft.suggestions.push(action.payload.suggestion);
+                draft.creatingASuggestionStatus = ApiStatus.LOADED;
                 break;
 
             case SuggestionActionTypes.ADD_VOTE :

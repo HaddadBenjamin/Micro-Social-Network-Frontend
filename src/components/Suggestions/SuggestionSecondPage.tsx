@@ -52,13 +52,13 @@ const SuggestionSecondPage = () =>
 
     useEffect(()=>
     {
-        if (creatingSuggestionStatus === ApiStatus.LOADED && firstLoad === false)
+        if (creatingSuggestionStatus === ApiStatus.LOADED && !firstLoad)
             toast.success('Your suggestion have been created');
 
         if (creatingSuggestionStatus === ApiStatus.FAILED)
             toast.error('The creation of your suggestion have failed');
 
-    }, [creatingSuggestionStatus]);
+    }, [creatingSuggestionStatus, firstLoad]);
 
     //region relative to create a new suggestion component
     const createNewSuggestion = () =>
