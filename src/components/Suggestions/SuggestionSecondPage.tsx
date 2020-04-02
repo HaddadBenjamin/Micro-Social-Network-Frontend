@@ -93,7 +93,7 @@ const SuggestionSecondPage = () =>
                        className=" create-suggestion text-left flex-fill bd-highlight"
                        placeholder="Enter your suggestion"/>
                 <i onClick={onClickOnCreateSuggestion}
-                   className="fas fa-plus create-suggestion-button center fa-2x right "></i>
+                   className="create-suggestion-button center fa-2x right ">[+]</i>
             </>);
     }
     //endregion
