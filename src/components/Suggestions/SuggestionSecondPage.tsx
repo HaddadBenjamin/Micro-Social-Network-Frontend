@@ -13,6 +13,7 @@ import React, {
     useEffect,
     useState
 } from "react";
+import { toast, ToastContainer } from 'react-toastify';
 import './SuggestionSecondPage.css'
 import '../Items/ItemSecondPage.css'
 import '../../shared/css/tabulation.css'
@@ -29,13 +30,18 @@ import {
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
 import ISuggestionItem from "../../models/Suggestion";
+import 'react-toastify/dist/ReactToastify.css';
 import {map} from 'lodash';
 
 const SuggestionSecondPage = () =>
 {
-    const [createSuggestionContent, setCreateSuggestionContent] = useState('');
+    const [firstLoad, setFirstLoad] = useState<boolean>(true);
+    const [createSuggestionContent, setCreateSuggestionContent] = useState<string>('');
+    const creatingSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.creatingASuggestionStatus);
+
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
     const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
+
     const dispatch = useDispatch();
 
     useEffect(() =>
@@ -44,11 +50,20 @@ const SuggestionSecondPage = () =>
         dispatch(getAllSuggestions());
     }, []);
 
+    useEffect(()=>
+    {
+        if (creatingSuggestionStatus === ApiStatus.LOADED && firstLoad === false)
+            toast.success('Your suggestion have been created');
+
+        if (creatingSuggestionStatus === ApiStatus.FAILED)
+            toast.error('The creation of your suggestion have failed');
+
+    }, [creatingSuggestionStatus]);
 
     //region relative to create a new suggestion component
     const createNewSuggestion = () =>
     {
-        dispatch(createSuggestion(createSuggestionContent))
+        dispatch(createSuggestion(createSuggestionContent));
     };
 
     function onChangeCreateSuggestionContent(event: ChangeEvent<HTMLInputElement>): void
@@ -58,8 +73,10 @@ const SuggestionSecondPage = () =>
 
     function onClickOnCreateSuggestion(event: any): void
     {
+        setFirstLoad(false);
         createNewSuggestion();
         setCreateSuggestionContent('');
+        toast.info('Creating your suggestion...')
     }
 
     function addSuggestionComponent()
@@ -151,6 +168,7 @@ const SuggestionSecondPage = () =>
             <div id="item-filter-view">
                 <MDBView>
                     <MDBMask className="d-flex justify-content-center align-items-center gradient">
+                        <ToastContainer />
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
