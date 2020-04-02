@@ -13,7 +13,6 @@ class Api
         axios.get<Item[]>(url, { data : { }}) // when data is not defined, I get a 415 unsupported types
             .then(response =>
             {
-                console.log(response);
                 // typescript-fsa to be to handle success / fail normal behaviour
                 store.dispatch(
                 {

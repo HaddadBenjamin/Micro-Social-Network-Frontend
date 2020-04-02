@@ -322,11 +322,7 @@ const ItemSecondPage = () =>
         const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
 
         if (imageThatNeedToBeResized.length != 0)
-        {
             width = imageThatNeedToBeResized[0].Size;
-            console.log(width);
-
-        }
 
         return width;
     }
@@ -334,7 +330,7 @@ const ItemSecondPage = () =>
 
     function calculItemImageUrl(imageName: string): string
     {
-        return `${window.location.origin.toString()}/${imageName}`;
+        return `${window.location.origin.toString()}/${imageName}.gif`;
     }
 
     //endregion
