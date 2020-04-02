@@ -3,9 +3,10 @@ import {
     createEpicMiddleware,
 } from 'redux-observable';
 import suggestionEpics from './suggestion.epic'
-import {SuggestionsAction} from "../actions/suggestion.action";
+import userEpics from './user.epic'
 import {IGlobalState} from "../reducers";
+import {ApplicationAction} from "../actions";
 
-export const rootEpic = combineEpics(suggestionEpics);
+export const rootEpic = combineEpics(suggestionEpics, userEpics);
 
-export default createEpicMiddleware<SuggestionsAction, SuggestionsAction, IGlobalState>();
+export default createEpicMiddleware<ApplicationAction, ApplicationAction, IGlobalState>();

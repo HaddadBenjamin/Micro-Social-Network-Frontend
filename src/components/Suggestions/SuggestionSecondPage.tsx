@@ -42,6 +42,8 @@ const SuggestionSecondPage = () =>
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
     const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
 
+    const userIp = useSelector<IGlobalState, string>(state => state.user.ip);
+
     const dispatch = useDispatch();
 
     useEffect(() =>

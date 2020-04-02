@@ -18,6 +18,8 @@ import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
+import {useDispatch} from "react-redux";
+import {getIp} from "../../actions/user.action";
 
 enum ApplicationPage
 {
@@ -29,6 +31,11 @@ const AppPage = () =>
 {
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
     const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
+
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(getIp())
+    });
 
     function onClickOnNavigationBar(): void
     {
