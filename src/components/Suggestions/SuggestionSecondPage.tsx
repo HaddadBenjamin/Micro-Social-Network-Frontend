@@ -32,7 +32,7 @@ import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
 import ISuggestionItem, {ISuggestionVoteRequest} from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map} from 'lodash';
+import {map, orderBy} from 'lodash';
 
 const SuggestionSecondPage = () =>
 {
@@ -161,7 +161,11 @@ const SuggestionSecondPage = () =>
 
     function getItemDataTableRows(): any
     {
-        return map(suggestions, toSuggestionDataTableRow);
+        const orderedSuggestions = orderBy(suggestions, function(suggestion : ISuggestionItem)
+        {
+            return -(suggestion.PositiveVoteCount - suggestion.NegativeVoteCount);
+        });
+        return map(orderedSuggestions, toSuggestionDataTableRow);
     }
 
     function toSuggestionDataTableRow(suggestion: ISuggestionItem)
