@@ -20,7 +20,7 @@ export interface ISuggestionState {
 export default function suggestionsReducer(state : ISuggestionState = initialSuggestionState, action : SuggestionsAction)
 {
     return produce(state, draft =>{
-         {
+        switch (action.type) {
 
         }
     })

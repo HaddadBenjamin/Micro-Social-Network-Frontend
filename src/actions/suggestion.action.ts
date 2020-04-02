@@ -197,15 +197,15 @@ export function addingVoteFailed() : IAddingVoteFailedAction
 }
 
 export type SuggestionsAction =
-    typeof getAllSuggestions |
-    typeof gettingAllSuggestions |
-    typeof gotAllSuggestions |
-    typeof gettingAllSuggestionsFailed |
-    typeof createSuggestion |
-    typeof creatingSuggestion |
-    typeof createdSuggestion |
-    typeof creatingSuggestionFailed |
-    typeof addVote |
-    typeof addindVote |
-    typeof addedVote |
-    typeof addingVoteFailed;
+    IGetAllSuggestionsAction |
+    IGettingAllSuggestionsAction |
+    IGotAllSuggestionsAction |
+    IGettingAllSuggestionsFailedAction |
+    ICreateSuggestionAction |
+    ICreatingSuggestionAction |
+    ICreatedSuggestionAction |
+    ICreatingSuggestionFailedAction |
+    IAddVoteAction |
+    IAddingVoteAction |
+    IAddedVoteAction |
+    IAddingVoteFailedAction;
