@@ -87,13 +87,13 @@ const SuggestionSecondPage = () =>
         if (gettingAllSuggestionStatus === ApiStatus.LOADED)
         return (
             <>
-                <input onChange={() => onChangeCreateSuggestionContent}
+                <input onChange={onChangeCreateSuggestionContent}
                        type="text"
                        value={createSuggestionContent}
                        className=" create-suggestion text-left flex-fill bd-highlight"
                        placeholder="Enter your suggestion"/>
-                <i onClick={() => onClickOnCreateSuggestion}
-                   className="fas fa-plus-square create-suggestion-button center fa-2x right "></i>
+                <i onClick={onClickOnCreateSuggestion}
+                   className="fas fa-plus create-suggestion-button center fa-2x right "></i>
             </>);
     }
     //endregion
