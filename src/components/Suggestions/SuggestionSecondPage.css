@@ -55,7 +55,13 @@
     border: 0.05em solid white !important;
     box-shadow: 2px 2px 4px 0.1px #eb0d26 !important;
     display : inline !important;
-    }
+}
+
+.create-suggestion:hover
+{
+    border: 0.05em solid white !important;
+
+}
 
 .create-suggestion-button
 {
