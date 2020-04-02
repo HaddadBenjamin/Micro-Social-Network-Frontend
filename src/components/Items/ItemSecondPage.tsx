@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {orderBy, some, map, forEach} from 'lodash'
+import {orderBy, some, map, forEach, filter} from 'lodash'
 import './ItemSecondPage.css';
 import {
     MDBDataTable,
