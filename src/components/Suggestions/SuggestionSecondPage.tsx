@@ -141,6 +141,7 @@ const SuggestionSecondPage = () =>
                             <MDBRow className="create-suggestion-container d-flex bd-highlight">
                                 <input onChange={onChangeCreateSuggestionContent}
                                        type="text"
+                                       value={createSuggestionContent}
                                        className=" create-suggestion text-left flex-fill bd-highlight"
                                        placeholder="Enter your suggestion"/>
                                 <i  onClick={onClickOnCreateSuggestion}
