@@ -6,4 +6,11 @@ interface ISuggestionItem
     NegativeVoteCount : 0,
 }
 
+export interface ISuggestionVoteRequest
+{
+    SuggestionId : string,
+    IsPositive : boolean,
+    Ip : string
+}
+
 export default ISuggestionItem;

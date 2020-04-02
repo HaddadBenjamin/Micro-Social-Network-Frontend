@@ -1,4 +1,6 @@
-import ISuggestionItem from "../models/Suggestion";
+import ISuggestionItem, {
+    ISuggestionVoteRequest,
+} from "../models/Suggestion";
 
 export enum SuggestionActionTypes
 {
@@ -160,14 +162,14 @@ export function creatingSuggestionFailed() : ICreatingSuggestionFailedAction
     }
 }
 
-export function addVote(suggestionId : string, isPositive : boolean, ip : string) : IAddVoteAction
+export function addVote(request : ISuggestionVoteRequest) : IAddVoteAction
 {
     return {
         type : SuggestionActionTypes.ADD_VOTE,
         payload : {
-            suggestionId : suggestionId,
-            isPositive : isPositive,
-            ip : ip
+            suggestionId : request.SuggestionId,
+            isPositive : request.IsPositive,
+            ip : request.Ip
         }
     }
 }
