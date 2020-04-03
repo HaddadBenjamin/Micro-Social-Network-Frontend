@@ -55,7 +55,8 @@ const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             url: api.getUrl('suggestions/create'),
             headers: {},
             data: {
-                Content: action.payload.content
+                Content: action.payload.content,
+                Ip : state$.value.user.ip
             }
         })).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => createdSuggestion(response.data)),
