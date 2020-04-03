@@ -6,7 +6,12 @@ import {
     MDBRow,
     MDBCol,
     MDBDataTable,
-    MDBAlert
+    MDBAlert,
+    MDBModalBody,
+    MDBModalHeader,
+    MDBModal,
+    MDBModalFooter,
+    MDBBtn
 } from "mdbreact";
 import React, {
     ChangeEvent,
@@ -37,10 +42,14 @@ import ISuggestionItem, {
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some} from 'lodash';
+import {useToggle} from 'react-use';
 
 const SuggestionSecondPage = () =>
 {
+    const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', Ip :''});
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
+
     const [createSuggestionContent, setCreateSuggestionContent] = useState<string>('');
     const creatingSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.creatingASuggestionStatus);
 
@@ -130,6 +139,12 @@ const SuggestionSecondPage = () =>
         dispatch(deleteSuggestion(suggestionId));
     }
 
+    function onClickOnCommentButton(suggestion : ISuggestionItem) : void
+    {
+        setSelectedSuggestion(suggestion);
+        toggleCommentModal();
+    }
+
     //region create item data table
     function getItemDataTable(): any
     {
@@ -202,7 +217,7 @@ const SuggestionSecondPage = () =>
         const commentCountClass = `suggestion-comment-count ${commentCount > 0 ? "positive-comment-count" : ""}`;
         const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.Ip === userIp});
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
-        
+
         const isMySuggestion : boolean = suggestion.Ip === userIp;
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
@@ -216,7 +231,7 @@ const SuggestionSecondPage = () =>
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
         const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
-        const comments = <i className={commentClass}></i>;
+        const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
         return {
@@ -253,6 +268,18 @@ const SuggestionSecondPage = () =>
                             </MDBRow>
                         </MDBContainer>
                     </MDBMask>
+                    <MDBModal isOpen={commentModalIsOpen} toggle={(toggleCommentModal)} size="lg">
+                        <MDBModalHeader toggle={toggleCommentModal}>{selectedSuggestion.Content}</MDBModalHeader>
+                        <MDBModalBody>
+                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
+                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
+                            consequat.
+                        </MDBModalBody>
+                        <MDBModalFooter>
+                            <MDBBtn color="secondary" onClick={toggleCommentModal}>Close</MDBBtn>
+                            <MDBBtn color="primary">Save changes</MDBBtn>
+                        </MDBModalFooter>
+                    </MDBModal>
                 </MDBView>
             </div>
         </>
