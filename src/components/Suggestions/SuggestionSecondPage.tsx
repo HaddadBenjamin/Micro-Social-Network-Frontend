@@ -11,7 +11,8 @@ import {
     MDBModalHeader,
     MDBModal,
     MDBModalFooter,
-    MDBBtn
+    MDBBtn,
+    MDBListGroup
 } from "mdbreact";
 import React, {
     ChangeEvent,
@@ -29,8 +30,11 @@ import {
     useSelector
 } from "react-redux";
 import {
+    addComment,
     addVote,
     createSuggestion,
+    deleteComment,
+    deletedComment,
     deleteSuggestion,
     getAllSuggestions
 } from "../../actions/suggestion.action";
@@ -48,6 +52,8 @@ const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
     const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', Ip :''});
+    const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
+
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
 
     const [createSuggestionContent, setCreateSuggestionContent] = useState<string>('');
@@ -82,9 +88,19 @@ const SuggestionSecondPage = () =>
         dispatch(createSuggestion(createSuggestionContent));
     };
 
+    const createNewSuggestionComment = (suggestionId : string) =>
+    {
+        dispatch(addComment(suggestionId, createSuggestionCommentContent));
+    };
+
     function onChangeCreateSuggestionContent(event: ChangeEvent<HTMLInputElement>): void
     {
         setCreateSuggestionContent(event.target.value);
+    }
+
+    function onChangeCreateSuggestionCommentContent(event: ChangeEvent<HTMLInputElement>): void
+    {
+        setCreateSuggestionCommentContent(event.target.value);
     }
 
     function onClickOnCreateSuggestion(event: any): void
@@ -94,6 +110,15 @@ const SuggestionSecondPage = () =>
         setCreateSuggestionContent('');
         toast.info('Creating your suggestion...')
     }
+
+    function onClickOnCreateSuggestionComment(suggestionId : string): void
+    {
+        setFirstLoad(false);
+        createNewSuggestionComment(suggestionId);
+        setCreateSuggestionCommentContent('');
+        toast.info('Creating your comment...')
+    }
+
 
     function addSuggestionComponent()
     {
@@ -134,15 +159,49 @@ const SuggestionSecondPage = () =>
         };
     }
 
-    function onClickOnDeleteSuggestionButton(suggestionId : string) : void
+    function onClickOnDeleteSuggestionButton() : void
     {
-        dispatch(deleteSuggestion(suggestionId));
+        dispatch(deleteSuggestion(selectedSuggestion.Id));
     }
 
     function onClickOnCommentButton(suggestion : ISuggestionItem) : void
     {
         setSelectedSuggestion(suggestion);
         toggleCommentModal();
+    }
+
+    function onDeleteComment(commentId : string, suggestionId : string)
+    {
+        dispatch(deleteComment(commentId, suggestionId));
+    }
+
+    function getCommentsAsListItems(comments : ISuggestionCommentItem[])
+    {
+        return map(comments, function(comment : ISuggestionCommentItem)
+        {
+            const isMyComment = comment.Ip === userIp;
+            const deleteCommentButton = isMyComment ? <i
+                className="fas fa-trash-alt remove-suggestion-comment-button"
+                onClick={() => onDeleteComment(comment.Id, selectedSuggestion.Id)}></i> : <></>;
+            return <>
+
+                <MDBListGroupItem key={comment.Id} className="comment-modal-content">{deleteCommentButton} {comment.Comment}</MDBListGroupItem>
+            </>
+        })
+    }
+
+    function addSuggestionCommentComponent()
+    {
+        return (
+            <>
+                <input onChange={onChangeCreateSuggestionCommentContent}
+                       type="text"
+                       value={createSuggestionCommentContent}
+                       className=" create-suggestion-comment text-left flex-fill bd-highlight"
+                       placeholder="Enter your comment"/>
+                <i onClick={() => onClickOnCreateSuggestionComment(selectedSuggestion.Id)}
+                   className="create-suggestion-comment-button center fa-2x right ">[+]</i>
+            </>);
     }
 
     //region create item data table
@@ -230,7 +289,7 @@ const SuggestionSecondPage = () =>
         const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
-        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
+        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton()}></i>: <></>;
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
@@ -268,17 +327,16 @@ const SuggestionSecondPage = () =>
                             </MDBRow>
                         </MDBContainer>
                     </MDBMask>
-                    <MDBModal isOpen={commentModalIsOpen} toggle={(toggleCommentModal)} size="lg">
+                    <MDBModal className="show-comments-modal" isOpen={commentModalIsOpen} toggle={(toggleCommentModal)} size="lg">
                         <MDBModalHeader toggle={toggleCommentModal}>{selectedSuggestion.Content}</MDBModalHeader>
                         <MDBModalBody>
-                            Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore
-                            magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat.
+                            <MDBListGroup>
+                                {getCommentsAsListItems(selectedSuggestion.Comments)}
+                            </MDBListGroup>
+                            <MDBRow className="create-suggestion-comment-container d-flex bd-highlight">
+                                {addSuggestionCommentComponent()}
+                            </MDBRow>
                         </MDBModalBody>
-                        <MDBModalFooter>
-                            <MDBBtn color="secondary" onClick={toggleCommentModal}>Close</MDBBtn>
-                            <MDBBtn color="primary">Save changes</MDBBtn>
-                        </MDBModalFooter>
                     </MDBModal>
                 </MDBView>
             </div>

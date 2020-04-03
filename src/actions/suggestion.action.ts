@@ -182,8 +182,7 @@ export interface IDeleteCommentAction
     type : SuggestionActionTypes.DELETE_COMMENT,
     payload : {
         id : string,
-        suggestionId : string,
-        ip : string
+        suggestionId : string
     }
 }
 
@@ -390,14 +389,13 @@ export function deletingSuggestionFailed() : IDeletingSuggestionFailedAction
 //endregion
 
 //region Delete a suggestion comment
-export function deleteComment(id : string, suggestionId : string, ip : string) : IDeleteCommentAction
+export function deleteComment(id : string, suggestionId : string) : IDeleteCommentAction
 {
     return {
         type : SuggestionActionTypes.DELETE_COMMENT,
         payload : {
             id : id,
-            suggestionId : suggestionId,
-            ip : ip
+            suggestionId : suggestionId
         }
     }
 }

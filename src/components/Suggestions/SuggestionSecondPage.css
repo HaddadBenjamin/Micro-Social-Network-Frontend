@@ -3,7 +3,7 @@
     color: #6f5df7 !important;
 }
 
-.thumbs-down, .negative-vote
+.thumbs-down, .negative-vote, .remove-suggestion-comment-button, .close span
 {
     color:red !important;
 }
@@ -22,7 +22,9 @@
 .default-vote,
 .remove-suggestion-button,
 .comment-suggestion-button,
-.suggestion-comment
+.suggestion-comment,
+.remove-suggestion-comment-button,
+.close span
 {
     transition: all .2s ease-in-out;
 }
@@ -32,7 +34,9 @@
 .create-suggestion-button:hover,
 .remove-suggestion-button:hover,
 .comment-suggestion-button:hover,
-.suggestion-comment:hover
+.suggestion-comment:hover,
+.remove-suggestion-comment-button:hover,
+.close span:hover
 {
     transform: scale(1.15);
     cursor: pointer;
@@ -54,7 +58,28 @@
     text-align: center;
     font-weight: 100;
 }
-.create-suggestion
+
+.show-comments-modal,
+.modal-content,
+.modal-body,
+.close
+{
+    background-color : rgba(1,1 ,1,0.8) !important;
+    font-size: 17px;
+    font-family: Diablo;
+    text-align: center;
+    font-weight: 100;
+    color : white;
+}
+
+.comment-modal-content
+{
+    background-color : rgba(1,1 ,1,0.8) !important;
+    border: 0.05em solid red !important;
+}
+
+.create-suggestion,
+.create-suggestion-comment
 {
     color : white !important;
     background-color : rgba(1,1 ,1,0.8) !important;
@@ -67,13 +92,15 @@
     display : inline !important;
 }
 
-.create-suggestion:hover
+.create-suggestion:hover,
+.create-suggestion-comment:hover
 {
     border: 0.05em solid white !important;
 
 }
 
-.create-suggestion-button
+.create-suggestion-button,
+.create-suggestion-comment-button
 {
     color : rgba(0,255,0) !important;
     transition: all .2s ease-in-out;
@@ -85,13 +112,15 @@
     box-shadow: 2px 2px 4px 0.1px #eb0d26 !important;
 }
 
-.create-suggestion-container
+.create-suggestion-container,
+.create-suggestion-comment-container
 {
     display: flex;
     justify-content: space-between;
 }
 
-.create-suggestion-button:hover
+.create-suggestion-button:hover,
+.create-suggestion-comment-button:hover
 {
     transform: scale(1.1);
     cursor: pointer;
