@@ -45,7 +45,7 @@ import ISuggestionItem, {
     ISuggestionVoteItem
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map, orderBy, some} from 'lodash';
+import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
 
 const SuggestionSecondPage = () =>
@@ -82,6 +82,13 @@ const SuggestionSecondPage = () =>
 
     }, [creatingSuggestionStatus, firstLoad]);
 
+    useEffect(() =>
+    {
+        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id == selectedSuggestion.Id; });
+        if (suggestionIndex !== -1)
+            setSelectedSuggestion(suggestions[suggestionIndex]);
+    }, [suggestions]);
+
     //region relative to create a new suggestion component
     const createNewSuggestion = () =>
     {
@@ -113,12 +120,9 @@ const SuggestionSecondPage = () =>
 
     function onClickOnCreateSuggestionComment(suggestionId : string): void
     {
-        setFirstLoad(false);
         createNewSuggestionComment(suggestionId);
         setCreateSuggestionCommentContent('');
-        toast.info('Creating your comment...')
     }
-
 
     function addSuggestionComponent()
     {
