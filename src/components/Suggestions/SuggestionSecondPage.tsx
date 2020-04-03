@@ -30,9 +30,9 @@ import {
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
-import ISuggestionItem, {ISuggestionVoteRequest} from "../../models/Suggestion";
+import ISuggestionItem, {ISuggestionVoteItem} from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map, orderBy} from 'lodash';
+import {map, orderBy, some} from 'lodash';
 
 const SuggestionSecondPage = () =>
 {
@@ -177,11 +177,19 @@ const SuggestionSecondPage = () =>
                     "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
+        //const isMySuggestion : boolean = userIp == suggestion.
+        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && vote.IsPositive });
+        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && !vote.IsPositive });
+        const votePositivelyClass = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""}`;
+        const voteNegativelyClass = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""}`;
+
+        console.log(votePositivelyClass);
+        const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
+        const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
+
         const content = <MDBListGroupItem
             className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;
-        const votePositively = <i className="fas fa-thumbs-up thumbs-up" onClick={() => onClickOnPositiveVote(suggestion)}></i>;
-        const voteNegatively = <i className="fas fa-thumbs-down thumbs-down" onClick={() => onClickOnNegativeVote(suggestion)}></i>;
 
         return {
             'Content': content,
@@ -190,7 +198,6 @@ const SuggestionSecondPage = () =>
             'VoteNegatively': voteNegatively,
         };
     }
-
     //endregion
 
     return (
