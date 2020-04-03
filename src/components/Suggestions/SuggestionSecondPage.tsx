@@ -177,19 +177,18 @@ const SuggestionSecondPage = () =>
                     "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
-        //const isMySuggestion : boolean = userIp == suggestion.
+        const isMySuggestion : boolean = suggestion.Ip === userIp;
+        const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
+
         const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && vote.IsPositive });
         const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && !vote.IsPositive });
-        const votePositivelyClass = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""}`;
-        const voteNegativelyClass = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""}`;
+        const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""}`;
+        const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""}`;
 
-        console.log(votePositivelyClass);
+        const content = <MDBListGroupItem className={contentClass}>{suggestion.Content}</MDBListGroupItem>;
+        const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
-
-        const content = <MDBListGroupItem
-            className="suggestion d-flex justify-content-between align-items-center">{suggestion.Content}</MDBListGroupItem>;
-        const rate = <p className={rateClass}>{voteValue}</p>;
 
         return {
             'Content': content,

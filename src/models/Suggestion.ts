@@ -1,6 +1,7 @@
 interface ISuggestionItem
 {
     Id : string,
+    Ip : string,
     Content : string,
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
