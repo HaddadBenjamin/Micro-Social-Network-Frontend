@@ -1,13 +1,20 @@
 import ApiStatus from "../models/ApiStatus";
 import ISuggestionItem from "../models/Suggestion";
-import {SuggestionActionTypes, SuggestionsAction} from "../actions/suggestion.action";
+import {
+    SuggestionActionTypes,
+    SuggestionsAction
+} from "../actions/suggestion.action";
 import produce from "immer";
-import {findIndex} from "lodash";
+import {
+    filter,
+    findIndex
+} from "lodash";
 
 export const initialSuggestionState: ISuggestionState = {
     gettingAllSuggestionsStatus: ApiStatus.LOADING,
     votingToASuggestionStatus: ApiStatus.LOADED,
     creatingASuggestionStatus: ApiStatus.LOADED,
+    deletingASuggestionStatus: ApiStatus.LOADED,
     suggestions: []
 }
 
@@ -15,6 +22,7 @@ export interface ISuggestionState {
     gettingAllSuggestionsStatus: ApiStatus;
     votingToASuggestionStatus: ApiStatus;
     creatingASuggestionStatus: ApiStatus;
+    deletingASuggestionStatus: ApiStatus;
     suggestions: ISuggestionItem[];
 }
 
@@ -67,6 +75,20 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                     draft.suggestions[suggestionToUpdateIndex] = suggestionToUpdate;
 
                 draft.votingToASuggestionStatus = ApiStatus.LOADED;
+                break;
+
+            case SuggestionActionTypes.DELETE_SUGGESTION :
+            case SuggestionActionTypes.DELETING_SUGGESTION :
+                draft.deletingASuggestionStatus = ApiStatus.LOADING;
+                break;
+
+            case SuggestionActionTypes.DELETED_SUGGESTION :
+                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestionId; });
+                draft.deletingASuggestionStatus = ApiStatus.LOADED;
+                break;
+
+            case SuggestionActionTypes.DELETING_SUGGESTION_FAILED :
+                draft.deletingASuggestionStatus = ApiStatus.FAILED;
                 break;
         }
     })

@@ -5,6 +5,9 @@ import {
     createdSuggestion,
     creatingSuggestion,
     creatingSuggestionFailed,
+    deletedSuggestion,
+    deletingSuggestion,
+    deletingSuggestionFailed,
     gettingAllSuggestions,
     gettingAllSuggestionsFailed,
     gotAllSuggestions,
@@ -85,4 +88,22 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     )
 );
 
-export default combineEpics(getAllSuggestionsEpic, createSuggestionEpic, voteToASuggestionEpic);
+const deleteSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
+    filter(isOfType(SuggestionActionTypes.DELETE_SUGGESTION)),
+    mergeMap(action =>
+        from(axios({
+            method: 'delete',
+            url: api.getUrl('suggestions/delete'),
+            headers: {},
+            data: {
+                Id: action.payload.suggestionId,
+                Ip : state$.value.user.ip
+            }
+        })).pipe(
+            map((response: AxiosResponse<string>) => deletedSuggestion(response.data)),
+            startWith(deletingSuggestion()),
+            catchError(() => of(deletingSuggestionFailed()))
+        )
+    ));
+
+export default combineEpics(getAllSuggestionsEpic, createSuggestionEpic, voteToASuggestionEpic, deleteSuggestionEpic);

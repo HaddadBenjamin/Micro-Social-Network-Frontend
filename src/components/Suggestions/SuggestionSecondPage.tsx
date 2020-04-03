@@ -26,6 +26,7 @@ import {
 import {
     addVote,
     createSuggestion,
+    deleteSuggestion,
     getAllSuggestions
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
@@ -121,6 +122,11 @@ const SuggestionSecondPage = () =>
         };
     }
 
+    function onClickOnDeleteSuggestionButton(suggestionId : string) : void
+    {
+        dispatch(deleteSuggestion(suggestionId));
+    }
+
     //region create item data table
     function getItemDataTable(): any
     {
@@ -142,7 +148,7 @@ const SuggestionSecondPage = () =>
                 label: 'Rate',
                 field: 'Rate',
                 sort: 'disabled',
-                width: 20
+                width: 15
             },
             {
                 label: '',
@@ -153,6 +159,12 @@ const SuggestionSecondPage = () =>
             {
                 label: '',
                 field: 'VoteNegatively',
+                width: 10,
+                sort: 'disabled'
+            },
+            {
+                label: '',
+                field: 'DeleteMySuggestionButton',
                 width: 10,
                 sort: 'disabled'
             }
@@ -189,12 +201,14 @@ const SuggestionSecondPage = () =>
         const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
+        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
 
         return {
             'Content': content,
             'Rate': rate,
             'VotePositively': votePositively,
             'VoteNegatively': voteNegatively,
+            'DeleteMySuggestionButton' : deleteButton
         };
     }
     //endregion

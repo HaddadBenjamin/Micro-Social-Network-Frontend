@@ -17,12 +17,12 @@
     color : rgba(0,255,0);
 }
 
-.thumbs-up, .thumbs-down, .default-vote
+.thumbs-up, .thumbs-down, .default-vote, .remove-suggestion-button
 {
     transition: all .2s ease-in-out;
 }
 
-.thumbs-up:hover, .thumbs-down:hover, .create-suggestion-button:hover
+.thumbs-up:hover, .thumbs-down:hover, .create-suggestion-button:hover, .remove-suggestion-button:hover
 {
     transform: scale(1.15);
     cursor: pointer;

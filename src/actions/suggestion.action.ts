@@ -18,6 +18,11 @@ export enum SuggestionActionTypes
     ADDING_VOTE = 'suggestions/voting',
     ADDED_VOTE = 'suggestions/voted',
     ADDING_VOTE_FAILED = 'suggestions/voting_failed',
+
+    DELETE_SUGGESTION = 'suggestions/delete',
+    DELETING_SUGGESTION = 'suggestions/deleting',
+    DELETED_SUGGESTION = 'suggestions/deleted',
+    DELETING_SUGGESTION_FAILED = 'suggestions/deleting_failed',
 }
 
 export interface IGetAllSuggestionsAction
@@ -67,6 +72,32 @@ export interface ICreatedSuggestionAction
 export interface ICreatingSuggestionFailedAction
 {
     type : SuggestionActionTypes.CREATING_SUGGESTION_FAILED
+}
+
+export interface IDeleteSuggestionAction
+{
+    type : SuggestionActionTypes.DELETE_SUGGESTION,
+    payload : {
+        suggestionId : string
+    }
+}
+
+export interface IDeletingSuggestionAction
+{
+    type : SuggestionActionTypes.DELETING_SUGGESTION
+}
+
+export interface IDeletedSuggestionAction
+{
+    type : SuggestionActionTypes.DELETED_SUGGESTION
+    payload : {
+        suggestionId : string
+    }
+}
+
+export interface IDeletingSuggestionFailedAction
+{
+    type : SuggestionActionTypes.DELETING_SUGGESTION_FAILED
 }
 
 export interface IAddVoteAction
@@ -191,6 +222,40 @@ export function addedVote(suggestion : ISuggestionItem) : IAddedVoteAction
     }
 }
 
+export function deleteSuggestion(suggestionId : string) : IDeleteSuggestionAction
+{
+    return {
+        type : SuggestionActionTypes.DELETE_SUGGESTION,
+        payload : {
+            suggestionId : suggestionId
+        }
+    }
+}
+
+export function deletingSuggestion() : IDeletingSuggestionAction
+{
+    return {
+        type : SuggestionActionTypes.DELETING_SUGGESTION
+    }
+}
+
+export function deletedSuggestion(suggestionId : string) : IDeletedSuggestionAction
+{
+    return {
+        type : SuggestionActionTypes.DELETED_SUGGESTION,
+        payload : {
+            suggestionId : suggestionId
+        }
+    }
+}
+
+export function deletingSuggestionFailed() : IDeletingSuggestionFailedAction
+{
+    return {
+        type : SuggestionActionTypes.DELETING_SUGGESTION_FAILED,
+    }
+}
+
 export function addingVoteFailed() : IAddingVoteFailedAction
 {
     return {
@@ -203,11 +268,18 @@ export type SuggestionsAction =
     IGettingAllSuggestionsAction |
     IGotAllSuggestionsAction |
     IGettingAllSuggestionsFailedAction |
+
     ICreateSuggestionAction |
     ICreatingSuggestionAction |
     ICreatedSuggestionAction |
     ICreatingSuggestionFailedAction |
+
     IAddVoteAction |
     IAddingVoteAction |
     IAddedVoteAction |
-    IAddingVoteFailedAction;
+    IAddingVoteFailedAction |
+
+    IDeleteSuggestionAction |
+    IDeletingSuggestionAction |
+    IDeletedSuggestionAction |
+    IDeletingSuggestionFailedAction;
