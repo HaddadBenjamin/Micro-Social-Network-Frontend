@@ -6,12 +6,20 @@ interface ISuggestionItem
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
     Votes : ISuggestionVoteItem[]
+    Comments : ISuggestionCommentItem[]
 }
 
 export interface ISuggestionVoteItem
 {
     Ip : string,
     IsPositive : boolean
+}
+
+export interface ISuggestionCommentItem
+{
+    Id : string,
+    Ip : string;
+    Comment : string
 }
 
 export interface ISuggestionVoteRequest

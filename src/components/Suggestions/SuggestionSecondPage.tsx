@@ -167,6 +167,12 @@ const SuggestionSecondPage = () =>
                 field: 'DeleteMySuggestionButton',
                 width: 10,
                 sort: 'disabled'
+            },
+            {
+                label: 'Comments',
+                field: 'Comments',
+                width: 10,
+                sort: 'disabled'
             }
         ];
     }
@@ -202,13 +208,15 @@ const SuggestionSecondPage = () =>
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
         const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
+        const comments = <i className="fas fa-comments comment-suggestion-button"></i>;
 
         return {
             'Content': content,
             'Rate': rate,
             'VotePositively': votePositively,
             'VoteNegatively': voteNegatively,
-            'DeleteMySuggestionButton' : deleteButton
+            'DeleteMySuggestionButton' : deleteButton,
+            'Comments' : comments
         };
     }
     //endregion

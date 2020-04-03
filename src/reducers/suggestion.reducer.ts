@@ -11,18 +11,22 @@ import {
 } from "lodash";
 
 export const initialSuggestionState: ISuggestionState = {
+    creatingASuggestionStatus: ApiStatus.LOADED,
     gettingAllSuggestionsStatus: ApiStatus.LOADING,
     votingToASuggestionStatus: ApiStatus.LOADED,
-    creatingASuggestionStatus: ApiStatus.LOADED,
+    commentingASuggestionStatus: ApiStatus.LOADED,
     deletingASuggestionStatus: ApiStatus.LOADED,
+    deletingACommentFromASuggestionStatus: ApiStatus.LOADED,
     suggestions: []
 }
 
 export interface ISuggestionState {
+    creatingASuggestionStatus: ApiStatus;
     gettingAllSuggestionsStatus: ApiStatus;
     votingToASuggestionStatus: ApiStatus;
-    creatingASuggestionStatus: ApiStatus;
+    commentingASuggestionStatus: ApiStatus;
     deletingASuggestionStatus: ApiStatus;
+    deletingACommentFromASuggestionStatus: ApiStatus;
     suggestions: ISuggestionItem[];
 }
 
@@ -30,6 +34,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 {
     return produce(state, draft =>{
         switch (action.type) {
+            //region Get all suggestions
             case SuggestionActionTypes.GET_ALL_SUGGESTIONS :
             case SuggestionActionTypes.GETTING_ALL_SUGGESTIONS :
                 draft.gettingAllSuggestionsStatus = ApiStatus.LOADING;
@@ -43,7 +48,9 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 draft.suggestions = action.payload.suggestions;
                 draft.gettingAllSuggestionsStatus = ApiStatus.LOADED;
                 break;
+            //endregion
 
+            //region Create a suggestion
             case SuggestionActionTypes.CREATE_SUGGESTION :
             case SuggestionActionTypes.CREATING_SUGGESTION :
                 draft.creatingASuggestionStatus = ApiStatus.LOADING;
@@ -57,7 +64,9 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 draft.suggestions.push(action.payload.suggestion);
                 draft.creatingASuggestionStatus = ApiStatus.LOADED;
                 break;
+            //endregion
 
+            //region Add a vote to a suggestion
             case SuggestionActionTypes.ADD_VOTE :
             case SuggestionActionTypes.ADDING_VOTE :
                 draft.votingToASuggestionStatus = ApiStatus.LOADING;
@@ -76,7 +85,26 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
                 draft.votingToASuggestionStatus = ApiStatus.LOADED;
                 break;
+            //endregion
 
+            //region Add a comment to a suggestion
+            case SuggestionActionTypes.ADD_COMMENT :
+            case SuggestionActionTypes.ADDING_COMMENT :
+                draft.commentingASuggestionStatus = ApiStatus.LOADING;
+                break;
+
+            case SuggestionActionTypes.ADDED_COMMENT :
+                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestion.Id; });
+                draft.suggestions.push(action.payload.suggestion);
+                draft.commentingASuggestionStatus = ApiStatus.LOADED;
+                break;
+
+            case SuggestionActionTypes.ADDING_COMMENT_FAILED :
+                draft.commentingASuggestionStatus = ApiStatus.FAILED;
+                break;
+            //endregion
+
+            //region Delete a suggestion
             case SuggestionActionTypes.DELETE_SUGGESTION :
             case SuggestionActionTypes.DELETING_SUGGESTION :
                 draft.deletingASuggestionStatus = ApiStatus.LOADING;
@@ -90,6 +118,24 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
             case SuggestionActionTypes.DELETING_SUGGESTION_FAILED :
                 draft.deletingASuggestionStatus = ApiStatus.FAILED;
                 break;
+            //endregion
+
+            //region Delete a comment from a suggestion
+            case SuggestionActionTypes.DELETE_COMMENT :
+            case SuggestionActionTypes.DELETING_COMMENT :
+                draft.deletingACommentFromASuggestionStatus = ApiStatus.LOADING;
+                break;
+
+            case SuggestionActionTypes.DELETED_COMMENT :
+                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestion.Id; });
+                draft.suggestions.push(action.payload.suggestion);
+                draft.deletingACommentFromASuggestionStatus = ApiStatus.LOADED;
+                break;
+
+            case SuggestionActionTypes.DELETING_COMMENT_FAILED :
+                draft.deletingACommentFromASuggestionStatus = ApiStatus.FAILED;
+                break;
+            //endregion
         }
     })
 }
