@@ -31,7 +31,10 @@ import {
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../models/ApiStatus";
-import ISuggestionItem, {ISuggestionVoteItem} from "../../models/Suggestion";
+import ISuggestionItem, {
+    ISuggestionCommentItem,
+    ISuggestionVoteItem
+} from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some} from 'lodash';
 
@@ -148,30 +151,30 @@ const SuggestionSecondPage = () =>
                 label: 'Rate',
                 field: 'Rate',
                 sort: 'disabled',
-                width: 15
+            },
+            {
+                label: 'Comments',
+                field: 'CommentsCount',
+                sort: 'disabled',
             },
             {
                 label: '',
                 field: 'VotePositively',
-                width: 10,
                 sort: 'disabled'
             },
             {
                 label: '',
                 field: 'VoteNegatively',
-                width: 10,
                 sort: 'disabled'
             },
             {
                 label: '',
                 field: 'DeleteMySuggestionButton',
-                width: 10,
                 sort: 'disabled'
             },
             {
-                label: 'Comments',
+                label: '',
                 field: 'Comments',
-                width: 10,
                 sort: 'disabled'
             }
         ];
@@ -195,6 +198,11 @@ const SuggestionSecondPage = () =>
                     "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
+        const commentCount = suggestion.Comments.length;
+        const commentCountClass = `suggestion-comment-count ${commentCount > 0 ? "positive-comment-count" : ""}`;
+        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.Ip === userIp});
+        const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
+        
         const isMySuggestion : boolean = suggestion.Ip === userIp;
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
@@ -208,15 +216,17 @@ const SuggestionSecondPage = () =>
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
         const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
-        const comments = <i className="fas fa-comments comment-suggestion-button"></i>;
+        const comments = <i className={commentClass}></i>;
+        const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
         return {
             'Content': content,
             'Rate': rate,
+            'CommentsCount' : commentsCount,
             'VotePositively': votePositively,
             'VoteNegatively': voteNegatively,
+            'Comments' : comments,
             'DeleteMySuggestionButton' : deleteButton,
-            'Comments' : comments
         };
     }
     //endregion

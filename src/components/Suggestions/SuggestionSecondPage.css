@@ -12,17 +12,27 @@
 {
     color : white !important
 }
-.positive-vote
+.positive-vote, .positive-comment-count
 {
     color : rgba(0,255,0);
 }
 
-.thumbs-up, .thumbs-down, .default-vote, .remove-suggestion-button, .comment-suggestion-button
+.thumbs-up,
+.thumbs-down,
+.default-vote,
+.remove-suggestion-button,
+.comment-suggestion-button,
+.suggestion-comment
 {
     transition: all .2s ease-in-out;
 }
 
-.thumbs-up:hover, .thumbs-down:hover, .create-suggestion-button:hover, .remove-suggestion-button:hover, .comment-suggestion-button:hover
+.thumbs-up:hover,
+.thumbs-down:hover,
+.create-suggestion-button:hover,
+.remove-suggestion-button:hover,
+.comment-suggestion-button:hover,
+.suggestion-comment:hover
 {
     transform: scale(1.15);
     cursor: pointer;
@@ -35,7 +45,8 @@
 .vote-text,
 .suggestion,
 .create-suggestion,
-.create-suggestion-button
+.create-suggestion-button,
+.suggestion-comment-count
 {
     background : transparent !important;
     font-size: 17px;
