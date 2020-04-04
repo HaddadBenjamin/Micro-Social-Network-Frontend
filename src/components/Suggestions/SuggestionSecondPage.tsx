@@ -186,6 +186,7 @@ const SuggestionSecondPage = () =>
             const isMyComment = comment.Ip === userIp;
             const deleteCommentButton = isMyComment ? <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
+                key={'suggestion-comment-button' + comment.Id}
                 onClick={() => onDeleteComment(comment.Id, selectedSuggestion.Id)}></i> : <></>;
             return <>
 
@@ -213,7 +214,8 @@ const SuggestionSecondPage = () =>
     {
         return {
             columns: getItemDataTableColumns(),
-            rows: getItemDataTableRows()
+            rows: getItemDataTableRows(),
+            responsive : true
         };
     }
 
@@ -226,34 +228,40 @@ const SuggestionSecondPage = () =>
                 sort: 'disabled'
             },
             {
-                label: 'Rate',
+                label: '👍',
                 field: 'Rate',
                 sort: 'disabled',
+                width : '10px'
             },
             {
-                label: 'Comments',
+                label: '💬',
                 field: 'CommentsCount',
                 sort: 'disabled',
+                width : '10px'
             },
             {
                 label: '',
                 field: 'VotePositively',
-                sort: 'disabled'
+                sort: 'disabled',
+                width : '10px'
             },
             {
                 label: '',
                 field: 'VoteNegatively',
-                sort: 'disabled'
+                sort: 'disabled',
+                width : '10px'
             },
             {
                 label: '',
                 field: 'DeleteMySuggestionButton',
-                sort: 'disabled'
+                sort: 'disabled',
+                width : '10px'
             },
             {
                 label: '',
                 field: 'Comments',
-                sort: 'disabled'
+                sort: 'disabled',
+                width : '10px'
             }
         ];
     }
@@ -332,7 +340,9 @@ const SuggestionSecondPage = () =>
                         </MDBContainer>
                     </MDBMask>
                     <MDBModal className="show-comments-modal" isOpen={commentModalIsOpen} toggle={(toggleCommentModal)} size="lg">
-                        <MDBModalHeader toggle={toggleCommentModal}>{selectedSuggestion.Content}</MDBModalHeader>
+                        <MDBModalHeader
+                            className="suggestion-comment-title"
+                            toggle={toggleCommentModal}>{selectedSuggestion.Content}</MDBModalHeader>
                         <MDBModalBody>
                             <MDBListGroup>
                                 {getCommentsAsListItems(selectedSuggestion.Comments)}

@@ -134,3 +134,30 @@
 {
     color : yellow !important;
 }
+
+
+@media (max-width: 787px) {
+    .vote-text,
+    .suggestion,
+    .create-suggestion,
+    .create-suggestion-button,
+    .suggestion-comment-count,
+    .comment-modal-content,
+    .create-suggestion-comment,
+    .create-suggestion-comment-button
+    {
+        font-size:  0.75rem !important;
+    }
+
+    .suggestion-comment-title h4
+    {
+        font-size:  .95rem !important;
+    }
+
+    td, .suggestion
+    {
+        padding-left : 6px !important;
+        padding-right : 6px !important;
+    }
+
+}
