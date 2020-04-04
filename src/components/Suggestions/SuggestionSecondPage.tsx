@@ -135,7 +135,7 @@ const SuggestionSecondPage = () =>
                        className=" create-suggestion text-left flex-fill bd-highlight"
                        placeholder="Enter your suggestion"/>
                 <i onClick={onClickOnCreateSuggestion}
-                   className="create-suggestion-button center fa-2x right ">[+]</i>
+                   className="create-suggestion-button center fa-lg right ">📨</i>
             </>);
     }
     //endregion
@@ -205,7 +205,7 @@ const SuggestionSecondPage = () =>
                        className=" create-suggestion-comment text-left flex-fill bd-highlight"
                        placeholder="Enter your comment"/>
                 <i onClick={() => onClickOnCreateSuggestionComment(selectedSuggestion.Id)}
-                   className="create-suggestion-comment-button center fa-2x right ">[+]</i>
+                   className="create-suggestion-comment-button center fa-lg right ">📨</i>
             </>);
     }
 
@@ -253,13 +253,13 @@ const SuggestionSecondPage = () =>
             },
             {
                 label: '',
-                field: 'DeleteMySuggestionButton',
+                field: 'Comments',
                 sort: 'disabled',
                 width : '10px'
             },
             {
                 label: '',
-                field: 'Comments',
+                field: 'DeleteMySuggestionButton',
                 sort: 'disabled',
                 width : '10px'
             }
