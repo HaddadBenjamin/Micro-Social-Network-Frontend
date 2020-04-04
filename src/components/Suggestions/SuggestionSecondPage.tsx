@@ -163,9 +163,9 @@ const SuggestionSecondPage = () =>
         };
     }
 
-    function onClickOnDeleteSuggestionButton() : void
+    function onClickOnDeleteSuggestionButton(suggestionId : string) : void
     {
-        dispatch(deleteSuggestion(selectedSuggestion.Id));
+        dispatch(deleteSuggestion(suggestionId));
     }
 
     function onClickOnCommentButton(suggestion : ISuggestionItem) : void
@@ -301,7 +301,7 @@ const SuggestionSecondPage = () =>
         const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
-        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton()}></i>: <></>;
+        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
