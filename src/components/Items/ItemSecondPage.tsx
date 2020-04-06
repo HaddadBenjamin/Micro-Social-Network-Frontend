@@ -30,23 +30,13 @@ import IItem, {IItemProperty} from "../../models/Items";
 const ItemSecondPage = () =>
 {
     const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
-
-    const [items, setItems] = useState<IItem[]>([]);
-    const [filteredItems, setFilteredItems] = useState<IItem[]>([]);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
-    useEffect(() =>
-    {
-        console.log(itemFromGlobalState);
-        //setItems(itemFromGlobalState);
-        //setFilteredItems(itemFromGlobalState);
-    }, [itemFromGlobalState]);
 
     //region search logics, it's should be extrated in another component or 2 for the filters.
     function onSearch(searchedElements: IItem[], searchedTerm: string): void
     {
-        setFilteredItems(searchedElements);
-        setSearchTerm(searchedTerm);
+        setSearchTerm(searchedTerm.toLowerCase());
     }
 
     function shouldFilterItemByName(item: IItem, term: string): boolean
@@ -447,7 +437,7 @@ const ItemSecondPage = () =>
     {
         return {
             columns: getItemDataTableColumns(),
-            rows: getItemDataTableRows(itemFromGlobalState)
+            rows: getItemDataTableRows(items)
         };
     }
 
@@ -499,6 +489,10 @@ const ItemSecondPage = () =>
         event.target.src = notFoundImageUrl;
     }
 
+    const filteredItems = filter(itemFromGlobalState, (item : IItem) =>
+    {
+        return searchFilter(item, searchTerm);
+    });
     const orderedFilteredItems = orderBy(filteredItems, ['LevelRequired', 'Name']);
     const itemDataTable = getItemDataTable(orderedFilteredItems);
 
@@ -513,7 +507,7 @@ const ItemSecondPage = () =>
                                 <MDBCol>
                                     <Search
                                         searchFilter={searchFilter}
-                                        elements={items}
+                                        elements={itemFromGlobalState}
                                         onSearch={onSearch}/>
                                     <MDBDataTable
                                         className="item"
