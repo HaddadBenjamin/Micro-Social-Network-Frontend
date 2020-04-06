@@ -290,8 +290,8 @@ const SuggestionSecondPage = () =>
 
         const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && vote.IsPositive });
         const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && !vote.IsPositive });
-        const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""} ${isMySuggestion ? "" : "thumbs-animation"}`;
-        const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""} ${isMySuggestion ? "" : "thumbs-animation"}`;
+        const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
+        const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
 
         const content = <MDBListGroupItem className={contentClass}>{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;

@@ -29,7 +29,8 @@
     transition: all .2s ease-in-out;
 }
 
-.thumbs-animation:hover,
+.thumbs-up:hover,
+.thumbs-down:hover,
 .create-suggestion-button:hover,
 .remove-suggestion-button:hover,
 .comment-suggestion-button:hover,
@@ -111,6 +112,12 @@
     background-color : rgba(1,1 ,1,0.8) !important;
     border: 0.05em solid white !important;
     box-shadow: 2px 2px 4px 0.1px #eb0d26 !important;
+}
+
+.thumbs-disable
+{
+    color : transparent !important;
+    pointer-events: none;
 }
 
 .create-suggestion-container,
