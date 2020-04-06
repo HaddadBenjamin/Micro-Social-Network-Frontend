@@ -2,8 +2,6 @@ import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
 import {map} from 'lodash'
-import qs from 'qs'
-import api from '../../shared/utilities/api'
 import scrollTo from '../../shared/utilities/animate'
 import {useDispatch} from "react-redux";
 import {searchItems} from "../../actions/item.action";
@@ -11,10 +9,6 @@ import {searchItems} from "../../actions/item.action";
 interface Props
 {
     search: SearchItemDto,
-}
-
-interface State
-{
 }
 
 const SearchItem = (props: Props) =>

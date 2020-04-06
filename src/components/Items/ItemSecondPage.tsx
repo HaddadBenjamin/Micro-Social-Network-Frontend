@@ -1,5 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {orderBy, some, map, forEach, filter} from 'lodash'
+import React, {
+    useState,
+    useEffect
+} from 'react';
+import {
+    orderBy,
+    some,
+    map,
+    forEach,
+    filter
+} from 'lodash'
 import './ItemSecondPage.css';
 import {
     MDBDataTable,
@@ -170,25 +179,41 @@ const ItemSecondPage = () =>
     //endregion
 
     //region calcul item image
-    function calculItemImageStyle(item: IItem): CSS.Properties
+    interface ImageDetails
     {
-        const newWidth : number = 40;
+        style: CSS.Properties,
+        imageName: string
+    }
+    interface ImageWidthAndName
+    {
+        width : number,
+        imageName : string
+    }
+    function calculItemImageStyleAndName(item: IItem): ImageDetails
+    {
+        const newWidth: number = 40;
         const defaultMaxWidth = '100%';
-        let width : number = updateTheItemImageSize(item, newWidth);
+        let width: number = updateTheItemImageSize(item, newWidth);
+        let imageName : string = item.ImageName;
+        let imageWidthAndName = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth, imageName);
 
-        width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
+        width = imageWidthAndName.width;
+        imageName = imageWidthAndName.imageName;
         width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
         const maxWidth = width !== 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
 
         return {
-            width: width !== 0 ? `${width}px` : '',
-            maxWidth : maxWidth
+            imageName: imageName,
+            style: {
+                width: width !== 0 ? `${width}px` : '',
+                maxWidth: maxWidth
+            }
         };
     }
 
 
-    function updateTheItemImageSize(item : IItem, newWidth : number) : number
+    function updateTheItemImageSize(item: IItem, newWidth: number): number
     {
         const imagesThatNeedToBeResized = [
             "katar",
@@ -257,70 +282,74 @@ const ItemSecondPage = () =>
         return 0;
     }
 
-    function randomizeTheItemImageNameAndUpdateTheImageSize(item : IItem, width : number, newWidth : number) : number
+
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item: IItem, width: number, newWidth: number, imageName: string): ImageWidthAndName
     {
         var imageDatasWhereTheImageNameMustBeRandomized = [
-            { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
-            { imageName : "ring1", newImageName : "ring", firstImageIndex : 1, lastImageIndex : 5 },
-            { imageName : "jewel", newImageName : "jewel0", firstImageIndex : 1, lastImageIndex : 6 },
-            { imageName : "largecharm", newImageName : "largecharm0", firstImageIndex : 1, lastImageIndex : 3 }
+            {imageName: "amu1", newImageName: "amu", firstImageIndex: 1, lastImageIndex: 3},
+            {imageName: "ring1", newImageName: "ring", firstImageIndex: 1, lastImageIndex: 5},
+            {imageName: "jewel", newImageName: "jewel0", firstImageIndex: 1, lastImageIndex: 6},
+            {imageName: "largecharm", newImageName: "largecharm0", firstImageIndex: 1, lastImageIndex: 3}
         ];
 
-        forEach(imageDatasWhereTheImageNameMustBeRandomized, function(imageData)
+        forEach(imageDatasWhereTheImageNameMustBeRandomized, function (imageData)
         {
             if (item.ImageName === imageData.imageName)
             {
-                item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString();
+                imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
         });
 
-        return width;
+        return {
+            width : width,
+            imageName : imageName
+        };
     }
 
-    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : IItem, width : number, newWidth : number) : number
+    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item: IItem, width: number, newWidth: number): number
     {
         const imageThatNeedToBeResizedData = [
-            { Name : "gargoylesbite", Size : 40 },
-            { Name : "shortspear", Size : 75 },
-            { Name : "butcherspupil", Size : 55 },
-            { Name : "flayedoneskin", Size : 60 },
-            { Name : "vampiregaze", Size : 55 },
-            { Name : "ironpelt", Size : 55 },
-            { Name : "rockstopper", Size : 50 },
-            { Name : "steelshade", Size : 55 },
-            { Name : "darksighthelm", Size : 55 },
-            { Name : "durielsshell", Size : 55 },
-            { Name : "arkaines", Size : 55 },
-            { Name : "cot", Size : 48 },
-            { Name : "nightwingsveil", Size : 56 },
-            { Name : "veilofsteel", Size :52},
-            { Name : "crownofages", Size : 55},
-            { Name : "shako", Size : 48},
-            { Name : "tstroke", Size : 45 },
-            { Name : "shadowkiller", Size : 45 },
-            { Name : "blackhand", Size : 32 },
-            { Name : "coldkill", Size : 40 },
-            { Name : "stormrider", Size : 60 },
-            { Name : "minotaur", Size : 60 },
-            { Name : "kukoshakaku", Size : 60 },
-            { Name : "stormspike", Size : 36 },
-            { Name : "ghostflame", Size : 40 },
-            { Name : "fleshripper", Size : 48 },
-            { Name : "demonsarch", Size : 28 },
-            { Name : "wraithflight", Size : 40 },
-            { Name : "warpspear", Size : 36},
-            { Name : "skullcollector", Size : 60 },
-            { Name : "mangsongslesson", Size : 60 },
-            { Name : "atlantian", Size : 36 },
-            { Name : "ginthersrift", Size : 55 },
-            { Name : "headstriker", Size : 60 },
-            { Name : "todesfaelleflamme", Size : 55 },
-            { Name : "flamebellow", Size : 46 },
-            { Name : "bladeofalibaba", Size : 30 },
-            { Name : "plaguebearer", Size : 70 },
-            ]
-        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name === item.ImageName);
+            {Name: "gargoylesbite", Size: 40},
+            {Name: "shortspear", Size: 75},
+            {Name: "butcherspupil", Size: 55},
+            {Name: "flayedoneskin", Size: 60},
+            {Name: "vampiregaze", Size: 55},
+            {Name: "ironpelt", Size: 55},
+            {Name: "rockstopper", Size: 50},
+            {Name: "steelshade", Size: 55},
+            {Name: "darksighthelm", Size: 55},
+            {Name: "durielsshell", Size: 55},
+            {Name: "arkaines", Size: 55},
+            {Name: "cot", Size: 48},
+            {Name: "nightwingsveil", Size: 56},
+            {Name: "veilofsteel", Size: 52},
+            {Name: "crownofages", Size: 55},
+            {Name: "shako", Size: 48},
+            {Name: "tstroke", Size: 45},
+            {Name: "shadowkiller", Size: 45},
+            {Name: "blackhand", Size: 32},
+            {Name: "coldkill", Size: 40},
+            {Name: "stormrider", Size: 60},
+            {Name: "minotaur", Size: 60},
+            {Name: "kukoshakaku", Size: 60},
+            {Name: "stormspike", Size: 36},
+            {Name: "ghostflame", Size: 40},
+            {Name: "fleshripper", Size: 48},
+            {Name: "demonsarch", Size: 28},
+            {Name: "wraithflight", Size: 40},
+            {Name: "warpspear", Size: 36},
+            {Name: "skullcollector", Size: 60},
+            {Name: "mangsongslesson", Size: 60},
+            {Name: "atlantian", Size: 36},
+            {Name: "ginthersrift", Size: 55},
+            {Name: "headstriker", Size: 60},
+            {Name: "todesfaelleflamme", Size: 55},
+            {Name: "flamebellow", Size: 46},
+            {Name: "bladeofalibaba", Size: 30},
+            {Name: "plaguebearer", Size: 70},
+        ]
+        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData: any) => imageData.Name === item.ImageName);
 
         if (imageThatNeedToBeResized.length !== 0)
             width = imageThatNeedToBeResized[0].Size;
@@ -398,14 +427,14 @@ const ItemSecondPage = () =>
 
     function getItemNameDisplayed(item: IItem)
     {
-        const itemImageSyle = calculItemImageStyle(item);
-        const itemImageUrl = calculItemImageUrl(item.ImageName);
+        const itemImageDetails = calculItemImageStyleAndName(item);
+        const itemImageUrl = calculItemImageUrl(itemImageDetails.imageName);
 
         return <>
             <Highlight text={item.Name} searchTerm={searchTerm}/>
             <img className="item-image border info rounded mb-0"
                  src={itemImageUrl}
-                 style={itemImageSyle} onError={onImageError}
+                 style={itemImageDetails.style} onError={onImageError}
                  alt="testImage.."/>
         </>;
     }
