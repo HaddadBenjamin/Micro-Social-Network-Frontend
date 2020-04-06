@@ -31,14 +31,15 @@ const ItemSecondPage = () =>
 {
     const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
 
-    const [items, setItems] = useState(itemFromGlobalState);
-    const [filteredItems, setFilteredItems] = useState(itemFromGlobalState);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [items, setItems] = useState<IItem[]>([]);
+    const [filteredItems, setFilteredItems] = useState<IItem[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() =>
     {
-        setItems(itemFromGlobalState);
-        setFilteredItems(itemFromGlobalState);
+        console.log(itemFromGlobalState);
+        //setItems(itemFromGlobalState);
+        //setFilteredItems(itemFromGlobalState);
     }, [itemFromGlobalState]);
 
     //region search logics, it's should be extrated in another component or 2 for the filters.
@@ -446,7 +447,7 @@ const ItemSecondPage = () =>
     {
         return {
             columns: getItemDataTableColumns(),
-            rows: getItemDataTableRows(orderedFilteredItems)
+            rows: getItemDataTableRows(itemFromGlobalState)
         };
     }
 
@@ -473,9 +474,9 @@ const ItemSecondPage = () =>
         ];
     }
 
-    function getItemDataTableRows(orderedFilteredItem: IItem[]): any
+    function getItemDataTableRows(items: IItem[]): any
     {
-        return map(orderedFilteredItems, function (item: IItem)
+        return map(items, function (item: IItem)
             {
                 const displayedItem = getDisplayedItem(item);
                 const displayedItemName = getItemNameDisplayed(item);
