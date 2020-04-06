@@ -49,7 +49,7 @@ const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     mergeMap(action =>
         from(axios({
             method: 'post',
-            url: api.getUrl('suggestions/create'),
+            url: api.getUrl('suggestions'),
             headers: {},
             data: {
                 Content: action.payload.content,
@@ -67,7 +67,7 @@ const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
     switchMap(action =>
         // I should refactor this part, to put this logic of geturl, config inside the API
-        from(axios.get<ISuggestionItem[]>(api.getUrl('suggestions/getall'), {data: {}})).pipe(
+        from(axios.get<ISuggestionItem[]>(api.getUrl('suggestions'), {data: {}})).pipe(
             map((response: AxiosResponse<ISuggestionItem[]>) => gotAllSuggestions(response.data)),
             startWith(gettingAllSuggestions()),
             catchError(() => of(gettingAllSuggestionsFailed()))
@@ -80,10 +80,9 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     mergeMap(action =>
         from(axios({
             method: 'post',
-            url: api.getUrl('suggestions/vote'),
+            url: api.getUrl(`suggestions/${action.payload.suggestionId}/votes`),
             headers: {},
             data: {
-                SuggestionId: action.payload.suggestionId,
                 IsPositive: action.payload.isPositive,
                 Ip: action.payload.ip
             }
@@ -100,10 +99,9 @@ const commentASuggestionEpic : SuggestionEpic = (action$, state$) => action$.pip
     mergeMap(action =>
         from(axios({
             method: 'post',
-            url: api.getUrl('suggestions/comment'),
+                url: api.getUrl(`suggestions/${action.payload.suggestionId}/comments`),
             headers: {},
             data: {
-                SuggestionId: action.payload.suggestionId,
                 Comment: action.payload.comment,
                 Ip: state$.value.user.ip
             }})).pipe(
@@ -119,10 +117,9 @@ const deleteSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     mergeMap(action =>
         from(axios({
             method: 'delete',
-            url: api.getUrl('suggestions/delete'),
+            url: api.getUrl(`suggestions/${action.payload.suggestionId}`),
             headers: {},
             data: {
-                Id: action.payload.suggestionId,
                 Ip: state$.value.user.ip
             }
         })).pipe(
@@ -137,11 +134,9 @@ const deleteACommentFromASuggestionEpic : SuggestionEpic = (action$, state$) => 
     mergeMap(action =>
         from(axios({
             method: 'delete',
-            url: api.getUrl('suggestions/deletecomment'),
+            url: api.getUrl(`suggestions/${action.payload.suggestionId}/comments/${action.payload.id}`),
             headers: {},
             data: {
-                Id: action.payload.id,
-                SuggestionId : action.payload.suggestionId,
                 Ip: state$.value.user.ip
             }
         })).pipe(

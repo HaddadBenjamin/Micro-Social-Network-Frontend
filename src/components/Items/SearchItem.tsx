@@ -154,7 +154,7 @@ const SearchItem = (props: Props) => {
 
     function search() {
         api.get<Item[]>(
-            'Items/searchuniques',
+            'items/search',
             'SEARCH_ITEMS',
             qs.stringify(
                 {
