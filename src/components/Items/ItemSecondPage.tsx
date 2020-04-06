@@ -248,6 +248,7 @@ const ItemSecondPage = () =>
             "mangsongslesson",
             "blackhand",
             "deathsweb",
+            "occy",
         ];
 
         if (imagesThatNeedToBeResized.includes(item.ImageName))
