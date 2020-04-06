@@ -33,7 +33,7 @@ export default function userReducer(state : IUserState = initialUserState, actio
                 var shasum = crypto.createHash('sha1');
 
                 shasum.update(action.payload.ip);
-                
+
                 draft.userId = shasum.digest('hex');
                 draft.gettingIpStatus = ApiStatus.LOADED;
                 break;

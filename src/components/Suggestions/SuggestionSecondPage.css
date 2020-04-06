@@ -29,8 +29,7 @@
     transition: all .2s ease-in-out;
 }
 
-.thumbs-up:hover,
-.thumbs-down:hover,
+.thumbs-animation:hover,
 .create-suggestion-button:hover,
 .remove-suggestion-button:hover,
 .comment-suggestion-button:hover,
