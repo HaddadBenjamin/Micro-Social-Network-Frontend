@@ -32,6 +32,9 @@ const ItemSecondPage = () =>
     const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
     const [searchTerm, setSearchTerm] = useState<string>('');
 
+    useEffect(() => {
+        setSearchTerm('');
+    }, [itemFromGlobalState]);
 
     //region search logics, it's should be extrated in another component or 2 for the filters.
     function onSearch(searchedElements: IItem[], searchedTerm: string): void
