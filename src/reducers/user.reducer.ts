@@ -4,7 +4,8 @@ import {
     UsersAction
 } from "../actions/user.action";
 import produce from "immer";
-import strings from '../shared/utilities/strings'
+import crypto from 'crypto';
+
 export interface IUserState
 {
     gettingIpStatus : ApiStatus,
@@ -29,7 +30,11 @@ export default function userReducer(state : IUserState = initialUserState, actio
                 break;
 
             case UserActionTypes.GOT_IP :
-                draft.userId = strings.hashcode(action.payload.ip).toString();
+                var shasum = crypto.createHash('sha1');
+
+                shasum.update(action.payload.ip);
+                
+                draft.userId = shasum.digest('hex');
                 draft.gettingIpStatus = ApiStatus.LOADED;
                 break;
 
