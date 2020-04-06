@@ -179,10 +179,10 @@ const ItemSecondPage = () =>
         width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
         width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
-        const maxWidth = width != 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
+        const maxWidth = width !== 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
 
         return {
-            width: width != 0 ? `${width}px` : '',
+            width: width !== 0 ? `${width}px` : '',
             maxWidth : maxWidth
         };
     }
@@ -267,7 +267,7 @@ const ItemSecondPage = () =>
 
         forEach(imageDatasWhereTheImageNameMustBeRandomized, function(imageData)
         {
-            if (item.ImageName == imageData.imageName)
+            if (item.ImageName === imageData.imageName)
             {
                 item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString();
                 width = newWidth;
@@ -319,9 +319,9 @@ const ItemSecondPage = () =>
             { Name : "bladeofalibaba", Size : 30 },
             { Name : "plaguebearer", Size : 70 },
             ]
-        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name == item.ImageName);
+        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name === item.ImageName);
 
-        if (imageThatNeedToBeResized.length != 0)
+        if (imageThatNeedToBeResized.length !== 0)
             width = imageThatNeedToBeResized[0].Size;
 
         return width;

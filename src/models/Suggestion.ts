@@ -1,7 +1,7 @@
 interface ISuggestionItem
 {
     Id : string,
-    Ip : string,
+    CreatedBy : string,
     Content : string,
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
@@ -11,14 +11,14 @@ interface ISuggestionItem
 
 export interface ISuggestionVoteItem
 {
-    Ip : string,
+    CreatedBy : string,
     IsPositive : boolean
 }
 
 export interface ISuggestionCommentItem
 {
     Id : string,
-    Ip : string;
+    CreatedBy : string;
     Comment : string
 }
 
@@ -26,7 +26,6 @@ export interface ISuggestionVoteRequest
 {
     SuggestionId : string,
     IsPositive : boolean,
-    Ip : string
 }
 
 export default ISuggestionItem;

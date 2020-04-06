@@ -78,7 +78,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
             case SuggestionActionTypes.ADDED_VOTE :
                 const suggestionToUpdate = action.payload.suggestion;
-                const suggestionToUpdateIndex = findIndex(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id == suggestionToUpdate.Id; });
+                const suggestionToUpdateIndex = findIndex(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id === suggestionToUpdate.Id; });
 
                 if (suggestionToUpdateIndex !== -1)
                     draft.suggestions[suggestionToUpdateIndex] = suggestionToUpdate;

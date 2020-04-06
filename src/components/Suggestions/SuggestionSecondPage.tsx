@@ -10,8 +10,6 @@ import {
     MDBModalBody,
     MDBModalHeader,
     MDBModal,
-    MDBModalFooter,
-    MDBBtn,
     MDBListGroup
 } from "mdbreact";
 import React, {
@@ -34,7 +32,6 @@ import {
     addVote,
     createSuggestion,
     deleteComment,
-    deletedComment,
     deleteSuggestion,
     getAllSuggestions
 } from "../../actions/suggestion.action";
@@ -51,7 +48,7 @@ import {useToggle} from 'react-use';
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', Ip :''});
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', CreatedBy :''});
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -62,7 +59,7 @@ const SuggestionSecondPage = () =>
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
     const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
 
-    const userIp = useSelector<IGlobalState, string>(state => state.user.ip);
+    const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
     const dispatch = useDispatch();
 
@@ -84,7 +81,7 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
-        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id == selectedSuggestion.Id; });
+        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id === selectedSuggestion.Id; });
         if (suggestionIndex !== -1)
             setSelectedSuggestion(suggestions[suggestionIndex]);
     }, [suggestions]);
@@ -158,8 +155,7 @@ const SuggestionSecondPage = () =>
     {
         return {
             SuggestionId : suggestion.Id,
-            IsPositive : isPositive,
-            Ip : userIp
+            IsPositive : isPositive
         };
     }
 
@@ -183,7 +179,7 @@ const SuggestionSecondPage = () =>
     {
         return map(comments, function(comment : ISuggestionCommentItem)
         {
-            const isMyComment = comment.Ip === userIp;
+            const isMyComment = comment.CreatedBy === userId;
             const deleteCommentButton = isMyComment ? <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
                 key={'suggestion-comment-button' + comment.Id}
@@ -286,14 +282,14 @@ const SuggestionSecondPage = () =>
 
         const commentCount = suggestion.Comments.length;
         const commentCountClass = `suggestion-comment-count ${commentCount > 0 ? "positive-comment-count" : ""}`;
-        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.Ip === userIp});
+        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.CreatedBy === userId });
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
 
-        const isMySuggestion : boolean = suggestion.Ip === userIp;
+        const isMySuggestion : boolean = suggestion.CreatedBy === userId;
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
-        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && vote.IsPositive });
-        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.Ip === userIp && !vote.IsPositive });
+        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && vote.IsPositive });
+        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && !vote.IsPositive });
         const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""}`;
         const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""}`;
 

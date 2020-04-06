@@ -6,7 +6,6 @@ import {map} from 'lodash'
 import qs from 'qs'
 import api from '../../shared/utilities/api'
 import scrollTo from '../../shared/utilities/animate'
-import {useDispatch} from "react-redux";
 
 interface Props {
     search: SearchItemDto,
@@ -16,8 +15,6 @@ interface State {
 }
 
 const SearchItem = (props: Props) => {
-    const dispatch = useDispatch();
-
     // Armors :
     function onClickBodyArmors() {
         return setSubCategoriesAndSearch([ItemSubCategory.Torso]);

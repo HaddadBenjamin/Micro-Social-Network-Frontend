@@ -4,17 +4,17 @@ import {
     UsersAction
 } from "../actions/user.action";
 import produce from "immer";
-
+import strings from '../shared/utilities/strings'
 export interface IUserState
 {
     gettingIpStatus : ApiStatus,
-    ip : string
+    userId : string
 }
 
 export const initialUserState : IUserState =
 {
     gettingIpStatus : ApiStatus.LOADED,
-    ip : ''
+    userId : ''
 };
 
 export default function userReducer(state : IUserState = initialUserState, action : UsersAction)
@@ -29,7 +29,7 @@ export default function userReducer(state : IUserState = initialUserState, actio
                 break;
 
             case UserActionTypes.GOT_IP :
-                draft.ip = action.payload.ip;
+                draft.userId = strings.hashcode(action.payload.ip).toString();
                 draft.gettingIpStatus = ApiStatus.LOADED;
                 break;
 

@@ -95,8 +95,7 @@ export interface IAddVoteAction
     type : SuggestionActionTypes.ADD_VOTE,
     payload : {
         suggestionId : string,
-        isPositive : boolean,
-        ip : string
+        isPositive : boolean
     }
 }
 
@@ -283,8 +282,7 @@ export function addVote(request : ISuggestionVoteRequest) : IAddVoteAction
         type : SuggestionActionTypes.ADD_VOTE,
         payload : {
             suggestionId : request.SuggestionId,
-            isPositive : request.IsPositive,
-            ip : request.Ip
+            isPositive : request.IsPositive
         }
     }
 }

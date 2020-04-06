@@ -20,7 +20,7 @@ export interface IGotIpAction
 {
     type: UserActionTypes.GOT_IP
     payload: {
-        ip: string
+        ip : string
     }
 }
 
@@ -48,7 +48,7 @@ export function gotIp(ip : string): IGotIpAction
     return {
         type: UserActionTypes.GOT_IP,
         payload : {
-            ip: ip
+            ip : ip
         }
     }
 }

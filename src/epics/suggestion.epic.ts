@@ -53,7 +53,7 @@ const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             headers: {},
             data: {
                 Content: action.payload.content,
-                Ip: state$.value.user.ip
+                UserId: state$.value.user.userId
             }
         })).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => createdSuggestion(response.data)),
@@ -84,7 +84,7 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             headers: {},
             data: {
                 IsPositive: action.payload.isPositive,
-                Ip: action.payload.ip
+                UserId: state$.value.user.userId
             }
         })).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => addedVote(response.data)),
@@ -103,7 +103,7 @@ const commentASuggestionEpic : SuggestionEpic = (action$, state$) => action$.pip
             headers: {},
             data: {
                 Comment: action.payload.comment,
-                Ip: state$.value.user.ip
+                UserId: state$.value.user.userId
             }})).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => addedComment(response.data)),
             startWith(addingComment()),
@@ -120,7 +120,7 @@ const deleteSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             url: api.getUrl(`suggestions/${action.payload.suggestionId}`),
             headers: {},
             data: {
-                Ip: state$.value.user.ip
+                UserId: state$.value.user.userId
             }
         })).pipe(
             map((response: AxiosResponse<string>) => deletedSuggestion(response.data)),
@@ -137,7 +137,7 @@ const deleteACommentFromASuggestionEpic : SuggestionEpic = (action$, state$) => 
             url: api.getUrl(`suggestions/${action.payload.suggestionId}/comments/${action.payload.id}`),
             headers: {},
             data: {
-                Ip: state$.value.user.ip
+                UserId: state$.value.user.userId
             }
         })).pipe(
             map((response: AxiosResponse<ISuggestionItem>) => deletedComment(response.data)),
