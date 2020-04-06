@@ -1,27 +1,40 @@
-import Item from "../components/Items/Item";
-import SearchItemsAction from "../actions/item.action";
+import {
+    ItemActionTypes,
+    ItemsAction
+} from "../actions/item.action";
+import IItem from "../models/Items";
+import ApiStatus from "../models/ApiStatus";
+import produce from "immer";
 
-export interface ItemState
+export interface IItemState
 {
-    items: Item[]
+    searchingItems : ApiStatus,
+    items: IItem[]
 }
 
-export const initialItemsState: ItemState =
+export const initialItemsState: IItemState =
 {
+    searchingItems : ApiStatus.LOADED,
     items: []
 };
 
-export const searchItemsReducer = (itemState: ItemState = initialItemsState, action: SearchItemsAction) =>
+export default function itemsReducer(state : IItemState = initialItemsState, action : ItemsAction)
 {
-    switch (action.type) {
-        case "SEARCH_ITEMS":
-            return {
-                ...initialItemsState.items,
-                items: action.payload || []
-            };
+    return produce(state, draft =>{
+        switch (action.type) {
+            case ItemActionTypes.SEARCH_ITEMS:
+            case ItemActionTypes.SEARCHING_ITEMS:
+                draft.searchingItems = ApiStatus.LOADING;
+                break;
 
-        default:
-            return itemState;
-    }
-};
+            case ItemActionTypes.SEARCHED_ITEMS:
+                draft.items = action.payload.items;
+                draft.searchingItems = ApiStatus.LOADED;
+                break;
 
+            case ItemActionTypes.SEARCHING_ITEMS_FAILED :
+                draft.searchingItems = ApiStatus.FAILED;
+                break;
+        }
+    })
+}

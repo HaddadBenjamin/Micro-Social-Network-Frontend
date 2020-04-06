@@ -1,4 +1,4 @@
-interface Item
+interface IItem
 {
     Id : string,
     Name : string,
@@ -8,7 +8,7 @@ interface Item
     Type : string,
     LevelRequired : number,
     Level : number,
-    Properties : ItemProperty[],
+    Properties : IItemProperty[],
     ImageName : string,
 
     // Relative to defense :
@@ -32,7 +32,7 @@ interface Item
     DexterityRequired : number,
 }
 
-export interface ItemProperty
+export interface IItemProperty
 {
     Name : string,
     FormattedName : string,
@@ -45,4 +45,4 @@ export interface ItemProperty
     OrderIndex : number,
 }
 
-export default Item;
+export default IItem;

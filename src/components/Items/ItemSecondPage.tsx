@@ -13,14 +13,14 @@ import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
-import Item, {ItemProperty} from "./Item";
 import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
+import IItem, {IItemProperty} from "../../models/Items";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemSecondPage = () =>
 {
-    const itemFromGlobalState = useSelector<IGlobalState, Item[]>(globalState => globalState.searchItems.items);
+    const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
 
     const [items, setItems] = useState(itemFromGlobalState);
     const [filteredItems, setFilteredItems] = useState(itemFromGlobalState);
@@ -33,28 +33,28 @@ const ItemSecondPage = () =>
     }, [itemFromGlobalState]);
 
     //region search logics, it's should be extrated in another component or 2 for the filters.
-    function onSearch(searchedElements: Item[], searchedTerm: string): void
+    function onSearch(searchedElements: IItem[], searchedTerm: string): void
     {
         setFilteredItems(searchedElements);
         setSearchTerm(searchedTerm);
     }
 
-    function shouldFilterItemByName(item: Item, term: string): boolean
+    function shouldFilterItemByName(item: IItem, term: string): boolean
     {
         return item.Name.toLowerCase().includes(term);
     }
 
-    function shouldFilterItemByType(item: Item, term: string): boolean
+    function shouldFilterItemByType(item: IItem, term: string): boolean
     {
         return item.Type.toLowerCase().replace("_", " ").includes(term);
     }
 
-    function shouldFilterItemByProperties(item: Item, term: string): boolean
+    function shouldFilterItemByProperties(item: IItem, term: string): boolean
     {
         return some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
 
-    function searchFilter(searchElement: Item, searchTerm: string): boolean
+    function searchFilter(searchElement: IItem, searchTerm: string): boolean
     {
         const term = searchTerm.toLowerCase();
 
@@ -67,7 +67,7 @@ const ItemSecondPage = () =>
 
     //region item calculation, most of this complex logic could and should be handled by the backend side during the conversion of the database model to the dto response. Because it's not the role to the frontend to do that.
     //region property value
-    function calculPropertyValue(property: ItemProperty): string
+    function calculPropertyValue(property: IItemProperty): string
     {
         const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
         const maximumPropertyValue = Math.round(Math.max(property.Minimum, property.Maximum));
@@ -81,7 +81,7 @@ const ItemSecondPage = () =>
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function calculPropertyDisplayed(property: ItemProperty): string
+    function calculPropertyDisplayed(property: IItemProperty): string
     {
         const propertyValue = calculPropertyValue(property);
         const propertyValueDisplayed = calculPropertyValueDisplayed(property, propertyValue);
@@ -91,7 +91,7 @@ const ItemSecondPage = () =>
         return `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
     }
 
-    function calculPropertyValueDisplayed(property: ItemProperty, propertyValue: string): string
+    function calculPropertyValueDisplayed(property: IItemProperty, propertyValue: string): string
     {
         const isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
         let valueDisplayed = `${propertyValue}${isPercent} `;
@@ -102,14 +102,14 @@ const ItemSecondPage = () =>
         return valueDisplayed.replace('--', ' To -');
     }
 
-    function calculPropertyFirstCharacterDisplayed(property: ItemProperty, propertyValue: string): string
+    function calculPropertyFirstCharacterDisplayed(property: IItemProperty, propertyValue: string): string
     {
         return ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?
             '' :
             property.FirstCharacter;
     }
 
-    function calculPropertyFormattedNameDisplayed(property: ItemProperty): string
+    function calculPropertyFormattedNameDisplayed(property: IItemProperty): string
     {
         return property.FormattedName.replace('--', ' To -');
     }
@@ -117,7 +117,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region damage calculation
-    function getOneHandDamage(item: Item): string
+    function getOneHandDamage(item: IItem): string
     {
         return calculDamage(
             item.MinimumOneHandedDamageMinimum,
@@ -126,7 +126,7 @@ const ItemSecondPage = () =>
             item.MaximumOneHandedDamageMaximum);
     }
 
-    function getTwoHandDamage(item: Item): string
+    function getTwoHandDamage(item: IItem): string
     {
         return calculDamage(
             item.MinimumTwoHandedDamageMinimum,
@@ -170,7 +170,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region calcul item image
-    function calculItemImageStyle(item: Item): CSS.Properties
+    function calculItemImageStyle(item: IItem): CSS.Properties
     {
         const newWidth : number = 40;
         const defaultMaxWidth = '100%';
@@ -188,7 +188,7 @@ const ItemSecondPage = () =>
     }
 
 
-    function updateTheItemImageSize(item : Item, newWidth : number) : number
+    function updateTheItemImageSize(item : IItem, newWidth : number) : number
     {
         const imagesThatNeedToBeResized = [
             "katar",
@@ -256,7 +256,7 @@ const ItemSecondPage = () =>
         return 0;
     }
 
-    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : number, newWidth : number) : number
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item : IItem, width : number, newWidth : number) : number
     {
         var imageDatasWhereTheImageNameMustBeRandomized = [
             { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
@@ -277,7 +277,7 @@ const ItemSecondPage = () =>
         return width;
     }
 
-    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
+    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : IItem, width : number, newWidth : number) : number
     {
         const imageThatNeedToBeResizedData = [
             { Name : "gargoylesbite", Size : 40 },
@@ -335,7 +335,7 @@ const ItemSecondPage = () =>
 
     //endregion
 
-    function calculDefence(item: Item): string
+    function calculDefence(item: IItem): string
     {
         return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
             item.MaximumDefenseMinimum.toString() :
@@ -345,7 +345,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region display part, those logics should be extract in dedicated functional components.
-    function getDisplayedItem(item: Item)
+    function getDisplayedItem(item: IItem)
     {
         const attributes = getDisplayedAttributes(item);
         const defense = calculDefence(item);
@@ -382,9 +382,9 @@ const ItemSecondPage = () =>
         </>;
     }
 
-    function getDisplayedAttributes(item: Item)
+    function getDisplayedAttributes(item: IItem)
     {
-        return map(item.Properties, (property: ItemProperty) =>
+        return map(item.Properties, (property: IItemProperty) =>
         {
             const propertyDisplayed = calculPropertyDisplayed(property);
 
@@ -395,7 +395,7 @@ const ItemSecondPage = () =>
         });
     }
 
-    function getItemNameDisplayed(item: Item)
+    function getItemNameDisplayed(item: IItem)
     {
         const itemImageSyle = calculItemImageStyle(item);
         const itemImageUrl = calculItemImageUrl(item.ImageName);
@@ -412,7 +412,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region item data table logs related
-    function getItemDataTable(items: Item[]): any
+    function getItemDataTable(items: IItem[]): any
     {
         return {
             columns: getItemDataTableColumns(),
@@ -443,9 +443,9 @@ const ItemSecondPage = () =>
         ];
     }
 
-    function getItemDataTableRows(orderedFilteredItem: Item[]): any
+    function getItemDataTableRows(orderedFilteredItem: IItem[]): any
     {
-        return map(orderedFilteredItems, function (item: Item)
+        return map(orderedFilteredItems, function (item: IItem)
             {
                 const displayedItem = getDisplayedItem(item);
                 const displayedItemName = getItemNameDisplayed(item);
