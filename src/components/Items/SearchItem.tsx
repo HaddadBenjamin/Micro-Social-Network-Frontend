@@ -189,7 +189,7 @@ const SearchItem = (props: Props) =>
 
     function search()
     {
-        const subCategories= map(props.search.SubCategories, _ => ItemSubCategory[_]).join(', ');
+        const subCategories= map(props.search.SubCategories, subCategory => ItemSubCategory[subCategory]).join(',');
 
         dispatch(searchItems(subCategories));
 
