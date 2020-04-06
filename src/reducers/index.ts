@@ -1,4 +1,7 @@
-import {initialItemsState, ItemState, searchItemsReducer} from "./item.reducer";
+import itemsReducer, {
+    IItemState,
+    initialItemsState
+} from "./item.reducer";
 import suggestionsReducer, {initialSuggestionState, ISuggestionState} from "./suggestion.reducer";
 import {combineReducers} from "redux";
 import userReducer, {
@@ -8,20 +11,20 @@ import userReducer, {
 
 export interface IGlobalState
 {
-    searchItems: ItemState,
+    items: IItemState,
     suggestions: ISuggestionState,
     user : IUserState
 }
 
 export const initialState : IGlobalState =
 {
-    searchItems: initialItemsState,
+    items: initialItemsState,
     suggestions: initialSuggestionState,
     user : initialUserState
 };
 
 export default combineReducers({
-    searchItems: searchItemsReducer,
+    items: itemsReducer,
     suggestions : suggestionsReducer,
     user : userReducer
 });

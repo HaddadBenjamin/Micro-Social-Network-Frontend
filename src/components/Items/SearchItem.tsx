@@ -1,162 +1,191 @@
 import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
-import Item from "./Item";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
 import {map} from 'lodash'
-import qs from 'qs'
-import api from '../../shared/utilities/api'
 import scrollTo from '../../shared/utilities/animate'
+import {useDispatch} from "react-redux";
+import {searchItems} from "../../actions/item.action";
 
-interface Props {
+interface Props
+{
     search: SearchItemDto,
 }
 
-interface State {
-}
+const SearchItem = (props: Props) =>
+{
+    const dispatch = useDispatch();
 
-const SearchItem = (props: Props) => {
     // Armors :
-    function onClickBodyArmors() {
+    function onClickBodyArmors()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Torso]);
     }
 
-    function onClickShields() {
+    function onClickShields()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Offhand]);
     }
 
-    function onClickGloves() {
+    function onClickGloves()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Hands]);
     }
 
-    function onClickShoes() {
+    function onClickShoes()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Feet]);
     }
 
-    function onClickHelms() {
+    function onClickHelms()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Head]);
     }
 
-    function onClickBelts() {
+    function onClickBelts()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Waist]);
     }
 
     // Weapons :
-    function onClickBows() {
+    function onClickBows()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Bow, ItemSubCategory.Two_Handed_Bow]);
     }
 
-    function onClickCrossbows() {
+    function onClickCrossbows()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Crossbow, ItemSubCategory.Two_Handed_Crossbow,]);
     }
 
-    function onClickArrows() {
+    function onClickArrows()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Arrows, ItemSubCategory.Bolts]);
     }
 
-    function onClickStaffs() {
+    function onClickStaffs()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Staff, ItemSubCategory.Two_Handed_Staff]);
     }
 
-    function onClickSwords() {
+    function onClickSwords()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Sword, ItemSubCategory.Two_And_One_Handed_Sword]);
     }
 
-    function onClickDaggers() {
+    function onClickDaggers()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Knife]);
     }
 
-    function onClickAxes() {
+    function onClickAxes()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Axe, ItemSubCategory.Two_Handed_Axe]);
     }
 
-    function onClickPolearms() {
+    function onClickPolearms()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Polearm, ItemSubCategory.Two_Handed_Polearm]);
     }
 
-    function onClickSpears() {
+    function onClickSpears()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Spear, ItemSubCategory.Two_Handed_Spear]);
     }
 
-    function onClickMasses() {
+    function onClickMasses()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Mace, ItemSubCategory.Two_Handed_Hammer, ItemSubCategory.Hammer]);
     }
 
-    function onClickScepters() {
+    function onClickScepters()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Scepter]);
     }
 
-    function onClickClubs() {
+    function onClickClubs()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Club]);
     }
 
-    function onClickThrowingWeapons() {
+    function onClickThrowingWeapons()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Throwing_Axe, ItemSubCategory.Throwing_Potions, ItemSubCategory.Thorwing_Knife]);
     }
 
-    function onClickJavelins() {
+    function onClickJavelins()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Javelin]);
     }
 
     // Jewelry and others :
-    function onClickAmulets() {
+    function onClickAmulets()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Amulet]);
     }
 
-    function onClickRings() {
+    function onClickRings()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Ring]);
     }
 
-    function onClickCharms() {
+    function onClickCharms()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Charm]);
     }
 
-    function onClickJewels() {
+    function onClickJewels()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Jewel]);
     }
 
     // Class specific :
-    function onClickAmazon() {
+    function onClickAmazon()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Amazon_Bow, ItemSubCategory.Amazon_Javelin, ItemSubCategory.Amazon_Spear, ItemSubCategory.Two_Handed_Amazon_Bow, ItemSubCategory.Two_Handed_Amazon_Spear]);
     }
 
-    function onClickDruid() {
+    function onClickDruid()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Druid_Helm]);
     }
 
-    function onClickBarbarian() {
+    function onClickBarbarian()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Barbarian_Helm]);
     }
 
-    function onClickAssassin() {
+    function onClickAssassin()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Hand_To_Hand, ItemSubCategory.Hand_To_Hand_Two_Handed, ItemSubCategory.Assassin_Claw]);
     }
 
-    function onClickSorceress() {
+    function onClickSorceress()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Orb, ItemSubCategory.Sorceress_Orb]);
     }
 
-    function onClickNecromancer() {
+    function onClickNecromancer()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Wand, ItemSubCategory.Necromancer_Shield]);
     }
 
-    function onClickPaladin() {
+    function onClickPaladin()
+    {
         return setSubCategoriesAndSearch([ItemSubCategory.Paladin_Shield]);
     }
 
-    function setSubCategoriesAndSearch(subCategories: ItemSubCategory[]) {
+    function setSubCategoriesAndSearch(subCategories: ItemSubCategory[])
+    {
         props.search.SubCategories = subCategories;
 
         search();
     }
 
-    function search() {
-        api.get<Item[]>(
-            'items/search',
-            'SEARCH_ITEMS',
-            qs.stringify(
-                {
-                    SubCategories: map(props.search.SubCategories, _ => ItemSubCategory[_]).join(', '),
-                }));
+    function search()
+    {
+        const subCategories= map(props.search.SubCategories, subCategory => ItemSubCategory[subCategory]).join(',');
+
+        dispatch(searchItems(subCategories));
 
         scrollTo('#item-filter-view');
     }

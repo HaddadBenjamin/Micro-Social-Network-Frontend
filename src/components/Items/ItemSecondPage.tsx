@@ -1,5 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {orderBy, some, map, forEach, filter} from 'lodash'
+import React, {
+    useState,
+    useEffect
+} from 'react';
+import {
+    orderBy,
+    some,
+    map,
+    forEach,
+    filter
+} from 'lodash'
 import './ItemSecondPage.css';
 import {
     MDBDataTable,
@@ -13,48 +22,49 @@ import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
-import Item, {ItemProperty} from "./Item";
 import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
+import IItem, {IItemProperty} from "../../models/Items";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemSecondPage = () =>
 {
-    const itemFromGlobalState = useSelector<IGlobalState, Item[]>(globalState => globalState.searchItems.items);
+    const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
 
-    const [items, setItems] = useState(itemFromGlobalState);
-    const [filteredItems, setFilteredItems] = useState(itemFromGlobalState);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [items, setItems] = useState<IItem[]>([]);
+    const [filteredItems, setFilteredItems] = useState<IItem[]>([]);
+    const [searchTerm, setSearchTerm] = useState<string>('');
 
     useEffect(() =>
     {
-        setItems(itemFromGlobalState);
-        setFilteredItems(itemFromGlobalState);
+        console.log(itemFromGlobalState);
+        //setItems(itemFromGlobalState);
+        //setFilteredItems(itemFromGlobalState);
     }, [itemFromGlobalState]);
 
     //region search logics, it's should be extrated in another component or 2 for the filters.
-    function onSearch(searchedElements: Item[], searchedTerm: string): void
+    function onSearch(searchedElements: IItem[], searchedTerm: string): void
     {
         setFilteredItems(searchedElements);
         setSearchTerm(searchedTerm);
     }
 
-    function shouldFilterItemByName(item: Item, term: string): boolean
+    function shouldFilterItemByName(item: IItem, term: string): boolean
     {
         return item.Name.toLowerCase().includes(term);
     }
 
-    function shouldFilterItemByType(item: Item, term: string): boolean
+    function shouldFilterItemByType(item: IItem, term: string): boolean
     {
         return item.Type.toLowerCase().replace("_", " ").includes(term);
     }
 
-    function shouldFilterItemByProperties(item: Item, term: string): boolean
+    function shouldFilterItemByProperties(item: IItem, term: string): boolean
     {
         return some(item.Properties, (property) => property.FormattedName.toLowerCase().includes(term));
     }
 
-    function searchFilter(searchElement: Item, searchTerm: string): boolean
+    function searchFilter(searchElement: IItem, searchTerm: string): boolean
     {
         const term = searchTerm.toLowerCase();
 
@@ -67,7 +77,7 @@ const ItemSecondPage = () =>
 
     //region item calculation, most of this complex logic could and should be handled by the backend side during the conversion of the database model to the dto response. Because it's not the role to the frontend to do that.
     //region property value
-    function calculPropertyValue(property: ItemProperty): string
+    function calculPropertyValue(property: IItemProperty): string
     {
         const minimumPropertyValue = Math.round(Math.min(property.Minimum, property.Maximum));
         const maximumPropertyValue = Math.round(Math.max(property.Minimum, property.Maximum));
@@ -81,7 +91,7 @@ const ItemSecondPage = () =>
         return Number(propertyValue) === 0 ? '' : propertyValue;
     }
 
-    function calculPropertyDisplayed(property: ItemProperty): string
+    function calculPropertyDisplayed(property: IItemProperty): string
     {
         const propertyValue = calculPropertyValue(property);
         const propertyValueDisplayed = calculPropertyValueDisplayed(property, propertyValue);
@@ -91,7 +101,7 @@ const ItemSecondPage = () =>
         return `${propertyFirstCharacter}${propertyValueDisplayed}${propertyFormattedName}`;
     }
 
-    function calculPropertyValueDisplayed(property: ItemProperty, propertyValue: string): string
+    function calculPropertyValueDisplayed(property: IItemProperty, propertyValue: string): string
     {
         const isPercent = (property.IsPercent && propertyValue !== '' ? '%' : '');
         let valueDisplayed = `${propertyValue}${isPercent} `;
@@ -102,14 +112,14 @@ const ItemSecondPage = () =>
         return valueDisplayed.replace('--', ' To -');
     }
 
-    function calculPropertyFirstCharacterDisplayed(property: ItemProperty, propertyValue: string): string
+    function calculPropertyFirstCharacterDisplayed(property: IItemProperty, propertyValue: string): string
     {
         return ((!isNaN(parseInt(propertyValue)) && parseInt(propertyValue) < 0) || property.FirstCharacter == null) ?
             '' :
             property.FirstCharacter;
     }
 
-    function calculPropertyFormattedNameDisplayed(property: ItemProperty): string
+    function calculPropertyFormattedNameDisplayed(property: IItemProperty): string
     {
         return property.FormattedName.replace('--', ' To -');
     }
@@ -117,7 +127,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region damage calculation
-    function getOneHandDamage(item: Item): string
+    function getOneHandDamage(item: IItem): string
     {
         return calculDamage(
             item.MinimumOneHandedDamageMinimum,
@@ -126,7 +136,7 @@ const ItemSecondPage = () =>
             item.MaximumOneHandedDamageMaximum);
     }
 
-    function getTwoHandDamage(item: Item): string
+    function getTwoHandDamage(item: IItem): string
     {
         return calculDamage(
             item.MinimumTwoHandedDamageMinimum,
@@ -170,25 +180,41 @@ const ItemSecondPage = () =>
     //endregion
 
     //region calcul item image
-    function calculItemImageStyle(item: Item): CSS.Properties
+    interface ImageDetails
     {
-        const newWidth : number = 40;
+        style: CSS.Properties,
+        imageName: string
+    }
+    interface ImageWidthAndName
+    {
+        width : number,
+        imageName : string
+    }
+    function calculItemImageStyleAndName(item: IItem): ImageDetails
+    {
+        const newWidth: number = 40;
         const defaultMaxWidth = '100%';
-        let width : number = updateTheItemImageSize(item, newWidth);
+        let width: number = updateTheItemImageSize(item, newWidth);
+        let imageName : string = item.ImageName;
+        let imageWidthAndName = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth, imageName);
 
-        width = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth);
+        width = imageWidthAndName.width;
+        imageName = imageWidthAndName.imageName;
         width = updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item, width, newWidth);
 
         const maxWidth = width !== 0 ? `${0.75 * width}%` : defaultMaxWidth.toString();
 
         return {
-            width: width !== 0 ? `${width}px` : '',
-            maxWidth : maxWidth
+            imageName: imageName,
+            style: {
+                width: width !== 0 ? `${width}px` : '',
+                maxWidth: maxWidth
+            }
         };
     }
 
 
-    function updateTheItemImageSize(item : Item, newWidth : number) : number
+    function updateTheItemImageSize(item: IItem, newWidth: number): number
     {
         const imagesThatNeedToBeResized = [
             "katar",
@@ -248,6 +274,7 @@ const ItemSecondPage = () =>
             "mangsongslesson",
             "blackhand",
             "deathsweb",
+            "occy",
         ];
 
         if (imagesThatNeedToBeResized.includes(item.ImageName))
@@ -256,70 +283,74 @@ const ItemSecondPage = () =>
         return 0;
     }
 
-    function randomizeTheItemImageNameAndUpdateTheImageSize(item : Item, width : number, newWidth : number) : number
+
+    function randomizeTheItemImageNameAndUpdateTheImageSize(item: IItem, width: number, newWidth: number, imageName: string): ImageWidthAndName
     {
         var imageDatasWhereTheImageNameMustBeRandomized = [
-            { imageName : "amu1", newImageName : "amu", firstImageIndex : 1, lastImageIndex : 3 },
-            { imageName : "ring1", newImageName : "ring", firstImageIndex : 1, lastImageIndex : 5 },
-            { imageName : "jewel", newImageName : "jewel0", firstImageIndex : 1, lastImageIndex : 6 },
-            { imageName : "largecharm", newImageName : "largecharm0", firstImageIndex : 1, lastImageIndex : 3 }
+            {imageName: "amu1", newImageName: "amu", firstImageIndex: 1, lastImageIndex: 3},
+            {imageName: "ring1", newImageName: "ring", firstImageIndex: 1, lastImageIndex: 5},
+            {imageName: "jewel", newImageName: "jewel0", firstImageIndex: 1, lastImageIndex: 6},
+            {imageName: "largecharm", newImageName: "largecharm0", firstImageIndex: 1, lastImageIndex: 3}
         ];
 
-        forEach(imageDatasWhereTheImageNameMustBeRandomized, function(imageData)
+        forEach(imageDatasWhereTheImageNameMustBeRandomized, function (imageData)
         {
             if (item.ImageName === imageData.imageName)
             {
-                item.ImageName = imageData.newImageName + maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString();
+                imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
         });
 
-        return width;
+        return {
+            width : width,
+            imageName : imageName
+        };
     }
 
-    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item : Item, width : number, newWidth : number) : number
+    function updateTheSizeOfImageThatNeedToBeResizedForUniquesImage(item: IItem, width: number, newWidth: number): number
     {
         const imageThatNeedToBeResizedData = [
-            { Name : "gargoylesbite", Size : 40 },
-            { Name : "shortspear", Size : 75 },
-            { Name : "butcherspupil", Size : 55 },
-            { Name : "flayedoneskin", Size : 60 },
-            { Name : "vampiregaze", Size : 55 },
-            { Name : "ironpelt", Size : 55 },
-            { Name : "rockstopper", Size : 50 },
-            { Name : "steelshade", Size : 55 },
-            { Name : "darksighthelm", Size : 55 },
-            { Name : "durielsshell", Size : 55 },
-            { Name : "arkaines", Size : 55 },
-            { Name : "cot", Size : 48 },
-            { Name : "nightwingsveil", Size : 56 },
-            { Name : "veilofsteel", Size :52},
-            { Name : "crownofages", Size : 55},
-            { Name : "shako", Size : 48},
-            { Name : "tstroke", Size : 45 },
-            { Name : "shadowkiller", Size : 45 },
-            { Name : "blackhand", Size : 32 },
-            { Name : "coldkill", Size : 40 },
-            { Name : "stormrider", Size : 60 },
-            { Name : "minotaur", Size : 60 },
-            { Name : "kukoshakaku", Size : 60 },
-            { Name : "stormspike", Size : 36 },
-            { Name : "ghostflame", Size : 40 },
-            { Name : "fleshripper", Size : 48 },
-            { Name : "demonsarch", Size : 28 },
-            { Name : "wraithflight", Size : 40 },
-            { Name : "warpspear", Size : 36},
-            { Name : "skullcollector", Size : 60 },
-            { Name : "mangsongslesson", Size : 60 },
-            { Name : "atlantian", Size : 36 },
-            { Name : "ginthersrift", Size : 55 },
-            { Name : "headstriker", Size : 60 },
-            { Name : "todesfaelleflamme", Size : 55 },
-            { Name : "flamebellow", Size : 46 },
-            { Name : "bladeofalibaba", Size : 30 },
-            { Name : "plaguebearer", Size : 70 },
-            ]
-        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData : any) => imageData.Name === item.ImageName);
+            {Name: "gargoylesbite", Size: 40},
+            {Name: "shortspear", Size: 75},
+            {Name: "butcherspupil", Size: 55},
+            {Name: "flayedoneskin", Size: 60},
+            {Name: "vampiregaze", Size: 55},
+            {Name: "ironpelt", Size: 55},
+            {Name: "rockstopper", Size: 50},
+            {Name: "steelshade", Size: 55},
+            {Name: "darksighthelm", Size: 55},
+            {Name: "durielsshell", Size: 55},
+            {Name: "arkaines", Size: 55},
+            {Name: "cot", Size: 48},
+            {Name: "nightwingsveil", Size: 56},
+            {Name: "veilofsteel", Size: 52},
+            {Name: "crownofages", Size: 55},
+            {Name: "shako", Size: 48},
+            {Name: "tstroke", Size: 45},
+            {Name: "shadowkiller", Size: 45},
+            {Name: "blackhand", Size: 32},
+            {Name: "coldkill", Size: 40},
+            {Name: "stormrider", Size: 60},
+            {Name: "minotaur", Size: 60},
+            {Name: "kukoshakaku", Size: 60},
+            {Name: "stormspike", Size: 36},
+            {Name: "ghostflame", Size: 40},
+            {Name: "fleshripper", Size: 48},
+            {Name: "demonsarch", Size: 28},
+            {Name: "wraithflight", Size: 40},
+            {Name: "warpspear", Size: 36},
+            {Name: "skullcollector", Size: 60},
+            {Name: "mangsongslesson", Size: 60},
+            {Name: "atlantian", Size: 36},
+            {Name: "ginthersrift", Size: 55},
+            {Name: "headstriker", Size: 60},
+            {Name: "todesfaelleflamme", Size: 55},
+            {Name: "flamebellow", Size: 46},
+            {Name: "bladeofalibaba", Size: 30},
+            {Name: "plaguebearer", Size: 70},
+        ]
+        const imageThatNeedToBeResized = filter(imageThatNeedToBeResizedData, (imageData: any) => imageData.Name === item.ImageName);
 
         if (imageThatNeedToBeResized.length !== 0)
             width = imageThatNeedToBeResized[0].Size;
@@ -335,7 +366,7 @@ const ItemSecondPage = () =>
 
     //endregion
 
-    function calculDefence(item: Item): string
+    function calculDefence(item: IItem): string
     {
         return item.MaximumDefenseMinimum === item.MaximumDefenseMaximum ?
             item.MaximumDefenseMinimum.toString() :
@@ -345,7 +376,7 @@ const ItemSecondPage = () =>
     //endregion
 
     //region display part, those logics should be extract in dedicated functional components.
-    function getDisplayedItem(item: Item)
+    function getDisplayedItem(item: IItem)
     {
         const attributes = getDisplayedAttributes(item);
         const defense = calculDefence(item);
@@ -382,9 +413,9 @@ const ItemSecondPage = () =>
         </>;
     }
 
-    function getDisplayedAttributes(item: Item)
+    function getDisplayedAttributes(item: IItem)
     {
-        return map(item.Properties, (property: ItemProperty) =>
+        return map(item.Properties, (property: IItemProperty) =>
         {
             const propertyDisplayed = calculPropertyDisplayed(property);
 
@@ -395,16 +426,16 @@ const ItemSecondPage = () =>
         });
     }
 
-    function getItemNameDisplayed(item: Item)
+    function getItemNameDisplayed(item: IItem)
     {
-        const itemImageSyle = calculItemImageStyle(item);
-        const itemImageUrl = calculItemImageUrl(item.ImageName);
+        const itemImageDetails = calculItemImageStyleAndName(item);
+        const itemImageUrl = calculItemImageUrl(itemImageDetails.imageName);
 
         return <>
             <Highlight text={item.Name} searchTerm={searchTerm}/>
             <img className="item-image border info rounded mb-0"
                  src={itemImageUrl}
-                 style={itemImageSyle} onError={onImageError}
+                 style={itemImageDetails.style} onError={onImageError}
                  alt="testImage.."/>
         </>;
     }
@@ -412,11 +443,11 @@ const ItemSecondPage = () =>
     //endregion
 
     //region item data table logs related
-    function getItemDataTable(items: Item[]): any
+    function getItemDataTable(items: IItem[]): any
     {
         return {
             columns: getItemDataTableColumns(),
-            rows: getItemDataTableRows(orderedFilteredItems)
+            rows: getItemDataTableRows(itemFromGlobalState)
         };
     }
 
@@ -443,9 +474,9 @@ const ItemSecondPage = () =>
         ];
     }
 
-    function getItemDataTableRows(orderedFilteredItem: Item[]): any
+    function getItemDataTableRows(items: IItem[]): any
     {
-        return map(orderedFilteredItems, function (item: Item)
+        return map(items, function (item: IItem)
             {
                 const displayedItem = getDisplayedItem(item);
                 const displayedItemName = getItemNameDisplayed(item);
