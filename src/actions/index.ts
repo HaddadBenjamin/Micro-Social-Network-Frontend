@@ -2,9 +2,9 @@ import {SuggestionsAction} from "./suggestion.action";
 import {
     UsersAction
 } from "./user.action";
-import {ItemsAction} from "./item.action";
+import {Action} from "redux";
 
 export type ApplicationAction =
     SuggestionsAction |
     UsersAction |
-    ItemsAction;
+    Action;

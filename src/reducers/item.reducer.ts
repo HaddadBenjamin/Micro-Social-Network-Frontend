@@ -1,10 +1,9 @@
-import {
-    ItemActionTypes,
-    ItemsAction
-} from "../actions/item.action";
 import IItem from "../models/Items";
 import ApiStatus from "../models/ApiStatus";
 import produce from "immer";
+import {Action} from "redux";
+import {isType} from "typescript-fsa";
+import {searchItems} from "../actions/item.action";
 
 export interface IItemState
 {
@@ -18,23 +17,21 @@ export const initialItemsState: IItemState =
     items: []
 };
 
-export default function itemsReducer(state : IItemState = initialItemsState, action : ItemsAction)
+
+export default function itemsReducer(state : IItemState = initialItemsState, action : Action)
 {
-    return produce(state, draft =>{
-        switch (action.type) {
-            case ItemActionTypes.SEARCH_ITEMS:
-            case ItemActionTypes.SEARCHING_ITEMS:
-                draft.searchingItemsStatus = ApiStatus.LOADING;
-                break;
+    return produce(state, draft =>
+    {
+        if (isType(action, searchItems.started))
+            draft.searchingItemsStatus = ApiStatus.LOADING;
 
-            case ItemActionTypes.SEARCHED_ITEMS:
-                draft.items = action.payload.items;
-                draft.searchingItemsStatus = ApiStatus.LOADED;
-                break;
-
-            case ItemActionTypes.SEARCHING_ITEMS_FAILED :
-                draft.searchingItemsStatus = ApiStatus.FAILED;
-                break;
+        if (isType(action, searchItems.done))
+        {
+            draft.items = action.payload.result.items;
+            draft.searchingItemsStatus = ApiStatus.LOADED;
         }
+
+        if (isType(action, searchItems.failed))
+            draft.searchingItemsStatus = ApiStatus.FAILED;
     })
 }

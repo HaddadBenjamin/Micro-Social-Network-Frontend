@@ -1,42 +1,31 @@
+import {searchItems} from "../actions/item.action";
 import {
-    catchError,
     filter,
     map,
-    startWith,
-    switchMap
-} from "rxjs/operators";
-import {isOfType} from "typesafe-actions";
-import {
-    from,
-    of
-} from "rxjs";
-import {AxiosResponse} from "axios";
-import api from "../shared/utilities/api";
+    catchError
+} from 'rxjs/operators';
 import {
     combineEpics,
     Epic
 } from "redux-observable";
-import {IGlobalState} from "../reducers";
-import {
-    ItemActionTypes,
-    ItemsAction,
-    searchedItems,
-    searchingItems,
-    searchingItemsFailed
-} from "../actions/item.action";
+import api from "../shared/utilities/api";
 import IItem from "../models/Items";
+import {AxiosResponse} from 'axios';
+import { of } from 'rxjs/observable/of';
+import { from } from "rxjs/observable/from";
 
-type ItemEpic = Epic<ItemsAction, ItemsAction, IGlobalState>;
-
-const searchItemsEpic: ItemEpic = (action$, state$) => action$.pipe(
-    filter(isOfType(ItemActionTypes.SEARCH_ITEMS)),
-    switchMap(action =>
+export const searchItemsEpic: Epic = (action$, state$) => action$.pipe(
+    filter(searchItems.started.match),
+    map(action =>
+    {
         from(api.get('items/search', {
             SubCategories: action.payload.subCategories
         })).pipe(
-            map((response: AxiosResponse<IItem[]>) => searchedItems(response.data)),
-            startWith(searchingItems()),
-            catchError(() => of(searchingItemsFailed()))
-        ))
+            map((response: AxiosResponse<IItem[]>) => searchItems.done({
+                params: action.payload,
+                result: {items: response.data}
+            })),
+            catchError(() => of(searchItems.failed)))
+    })
 );
 export default combineEpics(searchItemsEpic);
