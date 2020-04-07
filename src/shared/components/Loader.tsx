@@ -15,6 +15,13 @@ interface Props
 
 const Loader = (props: Props) =>
 {
+    function displayTheResourceIfLoadingStatusIsLoaded()
+    {
+        if (props.loadingStatus === ApiStatus.LOADED)
+            return <>
+                {props.resourceToLoad}
+                </>
+    }
     return (
         <>
             {props.loadingStatus === ApiStatus.FAILED &&
@@ -25,7 +32,7 @@ const Loader = (props: Props) =>
                     <span className="sr-only">Loading...</span>
                 </div>
             </MDBAlert>}
-            {props.loadingStatus === ApiStatus.LOADED && props.resourceName}
+            {displayTheResourceIfLoadingStatusIsLoaded()}
         </>
     );
 }
