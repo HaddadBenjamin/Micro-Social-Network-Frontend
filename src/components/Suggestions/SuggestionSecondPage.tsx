@@ -323,9 +323,13 @@ const SuggestionSecondPage = () =>
                             <MDBRow>
                                 <MDBCol>
                                     {gettingAllSuggestionStatus === ApiStatus.FAILED &&
-                                    <MDBAlert color="danger">Failed to load the suggestions.</MDBAlert>}
+                                    <MDBAlert color="danger">The suggestions loading have failed.</MDBAlert>}
                                     {gettingAllSuggestionStatus === ApiStatus.LOADING &&
-                                    <MDBAlert color="primary">Loading all the suggestions...</MDBAlert>}
+                                    <MDBAlert color="primary">Loading the suggestions...
+                                        <div className="ml-2 spinner-border text-primary" role="status">
+                                            <span className="sr-only">Loading...</span>
+                                        </div>
+                                        </MDBAlert>}
                                     {gettingAllSuggestionStatus === ApiStatus.LOADED &&
                                     <MDBDataTable data={getItemDataTable()} entries={5}/>}
                                 </MDBCol>
