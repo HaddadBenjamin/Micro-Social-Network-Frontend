@@ -10,4 +10,4 @@ import {ApplicationAction} from "../actions";
 
 export const rootEpic = combineEpics(suggestionEpics, userEpics, itemEpics);
 
-export default createEpicMiddleware<ApplicationAction, ApplicationAction, IGlobalState>();
+export default createEpicMiddleware();

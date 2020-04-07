@@ -185,7 +185,7 @@ const SearchItem = (props: Props) =>
     {
         const subCategories= map(props.search.SubCategories, subCategory => ItemSubCategory[subCategory]).join(',');
 
-        dispatch(searchItems.started({subCategories}));
+        dispatch(searchItems.started({subCategories : subCategories}));
         scrollTo('#item-filter-view');
     }
 

@@ -11,8 +11,7 @@ import {
 import api from "../shared/utilities/api";
 import IItem from "../models/Items";
 import {AxiosResponse} from 'axios';
-import { of } from 'rxjs/observable/of';
-import { from } from "rxjs/observable/from";
+import { from, of } from "rxjs";
 
 export const searchItemsEpic: Epic = (action$, state$) => action$.pipe(
     filter(searchItems.started.match),
