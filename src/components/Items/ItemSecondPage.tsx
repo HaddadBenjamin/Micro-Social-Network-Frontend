@@ -17,7 +17,6 @@ import {
     MDBMask,
     MDBRow,
     MDBCol,
-    MDBAlert
 } from 'mdbreact';
 import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
@@ -27,6 +26,7 @@ import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
 import IItem, {IItemProperty} from "../../models/Items";
 import ApiStatus from "../../models/ApiStatus";
+import Loader from "../../shared/components/Loader";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemSecondPage = () =>
@@ -35,7 +35,8 @@ const ItemSecondPage = () =>
     const [searchTerm, setSearchTerm] = useState<string>('');
     const searchingItemsStatus = useSelector<IGlobalState, ApiStatus>(globalState => globalState.items.searchingItemsStatus);
 
-    useEffect(() => {
+    useEffect(() =>
+    {
         setSearchTerm('');
     }, [itemFromGlobalState]);
 
@@ -181,17 +182,19 @@ const ItemSecondPage = () =>
         style: CSS.Properties,
         imageName: string
     }
+
     interface ImageWidthAndName
     {
-        width : number,
-        imageName : string
+        width: number,
+        imageName: string
     }
+
     function calculItemImageStyleAndName(item: IItem): ImageDetails
     {
         const newWidth: number = 40;
         const defaultMaxWidth = '100%';
         let width: number = updateTheItemImageSize(item, newWidth);
-        let imageName : string = item.ImageName;
+        let imageName: string = item.ImageName;
         let imageWidthAndName = randomizeTheItemImageNameAndUpdateTheImageSize(item, width, newWidth, imageName);
 
         width = imageWidthAndName.width;
@@ -291,16 +294,15 @@ const ItemSecondPage = () =>
 
         forEach(imageDatasWhereTheImageNameMustBeRandomized, function (imageData)
         {
-            if (item.ImageName === imageData.imageName)
-            {
+            if (item.ImageName === imageData.imageName) {
                 imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
         });
 
         return {
-            width : width,
-            imageName : imageName
+            width: width,
+            imageName: imageName
         };
     }
 
@@ -495,7 +497,7 @@ const ItemSecondPage = () =>
         event.target.src = notFoundImageUrl;
     }
 
-    const filteredItems = filter(itemFromGlobalState, (item : IItem) =>
+    const filteredItems = filter(itemFromGlobalState, (item: IItem) =>
     {
         return searchFilter(item, searchTerm);
     });
@@ -511,22 +513,20 @@ const ItemSecondPage = () =>
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
-                                    {searchingItemsStatus === ApiStatus.FAILED &&
-                                    <MDBAlert color="danger">The items loading have failed.</MDBAlert>}
-                                    {searchingItemsStatus === ApiStatus.LOADING &&
-                                    <MDBAlert color="primary">Loading the items...
-                                        <div className="ml-2 spinner-border text-primary" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </div></MDBAlert>}
-                                    {searchingItemsStatus === ApiStatus.LOADED &&
-                                    <Search
-                                        searchFilter={searchFilter}
-                                        elements={itemFromGlobalState}
-                                        onSearch={onSearch}/> &&
-                                    <MDBDataTable
-                                        className="item"
-                                        data={itemDataTable}
-                                        entries={3}/>}
+                                    <Loader
+                                        loadingStatus={searchingItemsStatus}
+                                        resourceName="items"
+                                        resourceToLoad={
+                                            <Search
+                                                searchFilter={searchFilter}
+                                                elements={itemFromGlobalState}
+                                                onSearch={onSearch}/> &&
+
+                                            <MDBDataTable
+                                                className="item"
+                                                data={itemDataTable}
+                                                entries={3}/>}
+                                    />
                                     <MDBCol/>
                                 </MDBCol>
                             </MDBRow>

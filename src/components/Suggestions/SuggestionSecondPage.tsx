@@ -6,7 +6,6 @@ import {
     MDBRow,
     MDBCol,
     MDBDataTable,
-    MDBAlert,
     MDBModalBody,
     MDBModalHeader,
     MDBModal,
@@ -44,6 +43,7 @@ import ISuggestionItem, {
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
+import Loader from "../../shared/components/Loader";
 
 const SuggestionSecondPage = () =>
 {
@@ -322,16 +322,11 @@ const SuggestionSecondPage = () =>
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
-                                    {gettingAllSuggestionStatus === ApiStatus.FAILED &&
-                                    <MDBAlert color="danger">The suggestions loading have failed.</MDBAlert>}
-                                    {gettingAllSuggestionStatus === ApiStatus.LOADING &&
-                                    <MDBAlert color="primary">Loading the suggestions...
-                                        <div className="ml-2 spinner-border text-primary" role="status">
-                                            <span className="sr-only">Loading...</span>
-                                        </div>
-                                        </MDBAlert>}
-                                    {gettingAllSuggestionStatus === ApiStatus.LOADED &&
-                                    <MDBDataTable data={getItemDataTable()} entries={5}/>}
+                                    <Loader
+                                        loadingStatus={gettingAllSuggestionStatus}
+                                        resourceName="suggestions"
+                                        resourceToLoad={<MDBDataTable data={getItemDataTable()} entries={5}/>}
+                                    />
                                 </MDBCol>
                             </MDBRow>
                             <MDBRow className="create-suggestion-container d-flex bd-highlight">
