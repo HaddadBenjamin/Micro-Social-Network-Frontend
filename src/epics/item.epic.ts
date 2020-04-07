@@ -10,7 +10,7 @@ import {
     from,
     of
 } from "rxjs";
-import axios, {AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import api from "../shared/utilities/api";
 import {
     combineEpics,
@@ -25,21 +25,14 @@ import {
     searchingItemsFailed
 } from "../actions/item.action";
 import IItem from "../models/Items";
-import qs from 'qs';
 
 type ItemEpic = Epic<ItemsAction, ItemsAction, IGlobalState>;
 
 const searchItemsEpic: ItemEpic = (action$, state$) => action$.pipe(
     filter(isOfType(ItemActionTypes.SEARCH_ITEMS)),
     switchMap(action =>
-        from(axios({
-            method: 'get',
-            url: api.getUrl('items/search', qs.stringify(
-                {
-                    SubCategories: action.payload.subCategories
-                })),
-            headers: [],
-            data: {}
+        from(api.get('items/search', {
+            SubCategories: action.payload.subCategories
         })).pipe(
             map((response: AxiosResponse<IItem[]>) => searchedItems(response.data)),
             startWith(searchingItems()),
