@@ -8,13 +8,13 @@ import produce from "immer";
 
 export interface IItemState
 {
-    searchingItems : ApiStatus,
+    searchingItemsStatus : ApiStatus,
     items: IItem[]
 }
 
 export const initialItemsState: IItemState =
 {
-    searchingItems : ApiStatus.LOADED,
+    searchingItemsStatus : ApiStatus.LOADED,
     items: []
 };
 
@@ -24,16 +24,16 @@ export default function itemsReducer(state : IItemState = initialItemsState, act
         switch (action.type) {
             case ItemActionTypes.SEARCH_ITEMS:
             case ItemActionTypes.SEARCHING_ITEMS:
-                draft.searchingItems = ApiStatus.LOADING;
+                draft.searchingItemsStatus = ApiStatus.LOADING;
                 break;
 
             case ItemActionTypes.SEARCHED_ITEMS:
                 draft.items = action.payload.items;
-                draft.searchingItems = ApiStatus.LOADED;
+                draft.searchingItemsStatus = ApiStatus.LOADED;
                 break;
 
             case ItemActionTypes.SEARCHING_ITEMS_FAILED :
-                draft.searchingItems = ApiStatus.FAILED;
+                draft.searchingItemsStatus = ApiStatus.FAILED;
                 break;
         }
     })

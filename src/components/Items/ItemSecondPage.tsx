@@ -16,7 +16,8 @@ import {
     MDBView,
     MDBMask,
     MDBRow,
-    MDBCol
+    MDBCol,
+    MDBAlert
 } from 'mdbreact';
 import maths from '../../shared/utilities/maths'
 import Search from '../../shared/components/Search'
@@ -25,12 +26,14 @@ import {useSelector} from "react-redux";
 import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
 import IItem, {IItemProperty} from "../../models/Items";
+import ApiStatus from "../../models/ApiStatus";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
 const ItemSecondPage = () =>
 {
     const itemFromGlobalState = useSelector<IGlobalState, IItem[]>(globalState => globalState.items.items);
     const [searchTerm, setSearchTerm] = useState<string>('');
+    const searchingItemsStatus = useSelector<IGlobalState, ApiStatus>(globalState => globalState.items.searchingItemsStatus);
 
     useEffect(() => {
         setSearchTerm('');
@@ -508,14 +511,22 @@ const ItemSecondPage = () =>
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
+                                    {searchingItemsStatus === ApiStatus.FAILED &&
+                                    <MDBAlert color="danger">The items loading have failed.</MDBAlert>}
+                                    {searchingItemsStatus === ApiStatus.LOADING &&
+                                    <MDBAlert color="primary">The items are loading...
+                                        <div className="spinner-border text-primary" role="status">
+                                            <span className="sr-only">Loading...</span>
+                                        </div></MDBAlert>}
+                                    {searchingItemsStatus === ApiStatus.LOADED &&
                                     <Search
                                         searchFilter={searchFilter}
                                         elements={itemFromGlobalState}
-                                        onSearch={onSearch}/>
+                                        onSearch={onSearch}/> &&
                                     <MDBDataTable
                                         className="item"
                                         data={itemDataTable}
-                                        entries={3}/>
+                                        entries={3}/>}
                                     <MDBCol/>
                                 </MDBCol>
                             </MDBRow>
