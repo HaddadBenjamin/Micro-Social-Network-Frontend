@@ -514,8 +514,8 @@ const ItemSecondPage = () =>
                                     {searchingItemsStatus === ApiStatus.FAILED &&
                                     <MDBAlert color="danger">The items loading have failed.</MDBAlert>}
                                     {searchingItemsStatus === ApiStatus.LOADING &&
-                                    <MDBAlert color="primary">The items are loading...
-                                        <div className="spinner-border text-primary" role="status">
+                                    <MDBAlert color="primary">Loading the items...
+                                        <div className="ml-2 spinner-border text-primary" role="status">
                                             <span className="sr-only">Loading...</span>
                                         </div></MDBAlert>}
                                     {searchingItemsStatus === ApiStatus.LOADED &&
