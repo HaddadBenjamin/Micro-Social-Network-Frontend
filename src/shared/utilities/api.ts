@@ -10,14 +10,14 @@ class Api
 {
     public getUrl(endpoint: string, queryParameters?: string): string
     {
-        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + queryParameters : ''}`;
+        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + qs.stringify(queryParameters) : ''}`;
     }
 
     public get(endpoint: string, queryParameters?: any) : AxiosPromise
     {
         return axios({
             method: 'get',
-            url: api.getUrl(endpoint, queryParameters == undefined ? '' : qs.stringify(queryParameters)),
+            url: api.getUrl(endpoint, queryParameters),
             headers: [],
             data: {}
         });

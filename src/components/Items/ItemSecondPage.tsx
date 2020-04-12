@@ -294,7 +294,8 @@ const ItemSecondPage = () =>
 
         forEach(imageDatasWhereTheImageNameMustBeRandomized, function (imageData)
         {
-            if (item.ImageName === imageData.imageName) {
+            if (item.ImageName === imageData.imageName)
+            {
                 imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
@@ -517,15 +518,17 @@ const ItemSecondPage = () =>
                                         loadingStatus={searchingItemsStatus}
                                         resourceName="items"
                                         resourceToLoad={
-                                            <Search
-                                                searchFilter={searchFilter}
-                                                elements={itemFromGlobalState}
-                                                onSearch={onSearch}/> &&
+                                            <>
+                                                <Search
+                                                    searchFilter={searchFilter}
+                                                    elements={itemFromGlobalState}
+                                                    onSearch={onSearch}/>
 
-                                            <MDBDataTable
-                                                className="item"
-                                                data={itemDataTable}
-                                                entries={3}/>}
+                                                <MDBDataTable
+                                                    className="item"
+                                                    data={itemDataTable}
+                                                    entries={3}/>
+                                            </>}
                                     />
                                     <MDBCol/>
                                 </MDBCol>
