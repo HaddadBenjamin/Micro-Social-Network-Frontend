@@ -5,7 +5,7 @@ Lien pour tester avec l'application sur PC ou mobile : https://diablo-2-enriched
 
 __Cette application propose deux services :__
 - Pouvoir rechercher une liste d’objets pour le jeu Diablo II avec des filtres.
-- Pouvoir créer des suggestions, de les commenter et d'y voter afin que nos utilisateurs puissent prendre une place décisionnelle durant le développement de mon produit.
+- Pouvoir créer des suggestions, de les commenter et d'y voter afin que nos utilisateurs puissent prendre une place décisionnelle durant le développement de nos produits.
 </br>
 
 __Contexte technologique :__  React, Redux-Observable, Lodash, QS, mdbreact, Immer, Netlify.
