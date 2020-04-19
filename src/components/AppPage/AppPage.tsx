@@ -32,11 +32,6 @@ const AppPage = () =>
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
     const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
 
-    const dispatch = useDispatch();
-    useEffect(() => {
-        dispatch(getIp())
-    });
-
     function onClickOnNavigationBar(): void
     {
         setIsNavigationBarIsCollapsed(!isNavigationBarIsCollapsed);

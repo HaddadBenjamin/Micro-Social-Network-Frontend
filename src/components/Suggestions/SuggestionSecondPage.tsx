@@ -44,6 +44,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
+import {getIp} from "../../actions/user.action";
 
 const SuggestionSecondPage = () =>
 {
@@ -65,6 +66,7 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
+        dispatch(getIp())
         // équivalent à la fonction componentDidMount
         dispatch(getAllSuggestions());
     }, []);

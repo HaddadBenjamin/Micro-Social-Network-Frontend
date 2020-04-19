@@ -10,7 +10,7 @@ class Api
 {
     public getUrl(endpoint: string, queryParameters?: string): string
     {
-        return `${config.apiUrl}/${endpoint}/${queryParameters ? '?' + qs.stringify(queryParameters) : ''}`;
+        return `${config.apiUrl}/${endpoint}${queryParameters ? '/?' + qs.stringify(queryParameters) : ''}`;
     }
 
     public get(endpoint: string, queryParameters?: any) : AxiosPromise
