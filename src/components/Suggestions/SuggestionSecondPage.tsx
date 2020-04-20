@@ -66,10 +66,13 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
-        dispatch(getIp())
-        // équivalent à la fonction componentDidMount
-        dispatch(getAllSuggestions());
+        dispatch(getIp());
     }, []);
+
+    useEffect(() =>
+    {
+        dispatch(getAllSuggestions());
+    }, [userId]);
 
     useEffect(()=>
     {
@@ -266,10 +269,13 @@ const SuggestionSecondPage = () =>
 
     function getItemDataTableRows(): any
     {
-        const orderedSuggestions = orderBy(suggestions, function(suggestion : ISuggestionItem)
+        const orderedSuggestions = orderBy(suggestions, [function(suggestion : ISuggestionItem)
         {
-            return -(suggestion.PositiveVoteCount - suggestion.NegativeVoteCount);
-        });
+            return suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
+        }, function(suggestion : ISuggestionItem)
+        {
+            return suggestion.Comments.length;
+        }], ["desc", "desc"]);
         return map(orderedSuggestions, toSuggestionDataTableRow);
     }
 
