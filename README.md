@@ -1,3 +1,5 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/5687a48f-a72b-4a05-8071-fca20cb66902/deploy-status)](https://app.netlify.com/sites/diablo-2-enriched-documentation/deploys)
+
 # Diablo II - Items Documentation - Interface
 
 Vous pouvez tester avec l'application sur PC ou mobile : https://diablo-2-enriched-documentation.netlify.com/
