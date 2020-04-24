@@ -29,7 +29,6 @@ import {
 } from 'lodash'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import {useToggle} from "react-use";
 
 const SettingsForm = () =>
 {
@@ -40,7 +39,7 @@ const SettingsForm = () =>
     const [acceptedNotifications, setAcceptedNotifications] = useState<string[]>([]);
     const [acceptedNotifiers, setAcceptedNotifiers] = useState<string[]>([]);
     const [email, setEmail] = useState<string>('');
-    const [firstLoad, setFirstLoad] = useToggle(true);
+    const [firstLoad, setFirstLoad] = useState<boolean>(true);
     const dispatch = useDispatch();
 
     useEffect(() =>
