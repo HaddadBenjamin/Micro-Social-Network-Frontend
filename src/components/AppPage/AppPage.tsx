@@ -11,7 +11,8 @@ import {
     MDBView,
     MDBContainer,
     MDBFormInline,
-    MDBNavLink
+    MDBNavLink,
+    MDBBadge
 } from "mdbreact";
 import "./AppPage.css";
 import ItemFirstPage from "../Items/ItemFirstPage";
@@ -24,7 +25,8 @@ enum ApplicationPage
 {
     Items,
     Suggestions,
-    Settings
+    Settings,
+    Notifications
 }
 
 const AppPage = () =>
@@ -84,6 +86,10 @@ const AppPage = () =>
                                         <MDBNavLink to="settings"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Settings)}>Settings</MDBNavLink>
                                     </MDBNavItem>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Notifications)}>
+                                        <MDBNavLink to="notifications"
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Notifications)}>Notifications<MDBBadge color="danger" className="ml-2">4</MDBBadge></MDBNavLink>
+                                    </MDBNavItem>
                                     <MDBFormInline waves>
                                     </MDBFormInline>
                                 </MDBNavbarNav>
@@ -106,6 +112,8 @@ const AppPage = () =>
                                 <Route path="/settings">
                                     <SettingsPage/>
                                 </Route>
+                                <Route path="/notifications">
+                                </Route>
                                 <Route path="/">
                                     <ItemFirstPage/>
                                 </Route>
@@ -122,6 +130,8 @@ const AppPage = () =>
                     <SuggestionSecondPage/>
                 </Route>
                 <Route path="/settings">
+                </Route>
+                <Route path="/notifications">
                 </Route>
                 <Route path="/">
                     <ItemSecondPage/>
