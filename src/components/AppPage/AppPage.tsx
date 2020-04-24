@@ -88,10 +88,10 @@ const AppPage = () =>
                                         <MDBNavLink to="settings"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Settings)}>Settings</MDBNavLink>
                                     </MDBNavItem>
-                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Notifications)}>
+                                    {/*<MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Notifications)}>
                                         <MDBNavLink to="notifications"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Notifications)}>Notifications<MDBBadge color="danger" className="ml-2">4</MDBBadge></MDBNavLink>
-                                    </MDBNavItem>
+                                    </MDBNavItem>*/}
                                     <MDBFormInline waves>
                                     </MDBFormInline>
                                 </MDBNavbarNav>
