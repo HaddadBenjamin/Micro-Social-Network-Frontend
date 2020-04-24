@@ -20,6 +20,7 @@ import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
 import SettingsPage from "../Settings/SettingsPage";
+import {ToastContainer} from "react-toastify";
 
 enum ApplicationPage
 {
@@ -57,6 +58,7 @@ const AppPage = () =>
 
     return (
         <Router>
+            <ToastContainer />
             <div id="apppage">
                 <div>
                     <MDBNavbar

@@ -50,7 +50,7 @@ export interface ICreateUserAction
     type : UserActionTypes.CREATE_USER,
     payload : {
         id : string,
-        email : string
+        email? : string
     }
 }
 
@@ -140,7 +140,7 @@ export function gettingIpFailed(): IGettingIpFailedAction
 //endregion
 
 //region create user
-export function createUser(id : string, email : string) : ICreateUserAction
+export function createUser(id : string, email? : string) : ICreateUserAction
 {
     return {
         type : UserActionTypes.CREATE_USER,
