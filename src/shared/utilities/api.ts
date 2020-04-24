@@ -35,8 +35,6 @@ class Api
 
     public put(endpoint: string, body?: any): AxiosPromise
     {
-        console.log(api.getUrl(endpoint));
-        console.log(body);
         return axios({
             method: 'PUT',
             url: api.getUrl(endpoint),
