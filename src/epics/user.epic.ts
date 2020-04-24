@@ -64,7 +64,7 @@ const createUserEpic: UserEpic = (action$, state$) => action$.pipe(
 const updateUserEpic: UserEpic = (action$, state$) => action$.pipe(
     filter(isOfType(UserActionTypes.UPDATE_USER)),
     mergeMap(action =>
-        from(api.put('users', {
+        from(api.put(`users/${action.payload.userId}`, {
             UserId : action.payload.userId,
             Email: action.payload.email,
             AcceptedNotifications : action.payload.acceptedNotifications,

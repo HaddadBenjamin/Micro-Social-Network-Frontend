@@ -1,6 +1,4 @@
 import React, {
-    ChangeEvent,
-    ChangeEventHandler,
     FormEvent,
     SyntheticEvent,
     useEffect,
@@ -21,20 +19,28 @@ import IUserItem from "../../models/User";
 import {
     createUser,
     getIp,
-    updatedUser
+    updateUser
 } from "../../actions/user.action";
 import ApiStatus from "../../models/ApiStatus";
 import Loader from "../../shared/components/Loader";
-import {filter, noop} from 'lodash'
+import {
+    filter,
+    noop
+} from 'lodash'
+import {toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import {useToggle} from "react-use";
 
 const SettingsForm = () =>
 {
     const userFromServer = useSelector<IGlobalState, IUserItem | undefined>(state => state.user.user);
     const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
+    const updatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.updatingUserStatus);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
     const [acceptedNotifications, setAcceptedNotifications] = useState<string[]>([]);
     const [acceptedNotifiers, setAcceptedNotifiers] = useState<string[]>([]);
     const [email, setEmail] = useState<string>('');
+    const [firstLoad, setFirstLoad] = useToggle(true);
     const dispatch = useDispatch();
 
     useEffect(() =>
@@ -47,6 +53,14 @@ const SettingsForm = () =>
         if (userId != '')
             dispatch(createUser(userId))
     }, [userId]);
+
+    useEffect(() =>
+    {
+        if (updatingUserStatus === ApiStatus.FAILED)
+            toast.error("Failed to update your user information.");
+        if (updatingUserStatus === ApiStatus.LOADED && firstLoad === false)
+            toast.success("Your user information have been correctly updated.");
+    }, [updatingUserStatus]);
 
     useEffect(() =>
     {
@@ -73,8 +87,6 @@ const SettingsForm = () =>
         }
         else
             setAcceptedNotifications([...acceptedNotifications, notification]);
-
-        console.log(acceptedNotifications)
     }
 
     function onChangeNotifier(notifier: string)
@@ -91,7 +103,9 @@ const SettingsForm = () =>
 
     function onSave(event : SyntheticEvent<HTMLButtonElement>)
     {
-        updatedUser()
+        setFirstLoad(false);
+        dispatch(updateUser(userId, email, acceptedNotifications, acceptedNotifiers));
+        toast.info('Updating your user information...');
     }
 
     function doesNotificationIsEnabled(notification: string)
@@ -153,6 +167,7 @@ const SettingsForm = () =>
 
             return (<></>);
     }
+
     return (
     <>
         <div className="white-text text-center text-md-left mt-xl-5 mb-5">
