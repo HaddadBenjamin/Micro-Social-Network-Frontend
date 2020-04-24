@@ -3,10 +3,7 @@ import './SettingsForm.css'
 import "mdbreact";
 import {
     MDBBtn,
-    MDBDropdown,
-    MDBDropdownItem,
-    MDBDropdownMenu,
-    MDBDropdownToggle
+    MDBInput,
 } from "mdbreact";
 
 const SettingsForm = () =>
@@ -15,12 +12,16 @@ return (
     <>
         <div className="white-text text-center text-md-left mt-xl-5 mb-5">
             <h4 className="h4-responsive font-weight-bold mt-sm-4">
-                Personal information :
+                Personal information
             </h4>
-            Email : <input type="text"/>
-
+            <MDBInput
+                type="email"
+                label="Email"
+                rows="2"
+                icon="envelope"
+            />
             <h4 className="h4-responsive font-weight-bold mt-sm-4">
-                Notification system :
+                Notification system
                 <h6>Which notification interest you ?
                 <div className="custom-control custom-checkbox">
                     <input type="checkbox" className="custom-control-input" id="defaultChecked2" checked/>
@@ -54,6 +55,7 @@ return (
                         <label className="custom-control-label">In the application</label>
                     </div>
 
+                    <br/>
                     <MDBBtn color="primary">Save</MDBBtn>
                 </h6>
 

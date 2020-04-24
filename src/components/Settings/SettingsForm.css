@@ -1,15 +1,9 @@
 input
 {
-    bakcground : rgba(0, 0, 0, 0.4) !important;
+    color : white !important;
 }
-.item-category-link
+button
 {
-    display : block;
-    margin-top : 15px;
-    color : ghostwhite;
-}
-.item-category-link div:hover
-{
-    text-decoration: underline;
-    cursor: pointer;
+    width : 100%;
+    height : 1555% !important;
 }
