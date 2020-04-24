@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from "react";
+import React, { useState} from "react";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
     MDBNavbar,
@@ -18,8 +18,6 @@ import ItemFirstPage from "../Items/ItemFirstPage";
 import ItemSecondPage from "../Items/ItemSecondPage";
 import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
-import {useDispatch} from "react-redux";
-import {getIp} from "../../actions/user.action";
 import SettingsPage from "../Settings/SettingsPage";
 
 enum ApplicationPage
