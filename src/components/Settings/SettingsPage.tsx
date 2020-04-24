@@ -1,7 +1,8 @@
 import {MDBAnimation, MDBCol, MDBRow} from "mdbreact";
 import React from "react";
+import SettingsForm from "./SettingsForm";
 
-const SuggestionFirstPage = () =>
+const SettingsPage = () =>
 {
     return (
         <MDBRow>
@@ -11,25 +12,25 @@ const SuggestionFirstPage = () =>
             >
                 <MDBAnimation type="fadeInLeft" delay=".3s">
                     <h1 className="h1-responsive font-weight-bold mt-sm-5">
-                        Suggestions
+                        Settings
                     </h1>
                     <hr className="hr-light"/>
                     <h6 className="mb-4">
-                        Welcome dear users, on this page you can make suggestions on how to improve the game and website.
-                        We would like to know what do you think to make it count in during the development of our tools.
-                        We integrated a vote and comment system for you to help us determine which suggestions are the most important to you.
+                        Welcome dear users, on this page you can configure your settings and your personal information.
+                        That means your email, the notifications that interest you and how you would like to be notified.
+                        The notification system will allow you to be alerted when something important happens, like when a new patch has been implemented or when someone commented your suggestion.
+                        You can be notified by mail or directly in the application.
                         Thank you all for your dedication and your contribution.
                     </h6>
-
                 </MDBAnimation>
             </MDBCol>
 
             <MDBCol md="5" xl="6" className="mt-xl-5 offset-md-1">
                 <MDBAnimation type="fadeInRight" delay=".3s">
-
+                    <SettingsForm/>
                 </MDBAnimation>
             </MDBCol>
         </MDBRow>);
 }
 
-export default SuggestionFirstPage;
+export default SettingsPage;

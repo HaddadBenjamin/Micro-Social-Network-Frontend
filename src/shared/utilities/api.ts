@@ -26,7 +26,17 @@ class Api
     public post(endpoint: string, body?: any): AxiosPromise
     {
         return axios({
-            method: 'post',
+            method: 'POST',
+            url: api.getUrl(endpoint),
+            headers: {},
+            data: body
+        });
+    }
+
+    public put(endpoint: string, body?: any): AxiosPromise
+    {
+        return axios({
+            method: 'PUT',
             url: api.getUrl(endpoint),
             headers: {},
             data: body
@@ -36,7 +46,7 @@ class Api
     public delete(endpoint: string, body?: any): AxiosPromise
     {
         return axios({
-            method: 'delete',
+            method: 'DELETE',
             url: api.getUrl(endpoint),
             headers: {},
             data: body
