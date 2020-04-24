@@ -5,16 +5,25 @@ import {
 } from "../actions/user.action";
 import produce from "immer";
 import crypto from 'crypto';
+import IUserItem from "../models/User";
 
 export interface IUserState
 {
     gettingIpStatus : ApiStatus,
+    gettingUserStatus : ApiStatus,
+    creatingUserStatus : ApiStatus,
+    updatingUserStatus : ApiStatus,
+    user? : IUserItem,
     userId : string
 }
 
 export const initialUserState : IUserState =
 {
     gettingIpStatus : ApiStatus.LOADED,
+    gettingUserStatus : ApiStatus.LOADED,
+    creatingUserStatus : ApiStatus.LOADED,
+    updatingUserStatus : ApiStatus.LOADED,
+    user : undefined,
     userId : ''
 };
 
@@ -40,6 +49,48 @@ export default function userReducer(state : IUserState = initialUserState, actio
 
             case UserActionTypes.GETTING_IP_FAILED :
                 draft.gettingIpStatus = ApiStatus.FAILED;
+                break;
+
+            case UserActionTypes.GET_USER :
+            case UserActionTypes.GETTING_USER :
+                draft.gettingUserStatus = ApiStatus.LOADING;
+                break;
+
+            case UserActionTypes.GOT_USER :
+                draft.user = action.payload.user;
+                draft.gettingUserStatus = ApiStatus.LOADED;
+                break;
+
+            case UserActionTypes.GETTING_USER_FAILED :
+                draft.gettingUserStatus = ApiStatus.FAILED;
+                break;
+
+            case UserActionTypes.CREATE_USER :
+            case UserActionTypes.CREATING_USER :
+                draft.creatingUserStatus = ApiStatus.LOADING;
+                break;
+
+            case UserActionTypes.CREATED_USER :
+                draft.user = action.payload.user;
+                draft.creatingUserStatus = ApiStatus.LOADED;
+                break;
+
+            case UserActionTypes.CREATING_USER_FAILED :
+                draft.creatingUserStatus = ApiStatus.LOADED;
+                break;
+
+            case UserActionTypes.UPDATE_USER :
+            case UserActionTypes.UPDATING_USER :
+                draft.updatingUserStatus = ApiStatus.LOADING;
+                break;
+
+            case UserActionTypes.UPDATED_USER :
+                draft.user = action.payload.user;
+                draft.updatingUserStatus = ApiStatus.LOADED;
+                break;
+
+            case UserActionTypes.UPDATING_USER_FAILED :
+                draft.updatingUserStatus = ApiStatus.FAILED;
                 break;
         }
     })
