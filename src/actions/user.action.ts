@@ -209,6 +209,13 @@ export function updatedUser(user : IUserItem) : IUpdatedUserAction
         }
     }
 }
+
+export function updatingUserFailed() : IUpdatingUserFailedAction
+{
+    return {
+        type : UserActionTypes.UPDATING_USER_FAILED
+    }
+}
 //endregion
 //endregion
 

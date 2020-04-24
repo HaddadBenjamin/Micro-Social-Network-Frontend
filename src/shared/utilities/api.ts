@@ -33,6 +33,16 @@ class Api
         });
     }
 
+    public put(endpoint: string, body?: any): AxiosPromise
+    {
+        return axios({
+            method: 'put',
+            url: api.getUrl(endpoint),
+            headers: {},
+            data: body
+        });
+    }
+
     public delete(endpoint: string, body?: any): AxiosPromise
     {
         return axios({

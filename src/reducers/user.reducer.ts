@@ -10,7 +10,6 @@ import IUserItem from "../models/User";
 export interface IUserState
 {
     gettingIpStatus : ApiStatus,
-    gettingUserStatus : ApiStatus,
     creatingUserStatus : ApiStatus,
     updatingUserStatus : ApiStatus,
     user? : IUserItem,
@@ -20,7 +19,6 @@ export interface IUserState
 export const initialUserState : IUserState =
 {
     gettingIpStatus : ApiStatus.LOADED,
-    gettingUserStatus : ApiStatus.LOADED,
     creatingUserStatus : ApiStatus.LOADED,
     updatingUserStatus : ApiStatus.LOADED,
     user : undefined,
