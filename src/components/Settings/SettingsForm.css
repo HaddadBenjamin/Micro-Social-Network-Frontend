@@ -1,0 +1,15 @@
+input
+{
+    bakcground : rgba(0, 0, 0, 0.4) !important;
+}
+.item-category-link
+{
+    display : block;
+    margin-top : 15px;
+    color : ghostwhite;
+}
+.item-category-link div:hover
+{
+    text-decoration: underline;
+    cursor: pointer;
+}

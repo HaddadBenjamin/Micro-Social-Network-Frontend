@@ -1,7 +1,5 @@
 import {MDBAnimation, MDBCol, MDBRow} from "mdbreact";
 import React from "react";
-import SearchItem from "../Items/SearchItem";
-import {DefaultSearchItemDto} from "../Items/SearchItemDto";
 import SettingsForm from "./SettingsForm";
 
 const SettingsPage = () =>
