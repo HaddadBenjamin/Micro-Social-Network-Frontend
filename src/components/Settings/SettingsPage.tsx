@@ -16,10 +16,10 @@ const SettingsPage = () =>
                     </h1>
                     <hr className="hr-light"/>
                     <h6 className="mb-4">
-                        Welcome dear users, in this page you could configure your settings and your personal information.
-                        That's mean your email, the notifications that interest you and how would you like to be notified.
-                        The notification system will allow you to be alerted when something important happen, like when a new patch have been implemented or when someone commented your suggestion.
-                        You could be notified by mail or directly in the application.
+                        Welcome dear users, on this page you can configure your settings and your personal information.
+                        That means your email, the notifications that interest you and how you would like to be notified.
+                        The notification system will allow you to be alerted when something important happens, like when a new patch has been implemented or when someone commented your suggestion.
+                        You can be notified by mail or directly in the application.
                         Thank you all for your dedication and your contribution.
                     </h6>
                 </MDBAnimation>

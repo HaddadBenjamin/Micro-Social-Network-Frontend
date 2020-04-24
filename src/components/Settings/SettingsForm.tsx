@@ -11,31 +11,28 @@ const SettingsForm = () =>
 return (
     <>
         <div className="white-text text-center text-md-left mt-xl-5 mb-5">
+
+
             <h4 className="h4-responsive font-weight-bold mt-sm-4">
                 Personal information
             </h4>
-            <MDBInput
-                type="email"
-                label="Email"
-                rows="2"
-                icon="envelope"
-            />
+            <MDBInput type="email" label="Email"  icon="envelope"/>
             <h4 className="h4-responsive font-weight-bold mt-sm-4">
-                Notification system
-                <h6>Which notification interest you ?
+                Notifications system
+                <h6 className="py-2">Which notifications interest you ?
                 <div className="custom-control custom-checkbox">
                     <input type="checkbox" className="custom-control-input" id="defaultChecked2" checked/>
-                        <label className="custom-control-label">A new version of the game have been implemented</label>
+                        <label className="custom-control-label">A new version of the game has been implemented</label>
                 </div>
 
                     <div className="custom-control custom-checkbox">
                         <input type="checkbox" className="custom-control-input"/>
-                        <label className="custom-control-label">A new suggestion have been added</label>
+                        <label className="custom-control-label">A new suggestion has been added</label>
                     </div>
 
                     <div className="custom-control custom-checkbox">
                         <input type="checkbox" className="custom-control-input" checked/>
-                        <label className="custom-control-label">Someone commented your suggestion</label>
+                        <label className="custom-control-label">Someone commented on your suggestion</label>
                     </div>
 
                     <div className="custom-control custom-checkbox">
@@ -55,7 +52,6 @@ return (
                         <label className="custom-control-label">In the application</label>
                     </div>
 
-                    <br/>
                     <MDBBtn color="primary">Save</MDBBtn>
                 </h6>
 

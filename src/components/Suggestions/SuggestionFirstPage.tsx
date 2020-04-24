@@ -15,9 +15,10 @@ const SuggestionFirstPage = () =>
                     </h1>
                     <hr className="hr-light"/>
                     <h6 className="mb-4">
-                        Welcome dear users, in this page you could create some suggestions about the game and the
-                        website. We would like to know what do you think to make it count in during the development of our tools. To help us to determine which
-                        suggestions are the most important for you, there is an integrated vote and comment system. Thank you all for your dedication and your contribution.
+                        Welcome dear users, on this page you could make suggestions on how to improve the game and website.
+                        We would like to know what do you think to make it count in during the development of our tools. To help us to determine which
+                        suggestions are the most important to you we integrated a vote and comment system.
+                        Thank you all for your dedication and your contribution.
                     </h6>
 
                 </MDBAnimation>
