@@ -51,20 +51,6 @@ export default function userReducer(state : IUserState = initialUserState, actio
                 draft.gettingIpStatus = ApiStatus.FAILED;
                 break;
 
-            case UserActionTypes.GET_USER :
-            case UserActionTypes.GETTING_USER :
-                draft.gettingUserStatus = ApiStatus.LOADING;
-                break;
-
-            case UserActionTypes.GOT_USER :
-                draft.user = action.payload.user;
-                draft.gettingUserStatus = ApiStatus.LOADED;
-                break;
-
-            case UserActionTypes.GETTING_USER_FAILED :
-                draft.gettingUserStatus = ApiStatus.FAILED;
-                break;
-
             case UserActionTypes.CREATE_USER :
             case UserActionTypes.CREATING_USER :
                 draft.creatingUserStatus = ApiStatus.LOADING;

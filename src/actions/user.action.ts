@@ -7,11 +7,6 @@ export enum UserActionTypes
     GOT_IP = 'users/gotip',
     GETTING_IP_FAILED = 'users/gettingip_failed',
 
-    GET_USER = 'users/getuser',
-    GETTING_USER = 'users/gettinguser',
-    GOT_USER = "users/gotuser",
-    GETTING_USER_FAILED = "users/gettinguser_failed",
-
     CREATE_USER = 'users/createuser',
     CREATING_USER = 'users/creatinguser',
     CREATED_USER = "users/createduser",
@@ -46,34 +41,6 @@ export interface IGotIpAction
 export interface IGettingIpFailedAction
 {
     type: UserActionTypes.GETTING_IP_FAILED
-}
-//endregion
-
-//region get user
-export interface IGetUserAction
-{
-    type : UserActionTypes.GET_USER,
-    payload : {
-        id : string
-    }
-}
-
-export interface IGettingUserAction
-{
-    type : UserActionTypes.GETTING_USER
-}
-
-export interface IGotUserAction
-{
-    type : UserActionTypes.GOT_USER,
-    payload : {
-        user : IUserItem
-    }
-}
-
-export interface IGettingUserFailedAction
-{
-    type : UserActionTypes.GETTING_USER_FAILED
 }
 //endregion
 
@@ -172,42 +139,6 @@ export function gettingIpFailed(): IGettingIpFailedAction
 }
 //endregion
 
-//region get user
-export function getUser(id : string) : IGetUserAction
-{
-    return {
-        type : UserActionTypes.GET_USER,
-        payload :{
-            id : id
-        }
-    }
-}
-
-export function gettingUser() : IGettingUserAction
-{
-    return {
-        type : UserActionTypes.GETTING_USER
-    }
-}
-
-export function gotUser(user : IUserItem) : IGotUserAction
-{
-    return {
-        type : UserActionTypes.GOT_USER,
-        payload : {
-            user : user
-        }
-    }
-}
-
-export function gettingUserFailed() : IGettingUserFailedAction
-{
-    return {
-        type: UserActionTypes.GETTING_USER_FAILED
-    }
-}
-//endregion
-
 //region create user
 export function createUser(id : string, email : string) : ICreateUserAction
 {
@@ -286,11 +217,6 @@ export type UsersAction =
     IGettingIpAction |
     IGotIpAction |
     IGettingIpFailedAction |
-
-    IGetUserAction |
-    IGettingUserAction |
-    IGotUserAction |
-    IGettingUserFailedAction |
 
     ICreateUserAction |
     ICreatingUserAction |
