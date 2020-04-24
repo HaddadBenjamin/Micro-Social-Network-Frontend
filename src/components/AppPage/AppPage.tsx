@@ -20,11 +20,13 @@ import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
 import {useDispatch} from "react-redux";
 import {getIp} from "../../actions/user.action";
+import SettingsPage from "../Settings/SettingsPage";
 
 enum ApplicationPage
 {
     Items,
-    Suggestions
+    Suggestions,
+    Settings
 }
 
 const AppPage = () =>
@@ -76,9 +78,13 @@ const AppPage = () =>
                                         <MDBNavLink to="items"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Items)}>Items</MDBNavLink>
                                     </MDBNavItem>
-                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Items)}>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Suggestions)}>
                                         <MDBNavLink to="suggestions"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Suggestions)}>Suggestions</MDBNavLink>
+                                    </MDBNavItem>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Settings)}>
+                                        <MDBNavLink to="settings"
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Settings)}>Settings</MDBNavLink>
                                     </MDBNavItem>
                                     <MDBFormInline waves>
                                     </MDBFormInline>
@@ -99,6 +105,9 @@ const AppPage = () =>
                                 <Route path="/suggestions">
                                     <SuggestionFirstPage/>
                                 </Route>
+                                <Route path="/settings">
+                                    <SettingsPage/>
+                                </Route>
                                 <Route path="/">
                                     <ItemFirstPage/>
                                 </Route>
@@ -113,6 +122,8 @@ const AppPage = () =>
                 </Route>
                 <Route path="/suggestions">
                     <SuggestionSecondPage/>
+                </Route>
+                <Route path="/settings">
                 </Route>
                 <Route path="/">
                     <ItemSecondPage/>
