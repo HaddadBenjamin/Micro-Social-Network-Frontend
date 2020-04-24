@@ -1,6 +1,8 @@
 import React, {
     ChangeEvent,
+    ChangeEventHandler,
     FormEvent,
+    SyntheticEvent,
     useEffect,
     useState
 } from "react";
@@ -8,7 +10,6 @@ import './SettingsForm.css'
 import "mdbreact";
 import {
     MDBBtn,
-    MDBDataTable,
     MDBInput,
 } from "mdbreact";
 import {
@@ -19,10 +20,12 @@ import {IGlobalState} from "../../reducers";
 import IUserItem from "../../models/User";
 import {
     createUser,
-    getIp
+    getIp,
+    updatedUser
 } from "../../actions/user.action";
 import ApiStatus from "../../models/ApiStatus";
 import Loader from "../../shared/components/Loader";
+import {filter, noop} from 'lodash'
 
 const SettingsForm = () =>
 {
@@ -60,12 +63,43 @@ const SettingsForm = () =>
         setEmail(event.currentTarget.value);
     }
 
-    function doesNotificationIsEnabled(notification : string)
+    function onChangeNotification(notification: string)
+    {
+        if (acceptedNotifications.includes(notification))
+        {
+            const filteredNotifications = filter(acceptedNotifications, (acceptedNotification: string) => notification !== acceptedNotification);
+
+            setAcceptedNotifications(filteredNotifications)
+        }
+        else
+            setAcceptedNotifications([...acceptedNotifications, notification]);
+
+        console.log(acceptedNotifications)
+    }
+
+    function onChangeNotifier(notifier: string)
+    {
+        if (acceptedNotifiers.includes(notifier))
+        {
+            const filteredNotifiers = filter(acceptedNotifiers, (acceptedNotifier: string) => notifier !== acceptedNotifier);
+
+            setAcceptedNotifiers(filteredNotifiers)
+        }
+        else
+            setAcceptedNotifiers([...acceptedNotifiers, notifier]);
+    }
+
+    function onSave(event : SyntheticEvent<HTMLButtonElement>)
+    {
+        updatedUser()
+    }
+
+    function doesNotificationIsEnabled(notification: string)
     {
         return acceptedNotifications.includes(notification);
     }
 
-    function doesNotifierIsEnabled(notifier : string)
+    function doesNotifierIsEnabled(notifier: string)
     {
         return acceptedNotifiers.includes(notifier);
     }
@@ -79,45 +113,42 @@ const SettingsForm = () =>
                     Personal information
                 </h4>
                 <MDBInput type="email" label="Email"  icon="envelope" value={email} onChange={onChangeEmail}/>
-                <h4 className="h4-responsive font-weight-bold mt-sm-4">
-                    Notifications system
+                <h4 className="h4-responsive font-weight-bold mt-sm-4">Notifications system</h4>
                     <h6 className="py-2">Which notifications interest you ?
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="defaultChecked2" checked={doesNotificationIsEnabled('PatchNotes')}/>
-                            <label className="custom-control-label">A new version of the game has been implemented</label>
+                            <input type="checkbox" className="custom-control-input" onChange={noop} checked={doesNotificationIsEnabled('PatchNotes')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotification("PatchNotes")}>A new version of the game has been implemented</label>
                         </div>
 
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" checked={doesNotificationIsEnabled('CreatedSuggestion')}/>
-                            <label className="custom-control-label">A new suggestion has been added</label>
+                            <input type="checkbox" className="custom-control-input"  onChange={noop} value="CreatedSuggestion" checked={doesNotificationIsEnabled('CreatedSuggestion')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotification("CreatedSuggestion")}>A new suggestion has been added</label>
                         </div>
 
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" checked={doesNotificationIsEnabled('NewCommentOnYourSuggestion')}/>
-                            <label className="custom-control-label">Someone commented on your suggestion</label>
+                            <input type="checkbox" className="custom-control-input" onChange={noop} value="NewCommentOnYourSuggestion" checked={doesNotificationIsEnabled('NewCommentOnYourSuggestion')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotification("NewCommentOnYourSuggestion")}>Someone commented on your suggestion</label>
                         </div>
 
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" checked={doesNotificationIsEnabled('Other')}/>
-                            <label className="custom-control-label">Other information relative to this mod</label>
+                            <input type="checkbox" className="custom-control-input" onChange={noop} value="Other" checked={doesNotificationIsEnabled('Other')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotification("Other")}>Other information relative to this mod</label>
                         </div>
                     </h6>
 
                     <h6>How would you like to be notified ?
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input" id="defaultChecked2"  checked={doesNotifierIsEnabled('Mail')}/>
-                            <label className="custom-control-label">By mail</label>
+                            <input type="checkbox" className="custom-control-input" onChange={noop} value="Mail" checked={doesNotifierIsEnabled('Mail')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotifier("Mail")}>By mail</label>
                         </div>
 
                         <div className="custom-control custom-checkbox">
-                            <input type="checkbox" className="custom-control-input"  checked={doesNotifierIsEnabled('InApp')}/>
-                            <label className="custom-control-label">In the application</label>
+                            <input type="checkbox" className="custom-control-input" onChange={noop} value="InApp" checked={doesNotifierIsEnabled('InApp')}/>
+                            <label className="custom-control-label" onClick={event => onChangeNotifier("InApp")}>In the application</label>
                         </div>
 
-                        <MDBBtn color="primary">Save</MDBBtn>
+                        <MDBBtn color="primary" onClick={onSave}>Save</MDBBtn>
                     </h6>
-
-                </h4>
             </>);
 
             return (<></>);
