@@ -48,6 +48,17 @@ const getIpEpic: UserEpic = (action$, state$) => action$.pipe(
     )
 );
 
+const gettingIpFailedEpic: UserEpic = (action$, state$) => action$.pipe(
+    filter(isOfType(UserActionTypes.GETTING_IP_FAILED)),
+    switchMap(action =>
+        from(publicIp.v4()).pipe(
+            map((ip: string) => gotIp(ip)),
+            startWith(gettingIp()),
+            catchError(() => of(gettingIpFailed()))
+        )
+    )
+);
+
 const createUserEpic: UserEpic = (action$, state$) => action$.pipe(
     filter(isOfType(UserActionTypes.CREATE_USER)),
     mergeMap(action =>
@@ -80,5 +91,6 @@ const updateUserEpic: UserEpic = (action$, state$) => action$.pipe(
 
 export default combineEpics(
     getIpEpic,
+    gettingIpFailedEpic,
     createUserEpic,
     updateUserEpic);

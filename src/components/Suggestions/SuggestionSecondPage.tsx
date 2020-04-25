@@ -67,11 +67,6 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
-        dispatch(getIp());
-    }, []);
-
-    useEffect(() =>
-    {
         dispatch(getAllSuggestions());
     }, [userId]);
 

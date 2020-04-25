@@ -1,5 +1,6 @@
 import ApiStatus from "../models/ApiStatus";
 import {
+    getIp,
     UserActionTypes,
     UsersAction
 } from "../actions/user.action";

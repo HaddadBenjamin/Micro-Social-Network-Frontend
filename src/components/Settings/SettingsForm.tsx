@@ -17,8 +17,6 @@ import {
 import {IGlobalState} from "../../reducers";
 import IUserItem from "../../models/User";
 import {
-    createUser,
-    getIp,
     updateUser
 } from "../../actions/user.action";
 import ApiStatus from "../../models/ApiStatus";
@@ -34,26 +32,17 @@ import '../../shared/css/toastify.css'
 const SettingsForm = () =>
 {
     const userFromServer = useSelector<IGlobalState, IUserItem | undefined>(state => state.user.user);
-    const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
-    const updatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.updatingUserStatus);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
     const errorMessage = useSelector<IGlobalState, string>(state => state.user.errorMessage);
+    const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
+    const updatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.updatingUserStatus);
+
     const [acceptedNotifications, setAcceptedNotifications] = useState<string[]>([]);
     const [acceptedNotifiers, setAcceptedNotifiers] = useState<string[]>([]);
     const [email, setEmail] = useState<string>('');
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
+
     const dispatch = useDispatch();
-
-    useEffect(() =>
-    {
-        dispatch(getIp());
-    }, []);
-
-    useEffect(() =>
-    {
-        if (userId != '')
-            dispatch(createUser(userId))
-    }, [userId]);
 
     useEffect(() =>
     {
@@ -108,7 +97,7 @@ const SettingsForm = () =>
         {
             setFirstLoad(false);
             dispatch(updateUser(userId, email, acceptedNotifications, acceptedNotifiers));
-            toast.info('Updating your user information...', { autoClose : 55555});
+            toast.info('Updating your user information...');
         }
     }
 
