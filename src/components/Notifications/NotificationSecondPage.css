@@ -1,0 +1,10 @@
+p
+{
+    font-family: Diablo;
+}
+.notification-title
+{
+    color : red;
+    width : 200px !important;
+    font-weight : bold;
+}

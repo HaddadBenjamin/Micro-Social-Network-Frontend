@@ -12,7 +12,7 @@ export interface IUserState
     gettingIpStatus : ApiStatus,
     creatingUserStatus : ApiStatus,
     updatingUserStatus : ApiStatus,
-    user? : IUserItem,
+    user : IUserItem,
     userId : string,
     errorMessage : string
 }
@@ -22,7 +22,16 @@ export const initialUserState : IUserState =
     gettingIpStatus : ApiStatus.LOADED,
     creatingUserStatus : ApiStatus.LOADED,
     updatingUserStatus : ApiStatus.LOADED,
-    user : undefined,
+    user : {
+        Id : '',
+        Email : '',
+        NotificationSetting : {
+            Id : '',
+            AcceptedNotifications : [],
+            AcceptedNotifiers : [],
+            UserNotifications : []
+        }
+    },
     userId : '',
     errorMessage : ''
 };

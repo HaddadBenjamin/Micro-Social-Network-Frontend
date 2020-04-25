@@ -1,4 +1,7 @@
-import React, { useState} from "react";
+import React, {
+    useEffect,
+    useState
+} from "react";
 import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
 import {
     MDBNavbar,
@@ -12,6 +15,7 @@ import {
     MDBContainer,
     MDBFormInline,
     MDBNavLink,
+    MDBBadge,
 } from "mdbreact";
 import "./AppPage.css";
 import ItemFirstPage from "../Items/ItemFirstPage";
@@ -21,6 +25,19 @@ import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
 import SettingsPage from "../Settings/SettingsPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import {
+    createUser,
+    getIp
+} from "../../actions/user.action";
+import {
+    useDispatch,
+    useSelector
+} from "react-redux";
+import {IGlobalState} from "../../reducers";
+import IUserItem from "../../models/User";
+import ApiStatus from "../../models/ApiStatus";
+import NotificationFirstPage from "../Notifications/NotificationFirstPage";
+import NotificationSecondPage from "../Notifications/NotificationSecondPage";
 
 enum ApplicationPage
 {
@@ -49,6 +66,21 @@ const AppPage = () =>
     {
         return applicationPage === activePage;
     }
+
+    const userId = useSelector<IGlobalState, string>(state => state.user.userId);
+    const notificationCount = useSelector<IGlobalState, number>(state => state.user.user.NotificationSetting.UserNotifications.length);
+    const dispatch = useDispatch();
+
+    useEffect(() =>
+    {
+        dispatch(getIp());
+    }, []);
+
+    useEffect(() =>
+    {
+        if (userId != '')
+            dispatch(createUser(userId))
+    }, [userId]);
 
     const overlay = (
         <div
@@ -88,10 +120,10 @@ const AppPage = () =>
                                         <MDBNavLink to="settings"
                                                     onClick={() => onClickOnNavigationLink(ApplicationPage.Settings)}>Settings</MDBNavLink>
                                     </MDBNavItem>
-                                    {/*<MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Notifications)}>
+                                    <MDBNavItem active={isActivePageEqualsTo(ApplicationPage.Notifications)}>
                                         <MDBNavLink to="notifications"
-                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Notifications)}>Notifications<MDBBadge color="danger" className="ml-2">4</MDBBadge></MDBNavLink>
-                                    </MDBNavItem>*/}
+                                                    onClick={() => onClickOnNavigationLink(ApplicationPage.Notifications)}>Notifications<MDBBadge color="danger" className="ml-2">{notificationCount}</MDBBadge></MDBNavLink>
+                                    </MDBNavItem>
                                     <MDBFormInline waves>
                                     </MDBFormInline>
                                 </MDBNavbarNav>
@@ -115,6 +147,7 @@ const AppPage = () =>
                                     <SettingsPage/>
                                 </Route>
                                 <Route path="/notifications">
+                                    <NotificationFirstPage/>
                                 </Route>
                                 <Route path="/">
                                     <ItemFirstPage/>
@@ -134,6 +167,7 @@ const AppPage = () =>
                 <Route path="/settings">
                 </Route>
                 <Route path="/notifications">
+                    <NotificationSecondPage/>
                 </Route>
                 <Route path="/">
                     <ItemSecondPage/>
