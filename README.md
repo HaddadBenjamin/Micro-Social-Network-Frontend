@@ -18,7 +18,7 @@ __Contexte technologique :__
 - __CI & CD :__ Netlify.
 </br>
 
-![Image of Yaktocat](https://imgur.com/WKETGh9.png)
+![Image of Yaktocat](https://imgur.com/0qA66wz.png)
 ![Image of Yaktocat](https://imgur.com/tpPXX4P.png)
 ![Image of Yaktocat](https://imgur.com/saQ8mag.png)
 ![Image of Yaktocat](https://imgur.com/REP8ljs.png)
