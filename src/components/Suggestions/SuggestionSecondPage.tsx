@@ -45,6 +45,7 @@ import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import {getIp} from "../../actions/user.action";
+import '../../shared/css/toastify.css'
 
 const SuggestionSecondPage = () =>
 {

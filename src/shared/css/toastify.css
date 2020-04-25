@@ -1,0 +1,10 @@
+.Toastify__toast {
+    display : block;
+}
+
+.Toastify__close-button
+{
+    margin-top: -13px;
+    margin-left : 145px;
+    position : absolute;
+}

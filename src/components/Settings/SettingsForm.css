@@ -3,10 +3,6 @@
     padding-top: 8px;
 }
 
-h4
-{
-}
-
 label, input, h6
 {
     font-size: 15.5px;
@@ -20,7 +16,10 @@ button
 {
     width : 100%;
     top : 20px;
+    left : -7.5px;
 }
+
+
 
 @media (max-width: 787px) {
     h4 {

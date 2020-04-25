@@ -29,6 +29,7 @@ import {
 } from 'lodash'
 import {toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '../../shared/css/toastify.css'
 
 const SettingsForm = () =>
 {
@@ -107,7 +108,7 @@ const SettingsForm = () =>
         {
             setFirstLoad(false);
             dispatch(updateUser(userId, email, acceptedNotifications, acceptedNotifiers));
-            toast.info('Updating your user information...');
+            toast.info('Updating your user information...', { autoClose : 55555});
         }
     }
 
