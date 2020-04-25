@@ -44,7 +44,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
-import {getIp} from "../../actions/user.action";
 import '../../shared/css/toastify.css'
 
 const SuggestionSecondPage = () =>
@@ -207,63 +206,63 @@ const SuggestionSecondPage = () =>
     }
 
     //region create item data table
-    function getItemDataTable(): any
+    function getSuggestionDataTable(): any
     {
         return {
-            columns: getItemDataTableColumns(),
-            rows: getItemDataTableRows(),
+            columns: getSuggestionDataTableColumns(),
+            rows: getSuggestionDataTableRows(),
             responsive : true
         };
     }
 
-    function getItemDataTableColumns(): any
-    {
-        return [
-            {
-                label: 'Content',
-                field: 'Content',
-                sort: 'disabled'
-            },
-            {
-                label: '👍',
-                field: 'Rate',
-                sort: 'disabled',
-                width : '10px'
-            },
-            {
-                label: '💬',
-                field: 'CommentsCount',
-                sort: 'disabled',
-                width : '10px'
-            },
-            {
-                label: '',
-                field: 'VotePositively',
-                sort: 'disabled',
-                width : '10px'
-            },
-            {
-                label: '',
-                field: 'VoteNegatively',
-                sort: 'disabled',
-                width : '10px'
-            },
-            {
-                label: '',
-                field: 'Comments',
-                sort: 'disabled',
-                width : '10px'
-            },
-            {
-                label: '',
-                field: 'DeleteMySuggestionButton',
-                sort: 'disabled',
-                width : '10px'
-            }
-        ];
-    }
+        function getSuggestionDataTableColumns(): any
+        {
+            return [
+                {
+                    label: 'Content',
+                    field: 'Content',
+                    sort: 'disabled'
+                },
+                {
+                    label: '👍',
+                    field: 'Rate',
+                    sort: 'disabled',
+                    width : '10px'
+                },
+                {
+                    label: '💬',
+                    field: 'CommentsCount',
+                    sort: 'disabled',
+                    width : '10px'
+                },
+                {
+                    label: '',
+                    field: 'VotePositively',
+                    sort: 'disabled',
+                    width : '10px'
+                },
+                {
+                    label: '',
+                    field: 'VoteNegatively',
+                    sort: 'disabled',
+                    width : '10px'
+                },
+                {
+                    label: '',
+                    field: 'Comments',
+                    sort: 'disabled',
+                    width : '10px'
+                },
+                {
+                    label: '',
+                    field: 'DeleteMySuggestionButton',
+                    sort: 'disabled',
+                    width : '10px'
+                }
+            ];
+        }
 
-    function getItemDataTableRows(): any
+    function getSuggestionDataTableRows(): any
     {
         const orderedSuggestions = orderBy(suggestions, [function(suggestion : ISuggestionItem)
         {
@@ -322,14 +321,13 @@ const SuggestionSecondPage = () =>
             <div id="item-filter-view">
                 <MDBView>
                     <MDBMask className="d-flex justify-content-center align-items-center gradient">
-                        <ToastContainer />
                         <MDBContainer>
                             <MDBRow>
                                 <MDBCol>
                                     <Loader
                                         loadingStatus={gettingAllSuggestionStatus}
                                         resourceName="suggestions"
-                                        resourceToLoad={<MDBDataTable data={getItemDataTable()} entries={5}/>}
+                                        resourceToLoad={<MDBDataTable data={getSuggestionDataTable()} entries={5}/>}
                                     />
                                 </MDBCol>
                             </MDBRow>

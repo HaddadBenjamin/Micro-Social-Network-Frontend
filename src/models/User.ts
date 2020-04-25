@@ -13,7 +13,7 @@ interface INotificationSettingItem
     UserNotifications : IUserNotificationItem[]
 }
 
-interface IUserNotificationItem
+export interface IUserNotificationItem
 {
     Id : string,
     Title : string,

@@ -36,6 +36,8 @@ import {
 import {IGlobalState} from "../../reducers";
 import IUserItem from "../../models/User";
 import ApiStatus from "../../models/ApiStatus";
+import NotificationFirstPage from "../Notifications/NotificationFirstPage";
+import NotificationSecondPage from "../Notifications/NotificationSecondPage";
 
 enum ApplicationPage
 {
@@ -65,7 +67,6 @@ const AppPage = () =>
         return applicationPage === activePage;
     }
 
-    const userFromServer = useSelector<IGlobalState, IUserItem | undefined>(state => state.user.user);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
     const notificationCount = useSelector<IGlobalState, number>(state => state.user.user.NotificationSetting.UserNotifications.length);
     const dispatch = useDispatch();
@@ -146,6 +147,7 @@ const AppPage = () =>
                                     <SettingsPage/>
                                 </Route>
                                 <Route path="/notifications">
+                                    <NotificationFirstPage/>
                                 </Route>
                                 <Route path="/">
                                     <ItemFirstPage/>
@@ -165,6 +167,7 @@ const AppPage = () =>
                 <Route path="/settings">
                 </Route>
                 <Route path="/notifications">
+                    <NotificationSecondPage/>
                 </Route>
                 <Route path="/">
                     <ItemSecondPage/>
