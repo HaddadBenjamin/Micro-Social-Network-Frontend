@@ -138,6 +138,11 @@
     display : none;
 }
 
+button.close
+{
+    width : 50px;
+}
+
 .my-suggestion
 {
     color : yellow !important;
