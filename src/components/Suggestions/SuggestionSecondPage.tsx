@@ -72,10 +72,10 @@ const SuggestionSecondPage = () =>
     useEffect(()=>
     {
         if (creatingSuggestionStatus === ApiStatus.LOADED && !firstLoad)
-            toast.success('Your suggestion have been created');
+            toast.success('Your suggestion has been created');
 
         if (creatingSuggestionStatus === ApiStatus.FAILED)
-            toast.error('The creation of your suggestion have failed');
+            toast.error('The creation of your suggestion has failed');
 
     }, [creatingSuggestionStatus, firstLoad]);
 

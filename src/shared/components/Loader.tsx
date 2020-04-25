@@ -25,7 +25,7 @@ const Loader = (props: Props) =>
     return (
         <>
             {props.loadingStatus === ApiStatus.FAILED &&
-            <MDBAlert color="danger">The {props.resourceName} loading have failed.</MDBAlert>}
+            <MDBAlert color="danger">The {props.resourceName} loading has failed.</MDBAlert>}
             {props.loadingStatus === ApiStatus.LOADING &&
             <MDBAlert color="primary">Loading the {props.resourceName} ...
                 <div className="ml-2 spinner-border text-primary" role="status">
