@@ -14,6 +14,7 @@ import ApiStatus from "../../models/ApiStatus";
 import {IUserNotificationItem} from "../../models/User";
 import {map} from 'lodash'
 import './NotificationSecondPage.css'
+import '../../shared/css/toastify.css'
 
 const NotificationSecondPage = () =>
 {
@@ -53,7 +54,7 @@ const NotificationSecondPage = () =>
     function toNotificationDataTableRow(notification: IUserNotificationItem)
     {
         const title = <p className="notification-title">{notification.Title}</p>;
-        const content = <p>{notification.Content}</p>;
+        const content = <p className="notification-content">{notification.Content}</p>;
 
         return {
             'Title' : title,
