@@ -100,7 +100,10 @@ export interface IUpdatedUserAction
 
 export interface IUpdatingUserFailedAction
 {
-    type : UserActionTypes.UPDATING_USER_FAILED
+    type : UserActionTypes.UPDATING_USER_FAILED,
+    payload : {
+        errorMessage : string
+    }
 }
 //endregion
 //endregion
@@ -210,10 +213,13 @@ export function updatedUser(user : IUserItem) : IUpdatedUserAction
     }
 }
 
-export function updatingUserFailed() : IUpdatingUserFailedAction
+export function updatingUserFailed(errorMessage : string) : IUpdatingUserFailedAction
 {
     return {
-        type : UserActionTypes.UPDATING_USER_FAILED
+        type : UserActionTypes.UPDATING_USER_FAILED,
+        payload : {
+            errorMessage : errorMessage
+        }
     }
 }
 //endregion

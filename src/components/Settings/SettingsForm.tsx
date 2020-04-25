@@ -36,6 +36,7 @@ const SettingsForm = () =>
     const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
     const updatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.updatingUserStatus);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
+    const errorMessage = useSelector<IGlobalState, string>(state => state.user.errorMessage);
     const [acceptedNotifications, setAcceptedNotifications] = useState<string[]>([]);
     const [acceptedNotifiers, setAcceptedNotifiers] = useState<string[]>([]);
     const [email, setEmail] = useState<string>('');
@@ -56,7 +57,7 @@ const SettingsForm = () =>
     useEffect(() =>
     {
         if (updatingUserStatus === ApiStatus.FAILED)
-            toast.error("Failed to update your user information.");
+            toast.error(errorMessage);
         if (updatingUserStatus === ApiStatus.LOADED && firstLoad === false)
             toast.success("Your user information have been correctly updated.");
     }, [updatingUserStatus]);
@@ -102,9 +103,12 @@ const SettingsForm = () =>
 
     function onSave(event : SyntheticEvent<HTMLButtonElement>)
     {
-        setFirstLoad(false);
-        dispatch(updateUser(userId, email, acceptedNotifications, acceptedNotifiers));
-        toast.info('Updating your user information...');
+        if (updatingUserStatus !== ApiStatus.LOADING)
+        {
+            setFirstLoad(false);
+            dispatch(updateUser(userId, email, acceptedNotifications, acceptedNotifiers));
+            toast.info('Updating your user information...');
+        }
     }
 
     function doesNotificationIsEnabled(notification: string)
@@ -122,7 +126,8 @@ const SettingsForm = () =>
         if (userFromServer != undefined)
         return (
             <>
-                <h4 className="h4-responsive font-weight-bold mt-sm-4">
+                <div className="text-left">
+                <h4 className="h4-responsive font-weight-bold mt-sm-4 settings-form">
                     Personal information
                 </h4>
                 <MDBInput type="email" label="Email"  icon="envelope" value={email} onChange={onChangeEmail}/>
@@ -162,6 +167,7 @@ const SettingsForm = () =>
 
                         <MDBBtn color="primary" onClick={onSave}>Save</MDBBtn>
                     </h6>
+                </div>
             </>);
 
             return (<></>);

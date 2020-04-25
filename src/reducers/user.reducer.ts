@@ -13,7 +13,8 @@ export interface IUserState
     creatingUserStatus : ApiStatus,
     updatingUserStatus : ApiStatus,
     user? : IUserItem,
-    userId : string
+    userId : string,
+    errorMessage : string
 }
 
 export const initialUserState : IUserState =
@@ -22,7 +23,8 @@ export const initialUserState : IUserState =
     creatingUserStatus : ApiStatus.LOADED,
     updatingUserStatus : ApiStatus.LOADED,
     user : undefined,
-    userId : ''
+    userId : '',
+    errorMessage : ''
 };
 
 export default function userReducer(state : IUserState = initialUserState, action : UsersAction)
@@ -75,6 +77,7 @@ export default function userReducer(state : IUserState = initialUserState, actio
 
             case UserActionTypes.UPDATING_USER_FAILED :
                 draft.updatingUserStatus = ApiStatus.FAILED;
+                draft.errorMessage = action.payload.errorMessage;
                 break;
         }
     })

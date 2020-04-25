@@ -1,3 +1,17 @@
+.settings-form
+{
+    padding-top: 8px;
+}
+
+h4
+{
+}
+
+label, input, h6
+{
+    font-size: 15.5px;
+}
+
 input
 {
     color : white !important;
@@ -6,4 +20,42 @@ button
 {
     width : 100%;
     top : 20px;
+}
+
+@media (max-width: 787px) {
+    h4 {
+        font-size: 20px !important;
+    }
+    label, input, h6 {
+        font-size: 15px !important;
+    }
+    button
+    {
+        font-size: 13px !important;
+    }
+    .settings-form
+    {
+        padding-top: 20px !important;
+    }
+}
+
+
+@media (max-width: 600px){
+    h4 {
+        font-size: 18px !important;
+    }
+    label, input, h6 {
+        font-size: 14px !important;
+        font-weight: 300 !important;
+    }
+    .settings-form
+    {
+        padding-top: 0px !important;
+    }
+
+    button
+    {
+        font-size: 12px !important;
+    }
+
 }

@@ -33,6 +33,7 @@ import publicIp from "public-ip";
 import api from "../shared/utilities/api";
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";
+import errors from "../shared/utilities/error";
 
 type UserEpic = Epic<UsersAction, UsersAction, IGlobalState>;
 
@@ -72,7 +73,7 @@ const updateUserEpic: UserEpic = (action$, state$) => action$.pipe(
         })).pipe(
             map((response: AxiosResponse<IUserItem>) => updatedUser(response.data)),
             startWith(updatingUser()),
-            catchError(() => of(updatingUserFailed()))
+            catchError((error) => of(updatingUserFailed(errors.getErrorMessage(error))))
         )
     )
 );

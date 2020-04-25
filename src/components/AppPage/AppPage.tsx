@@ -12,7 +12,6 @@ import {
     MDBContainer,
     MDBFormInline,
     MDBNavLink,
-    MDBBadge
 } from "mdbreact";
 import "./AppPage.css";
 import ItemFirstPage from "../Items/ItemFirstPage";
@@ -21,6 +20,7 @@ import SuggestionFirstPage from "../Suggestions/SuggestionFirstPage";
 import SuggestionSecondPage from "../Suggestions/SuggestionSecondPage";
 import SettingsPage from "../Settings/SettingsPage";
 import {ToastContainer} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 enum ApplicationPage
 {
