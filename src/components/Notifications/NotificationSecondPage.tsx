@@ -14,6 +14,7 @@ import ApiStatus from "../../models/ApiStatus";
 import {IUserNotificationItem} from "../../models/User";
 import {map} from 'lodash'
 import './NotificationSecondPage.css'
+import '../../shared/css/toastify.css'
 
 const NotificationSecondPage = () =>
 {
