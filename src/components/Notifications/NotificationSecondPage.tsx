@@ -53,7 +53,7 @@ const NotificationSecondPage = () =>
     function toNotificationDataTableRow(notification: IUserNotificationItem)
     {
         const title = <p className="notification-title">{notification.Title}</p>;
-        const content = <p>{notification.Content}</p>;
+        const content = <p className="notification-content">{notification.Content}</p>;
 
         return {
             'Title' : title,
