@@ -67,7 +67,7 @@ const AppPage = () =>
 
     const userFromServer = useSelector<IGlobalState, IUserItem | undefined>(state => state.user.user);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
-    const [notificationCount, setNotificationCount] = useState<number>(0);
+    const notificationCount = useSelector<IGlobalState, number>(state => state.user.user.NotificationSetting.UserNotifications.length);
     const dispatch = useDispatch();
 
     useEffect(() =>
@@ -80,12 +80,6 @@ const AppPage = () =>
         if (userId != '')
             dispatch(createUser(userId))
     }, [userId]);
-
-    useEffect(() =>
-    {
-        if (userFromServer != undefined)
-            setNotificationCount(userFromServer.NotificationSetting.UserNotifications.length);
-    }, [userFromServer]);
 
     const overlay = (
         <div
