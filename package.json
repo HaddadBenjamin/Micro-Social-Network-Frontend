@@ -21,7 +21,7 @@
     "csstools": "^0.1.5",
     "immer": "^6.0.3",
     "jest-mock": "^24.8.0",
-    "jquery": "^3.4.1",
+    "jquery": "^3.5.0",
     "mdbreact": "^4.19.0",
     "normalize": "^0.3.1",
     "postcss-cssnext": "^3.1.0",
