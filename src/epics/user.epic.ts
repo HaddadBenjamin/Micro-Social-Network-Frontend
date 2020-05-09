@@ -34,19 +34,14 @@ import api from "../shared/utilities/api";
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";
 import errors from "../shared/utilities/error";
-import axios from 'axios'
-import {
-    SuggestionActionTypes
-} from "../actions/suggestion.action";
 
 type UserEpic = Epic<UsersAction, UsersAction, IGlobalState>;
 
-
 const getIpEpic: UserEpic = (action$, state$) => action$.pipe(
-    filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
+    filter(isOfType(UserActionTypes.GET_IP)),
     switchMap(action =>
-        from(axios.get<string>('https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=text')).pipe(
-            map((response: AxiosResponse<string>) => gotIp(response.data)),
+        from(publicIp.v4()).pipe(
+            map((ip: string) => gotIp(ip)),
             startWith(gettingIp()),
             catchError(() => of(gettingIpFailed()))
         )
@@ -56,8 +51,8 @@ const getIpEpic: UserEpic = (action$, state$) => action$.pipe(
 const gettingIpFailedEpic: UserEpic = (action$, state$) => action$.pipe(
     filter(isOfType(UserActionTypes.GETTING_IP_FAILED)),
     switchMap(action =>
-        from(axios.get<string>('https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=text')).pipe(
-            map((response: AxiosResponse<string>) => gotIp(response.data)),
+        from(publicIp.v4()).pipe(
+            map((ip: string) => gotIp(ip)),
             startWith(gettingIp()),
             catchError(() => of(gettingIpFailed()))
         )

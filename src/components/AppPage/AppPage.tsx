@@ -34,8 +34,6 @@ import {
     useSelector
 } from "react-redux";
 import {IGlobalState} from "../../reducers";
-import IUserItem from "../../models/User";
-import ApiStatus from "../../models/ApiStatus";
 import NotificationFirstPage from "../Notifications/NotificationFirstPage";
 import NotificationSecondPage from "../Notifications/NotificationSecondPage";
 

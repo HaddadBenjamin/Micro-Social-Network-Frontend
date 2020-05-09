@@ -16,7 +16,7 @@ import React, {
     useEffect,
     useState
 } from "react";
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import './SuggestionSecondPage.css'
 import '../Items/ItemSecondPage.css'
 import '../../shared/css/tabulation.css'
