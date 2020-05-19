@@ -25,7 +25,7 @@ import {useSelector} from "react-redux";
 import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
 import IItem, {IItemProperty} from "../../models/Items";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../../shared/models/ApiStatus";
 import Loader from "../../shared/components/Loader";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.

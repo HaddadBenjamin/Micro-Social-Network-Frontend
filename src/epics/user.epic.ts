@@ -29,7 +29,6 @@ import {
     from,
     of
 } from "rxjs";
-import publicIp from "public-ip";
 import api from "../shared/utilities/api";
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";

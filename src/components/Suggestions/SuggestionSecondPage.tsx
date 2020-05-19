@@ -35,7 +35,7 @@ import {
     getAllSuggestions
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../../shared/models/ApiStatus";
 import ISuggestionItem, {
     ISuggestionCommentItem,
     ISuggestionVoteItem

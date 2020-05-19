@@ -19,7 +19,7 @@ import IUserItem from "../../models/User";
 import {
     updateUser
 } from "../../actions/user.action";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../../shared/models/ApiStatus";
 import Loader from "../../shared/components/Loader";
 import {
     filter,

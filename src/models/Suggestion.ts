@@ -1,4 +1,4 @@
-interface ISuggestionItem
+interface ISuggestionItem : IHalLinks
 {
     Id : string,
     CreatedBy : string,
@@ -6,7 +6,7 @@ interface ISuggestionItem
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
     Votes : ISuggestionVoteItem[]
-    Comments : ISuggestionCommentItem[]
+    Comments : ISuggestionCommentItem[],
 }
 
 export interface ISuggestionVoteItem

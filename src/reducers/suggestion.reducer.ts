@@ -1,4 +1,4 @@
-import ApiStatus from "../models/ApiStatus";
+import ApiStatus from "../shared/models/ApiStatus";
 import ISuggestionItem from "../models/Suggestion";
 import {
     SuggestionActionTypes,
