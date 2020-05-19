@@ -1,21 +1,23 @@
-interface ISuggestionItem : IHalLinks
+import IHalLinks from "../shared/models/HalLinks";
+
+interface ISuggestionItem extends IHalLinks
 {
     Id : string,
     CreatedBy : string,
     Content : string,
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
-    Votes : ISuggestionVoteItem[]
-    Comments : ISuggestionCommentItem[],
+    Votes : ISuggestionVoteItem[],
+    Comments : ISuggestionCommentItem[]
 }
 
-export interface ISuggestionVoteItem
+export interface ISuggestionVoteItem extends IHalLinks
 {
     CreatedBy : string,
     IsPositive : boolean
 }
 
-export interface ISuggestionCommentItem
+export interface ISuggestionCommentItem extends IHalLinks
 {
     Id : string,
     CreatedBy : string;

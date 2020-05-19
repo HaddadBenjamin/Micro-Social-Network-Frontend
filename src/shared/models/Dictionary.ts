@@ -1,6 +1,6 @@
-interface Dictionary<T>
+interface Dictionary<ElementType>
 {
-    [Key: string]: T;
+    [Key: string]: ElementType;
 }
 
 export default Dictionary;
