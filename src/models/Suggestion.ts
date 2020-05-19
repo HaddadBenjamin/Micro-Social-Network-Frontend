@@ -3,13 +3,13 @@ import {ISuggestion, ISuggestionComment, ISuggestionVote} from "./ISuggestion";
 
 export class Suggestion extends HalLinks implements ISuggestion
 {
-    Comments!: SuggestionComment[];
-    Content!: string;
-    CreatedBy!: string;
-    Id!: string;
+    Comments!: [];
+    Content!: '';
+    CreatedBy!: '';
+    Id!: '';
     NegativeVoteCount!: 0;
     PositiveVoteCount!: 0;
-    Votes!: SuggestionVote[];
+    Votes!: [];
 }
 
 export class SuggestionVote extends HalLinks implements ISuggestionVote
