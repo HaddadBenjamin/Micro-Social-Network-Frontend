@@ -11,7 +11,7 @@ import {
     of
 } from "rxjs";
 import {AxiosResponse} from "axios";
-import api from "../shared/utilities/api";
+import api from "../shared/helpers/api";
 import {
     combineEpics,
     Epic

@@ -1,4 +1,5 @@
 import Dictionary from "./Dictionary";
+import HttpMethod from "./HttpMethod";
 
 interface IHalLinks
 {
@@ -8,7 +9,7 @@ interface IHalLinks
 export interface IHalLink
 {
     href : string,
-    method : string
+    method : HttpMethod
 }
 
 export default IHalLinks;

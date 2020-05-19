@@ -36,20 +36,20 @@ import {
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../shared/models/ApiStatus";
-import ISuggestionItem, {
+import {
     ISuggestionCommentItem,
     ISuggestionVoteItem
-} from "../../models/Suggestion";
+} from "../../models/ISuggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map, orderBy, some, findIndex} from 'lodash';
+import {map, orderBy, some, findIndex } from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import '../../shared/css/toastify.css'
-
+import Suggestion from "../../models/Suggestion";
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', CreatedBy :''});
+    const [selectedSuggestion, setSelectedSuggestion] = useState<Suggestion>( new Suggestion());
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -58,10 +58,11 @@ const SuggestionSecondPage = () =>
     const creatingSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.creatingASuggestionStatus);
 
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
-    const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
+    const suggestions = useSelector<IGlobalState, Suggestion[]>(state => state.suggestions.suggestions);
 
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
+    console.log(suggestions);
     const dispatch = useDispatch();
 
     useEffect(() =>
@@ -81,7 +82,7 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
-        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id === selectedSuggestion.Id; });
+        const suggestionIndex = findIndex(suggestions, function(suggestion : Suggestion) { return suggestion.Id === selectedSuggestion.Id; });
         if (suggestionIndex !== -1)
             setSelectedSuggestion(suggestions[suggestionIndex]);
     }, [suggestions]);
@@ -137,21 +138,21 @@ const SuggestionSecondPage = () =>
     }
     //endregion
 
-    function onClickOnPositiveVote(suggestion : ISuggestionItem) : void
+    function onClickOnPositiveVote(suggestion : Suggestion) : void
     {
         const voteRequest = createVoteRequest(suggestion, true);
 
         dispatch(addVote(voteRequest));
     }
 
-    function onClickOnNegativeVote(suggestion : ISuggestionItem) : void
+    function onClickOnNegativeVote(suggestion : Suggestion) : void
     {
         const voteRequest = createVoteRequest(suggestion, false);
 
         dispatch(addVote(voteRequest));
     }
 
-    function createVoteRequest(suggestion : ISuggestionItem, isPositive : boolean)
+    function createVoteRequest(suggestion : Suggestion, isPositive : boolean)
     {
         return {
             SuggestionId : suggestion.Id,
@@ -164,7 +165,7 @@ const SuggestionSecondPage = () =>
         dispatch(deleteSuggestion(suggestionId));
     }
 
-    function onClickOnCommentButton(suggestion : ISuggestionItem) : void
+    function onClickOnCommentButton(suggestion : Suggestion) : void
     {
         setSelectedSuggestion(suggestion);
         toggleCommentModal();
@@ -264,17 +265,17 @@ const SuggestionSecondPage = () =>
 
     function getSuggestionDataTableRows(): any
     {
-        const orderedSuggestions = orderBy(suggestions, [function(suggestion : ISuggestionItem)
+        const orderedSuggestions = orderBy(suggestions, [function(suggestion : Suggestion)
         {
             return suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
-        }, function(suggestion : ISuggestionItem)
+        }, function(suggestion : Suggestion)
         {
             return suggestion.Comments.length;
         }], ["desc", "desc"]);
         return map(orderedSuggestions, toSuggestionDataTableRow);
     }
 
-    function toSuggestionDataTableRow(suggestion: ISuggestionItem)
+    function toSuggestionDataTableRow(suggestion: Suggestion)
     {
         const voteValue: number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
         const voteClass: string =

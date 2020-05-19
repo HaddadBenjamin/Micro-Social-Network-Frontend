@@ -38,9 +38,9 @@ import {
     from,
     of
 } from "rxjs";
-import api from "../shared/utilities/api";
+import api from "../shared/helpers/api";
 import {AxiosResponse} from 'axios'
-import ISuggestionItem from "../models/Suggestion";
+import Suggestion from "../models/Suggestion";
 
 type SuggestionEpic = Epic<SuggestionsAction, SuggestionsAction, IGlobalState>;
 
@@ -48,7 +48,7 @@ const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
     switchMap(action =>
         from(api.get('suggestions')).pipe(
-            map((response: AxiosResponse<ISuggestionItem[]>) => gotAllSuggestions(response.data)),
+            map((response: AxiosResponse<Suggestion[]>) => gotAllSuggestions(response.data)),
             startWith(gettingAllSuggestions()),
             catchError(() => of(gettingAllSuggestionsFailed()))
         )
@@ -62,7 +62,7 @@ const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             Content: action.payload.content,
             UserId: state$.value.user.userId
         })).pipe(
-            map((response: AxiosResponse<ISuggestionItem>) => createdSuggestion(response.data)),
+            map((response: AxiosResponse<Suggestion>) => createdSuggestion(response.data)),
             startWith(creatingSuggestion()),
             catchError(() => of(creatingSuggestionFailed()))
         )
@@ -76,7 +76,7 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
             IsPositive: action.payload.isPositive,
             UserId: state$.value.user.userId
         })).pipe(
-            map((response: AxiosResponse<ISuggestionItem>) => addedVote(response.data)),
+            map((response: AxiosResponse<Suggestion>) => addedVote(response.data)),
             startWith(addindVote()),
             catchError(() => of(addingVoteFailed()))
         )
@@ -90,7 +90,7 @@ const commentASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe
             Comment: action.payload.comment,
             UserId: state$.value.user.userId
         })).pipe(
-            map((response: AxiosResponse<ISuggestionItem>) => addedComment(response.data)),
+            map((response: AxiosResponse<Suggestion>) => addedComment(response.data)),
             startWith(addingComment()),
             catchError(() => of(addingCommentFailed()))
         )
@@ -115,7 +115,7 @@ const deleteACommentFromASuggestionEpic: SuggestionEpic = (action$, state$) => a
         from(api.delete(`suggestions/${action.payload.suggestionId}/comments/${action.payload.id}`, {
             UserId: state$.value.user.userId
         })).pipe(
-            map((response: AxiosResponse<ISuggestionItem>) => deletedComment(response.data)),
+            map((response: AxiosResponse<Suggestion>) => deletedComment(response.data)),
             startWith(deletingComment()),
             catchError(() => of(deletingCommentFailed()))
         )

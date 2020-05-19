@@ -1,5 +1,5 @@
 import React from "react";
-import strings from '../../shared/utilities/strings'
+import strings from '../helpers/strings'
 
 interface Props
 {

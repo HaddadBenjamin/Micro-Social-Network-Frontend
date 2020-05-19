@@ -18,7 +18,7 @@ import {
     MDBRow,
     MDBCol,
 } from 'mdbreact';
-import maths from '../../shared/utilities/maths'
+import maths from '../../shared/helpers/maths'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";

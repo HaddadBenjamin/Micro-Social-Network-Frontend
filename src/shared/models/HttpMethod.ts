@@ -1,8 +1,3 @@
-enum HttpMethod
-{
-    GET = "GET",
-    POST = "POST",
-    UPDATE = "UPDATE",
-    PATCH = "PATCH",
-    DELETE = "DELETE"
-}
+type HttpMethod = "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+
+export default HttpMethod;

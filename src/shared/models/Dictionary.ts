@@ -1,6 +1,12 @@
-interface Dictionary<T>
+export interface IDictionary<ValueType>
 {
-    [Key: string]: T;
+    Add(key: string, value: ValueType) : void;
+    ContainsKey(key: string) : boolean;
+    Count() : number;
+    GetValueOrDefault(key: string) : ValueType;
+    Keys() : string[];
+    Remove(key: string) : ValueType;
+    Values() : ValueType[];
 }
 
-export default Dictionary;
+export default IDictionary;

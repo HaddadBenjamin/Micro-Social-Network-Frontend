@@ -1,31 +1,15 @@
-interface ISuggestionItem : IHalLinks
+import HalLinks from "../shared/utilities/HalLinks";
+import {ISuggestion, ISuggestionCommentItem, ISuggestionVoteItem} from "./ISuggestion";
+
+export class Suggestion extends HalLinks implements ISuggestion
 {
-    Id : string,
-    CreatedBy : string,
-    Content : string,
-    PositiveVoteCount : 0,
-    NegativeVoteCount : 0,
-    Votes : ISuggestionVoteItem[]
-    Comments : ISuggestionCommentItem[],
+    Comments!: ISuggestionCommentItem[];
+    Content!: string;
+    CreatedBy!: string;
+    Id!: string;
+    NegativeVoteCount!: 0;
+    PositiveVoteCount!: 0;
+    Votes!: ISuggestionVoteItem[];
 }
 
-export interface ISuggestionVoteItem
-{
-    CreatedBy : string,
-    IsPositive : boolean
-}
-
-export interface ISuggestionCommentItem
-{
-    Id : string,
-    CreatedBy : string;
-    Comment : string
-}
-
-export interface ISuggestionVoteRequest
-{
-    SuggestionId : string,
-    IsPositive : boolean,
-}
-
-export default ISuggestionItem;
+export default Suggestion;

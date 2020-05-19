@@ -2,7 +2,7 @@ import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
 import {map} from 'lodash'
-import scrollTo from '../../shared/utilities/animate'
+import scrollTo from '../../shared/helpers/animate'
 import {useDispatch} from "react-redux";
 import {searchItems} from "../../actions/item.action";
 

@@ -1,5 +1,5 @@
 import ApiStatus from "../shared/models/ApiStatus";
-import ISuggestionItem from "../models/Suggestion";
+import Suggestion from "../models/Suggestion";
 import {
     SuggestionActionTypes,
     SuggestionsAction
@@ -27,7 +27,7 @@ export interface ISuggestionState {
     commentingASuggestionStatus: ApiStatus;
     deletingASuggestionStatus: ApiStatus;
     deletingACommentFromASuggestionStatus: ApiStatus;
-    suggestions: ISuggestionItem[];
+    suggestions: Suggestion[];
 }
 
 export default function suggestionsReducer(state : ISuggestionState = initialSuggestionState, action : SuggestionsAction)
@@ -78,7 +78,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
             case SuggestionActionTypes.ADDED_VOTE :
                 const suggestionToUpdate = action.payload.suggestion;
-                const suggestionToUpdateIndex = findIndex(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id === suggestionToUpdate.Id; });
+                const suggestionToUpdateIndex = findIndex(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id === suggestionToUpdate.Id; });
 
                 if (suggestionToUpdateIndex !== -1)
                     draft.suggestions[suggestionToUpdateIndex] = suggestionToUpdate;
@@ -94,7 +94,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.ADDED_COMMENT :
-                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestion.Id; });
+                draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestion.Id; });
                 draft.suggestions.push(action.payload.suggestion);
                 draft.commentingASuggestionStatus = ApiStatus.LOADED;
                 break;
@@ -111,7 +111,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.DELETED_SUGGESTION :
-                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestionId; });
+                draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestionId; });
                 draft.deletingASuggestionStatus = ApiStatus.LOADED;
                 break;
 
@@ -127,7 +127,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.DELETED_COMMENT :
-                draft.suggestions = filter(draft.suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id !== action.payload.suggestion.Id; });
+                draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestion.Id; });
                 draft.suggestions.push(action.payload.suggestion);
                 draft.deletingACommentFromASuggestionStatus = ApiStatus.LOADED;
                 break;
