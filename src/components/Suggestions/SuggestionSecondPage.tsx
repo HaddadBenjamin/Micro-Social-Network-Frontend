@@ -37,6 +37,7 @@ import {
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../shared/models/ApiStatus";
 import ISuggestionItem, {
+    emptySuggestion,
     ISuggestionCommentItem,
     ISuggestionVoteItem
 } from "../../models/Suggestion";
@@ -49,7 +50,7 @@ import '../../shared/css/toastify.css'
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', CreatedBy :''});
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(emptySuggestion);
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);

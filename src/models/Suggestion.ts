@@ -30,4 +30,16 @@ export interface ISuggestionVoteRequest
     IsPositive : boolean,
 }
 
+export const emptySuggestion : ISuggestionItem =
+{
+    Content : '',
+    Comments : [],
+    Votes : [],
+    NegativeVoteCount : 0,
+    PositiveVoteCount : 0,
+    Id : '',
+    CreatedBy :'',
+    _links : {}
+}
+
 export default ISuggestionItem;
