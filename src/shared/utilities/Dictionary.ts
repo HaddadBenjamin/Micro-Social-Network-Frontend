@@ -41,9 +41,9 @@ export class Dictionary<ValueType> implements IDictionary<ValueType>
 
     public Keys(): string[]
     {
-        var keySet: string[] = [];
+        let keySet: string[] = [];
 
-        for (var prop in this.items)
+        for (const prop in this.items)
             if (this.items.hasOwnProperty(prop))
                 keySet.push(prop);
 
@@ -52,9 +52,9 @@ export class Dictionary<ValueType> implements IDictionary<ValueType>
 
     public Values(): ValueType[]
     {
-        var values: ValueType[] = [];
+        let values: ValueType[] = [];
 
-        for (var prop in this.items)
+        for (const prop in this.items)
             if (this.items.hasOwnProperty(prop))
                 values.push(this.items[prop]);
 
