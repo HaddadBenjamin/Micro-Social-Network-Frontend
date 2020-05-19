@@ -1,4 +1,4 @@
-import Dictionary from "./Dictionary";
+import Dictionary from "./IDictionary";
 import HttpMethod from "./HttpMethod";
 
 interface IHalLinks

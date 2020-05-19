@@ -1,4 +1,4 @@
-import IDictionary from "../models/Dictionary";
+import IDictionary from "../models/IDictionary";
 
 export class Dictionary<ValueType> implements IDictionary<ValueType>
 {

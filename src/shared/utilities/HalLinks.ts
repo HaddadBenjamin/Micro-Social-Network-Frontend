@@ -1,5 +1,5 @@
 import IHalLinks, {IHalLink} from "../models/IHalLinks";
-import Dictionary from "../models/Dictionary";
+import Dictionary from "../models/IDictionary";
 import axios, { AxiosPromise } from "axios";
 import api from "../helpers/api";
 
