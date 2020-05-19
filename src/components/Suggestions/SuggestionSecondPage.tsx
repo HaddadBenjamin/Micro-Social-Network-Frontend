@@ -37,9 +37,9 @@ import {
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../shared/models/ApiStatus";
 import {
-    ISuggestionCommentItem,
-    ISuggestionVoteItem
-} from "../../models/ISuggestion";
+    SuggestionComment,
+    SuggestionVote
+} from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex } from 'lodash';
 import {useToggle} from 'react-use';
@@ -48,7 +48,6 @@ import '../../shared/css/toastify.css'
 import Suggestion from "../../models/Suggestion";
 const SuggestionSecondPage = () =>
 {
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(emptySuggestion);
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
     const [selectedSuggestion, setSelectedSuggestion] = useState<Suggestion>( new Suggestion());
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
@@ -177,9 +176,9 @@ const SuggestionSecondPage = () =>
         dispatch(deleteComment(commentId, suggestionId));
     }
 
-    function getCommentsAsListItems(comments : ISuggestionCommentItem[])
+    function getCommentsAsListItems(comments : SuggestionComment[])
     {
-        return map(comments, function(comment : ISuggestionCommentItem)
+        return map(comments, function(comment : SuggestionComment)
         {
             const isMyComment = comment.CreatedBy === userId;
             const deleteCommentButton = isMyComment ? <i
@@ -287,14 +286,14 @@ const SuggestionSecondPage = () =>
 
         const commentCount = suggestion.Comments.length;
         const commentCountClass = `suggestion-comment-count ${commentCount > 0 ? "positive-comment-count" : ""}`;
-        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.CreatedBy === userId });
+        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : SuggestionComment) { return comment.CreatedBy === userId });
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
 
         const isMySuggestion : boolean = suggestion.CreatedBy === userId;
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
-        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && vote.IsPositive });
-        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && !vote.IsPositive });
+        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : SuggestionVote) { return vote.CreatedBy === userId && vote.IsPositive });
+        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : SuggestionVote) { return vote.CreatedBy === userId && !vote.IsPositive });
         const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
         const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
 

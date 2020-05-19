@@ -5,17 +5,17 @@ export interface ISuggestion
     Content : string,
     PositiveVoteCount : 0,
     NegativeVoteCount : 0,
-    Votes : ISuggestionVoteItem[],
-    Comments : ISuggestionCommentItem[],
+    Votes : ISuggestionVote[],
+    Comments : ISuggestionComment[],
 }
 
-export interface ISuggestionVoteItem
+export interface ISuggestionVote
 {
     CreatedBy : string,
     IsPositive : boolean
 }
 
-export interface ISuggestionCommentItem
+export interface ISuggestionComment
 {
     Id : string,
     CreatedBy : string;
