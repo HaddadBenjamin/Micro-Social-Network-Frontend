@@ -34,7 +34,7 @@ export class Dictionary<ValueType> implements IDictionary<ValueType>
         return val;
     }
 
-    public Item(key: string): ValueType
+    public GetValueOrDefault(key: string): ValueType
     {
         return this.items[key];
     }

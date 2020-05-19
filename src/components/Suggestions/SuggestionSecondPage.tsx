@@ -41,16 +41,17 @@ import ISuggestionItem, {
     ISuggestionVoteItem
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map, orderBy, some, findIndex} from 'lodash';
+import {map, orderBy, some, findIndex } from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import '../../shared/css/toastify.css'
-import EmptySuggestion from "./EmptySuggestion";
+import {mock} from "jest-mock-extended";
 
+const emptySuggestion = mock<ISuggestionItem>()
 const SuggestionSecondPage = () =>
 {
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(emptySuggestion);
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(EmptySuggestion);
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);

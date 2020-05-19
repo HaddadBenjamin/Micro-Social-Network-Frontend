@@ -1,6 +1,6 @@
-import IHalLinks from "../shared/models/IHalLinks";
+import HalLinks from "../shared/utilities/HalLinks";
 
-export interface ISuggestionItem extends IHalLinks
+export interface ISuggestionItem extends HalLinks
 {
     Id : string,
     CreatedBy : string,
@@ -11,13 +11,13 @@ export interface ISuggestionItem extends IHalLinks
     Comments : ISuggestionCommentItem[]
 }
 
-export interface ISuggestionVoteItem extends IHalLinks
+export interface ISuggestionVoteItem extends HalLinks
 {
     CreatedBy : string,
     IsPositive : boolean
 }
 
-export interface ISuggestionCommentItem extends IHalLinks
+export interface ISuggestionCommentItem extends HalLinks
 {
     Id : string,
     CreatedBy : string;
