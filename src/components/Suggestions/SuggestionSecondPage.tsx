@@ -37,7 +37,6 @@ import {
 import {IGlobalState} from "../../reducers";
 import ApiStatus from "../../shared/models/ApiStatus";
 import ISuggestionItem, {
-    emptySuggestion,
     ISuggestionCommentItem,
     ISuggestionVoteItem
 } from "../../models/Suggestion";
@@ -46,11 +45,12 @@ import {map, orderBy, some, findIndex} from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import '../../shared/css/toastify.css'
+import EmptySuggestion from "./EmptySuggestion";
 
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(emptySuggestion);
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(EmptySuggestion);
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -63,6 +63,7 @@ const SuggestionSecondPage = () =>
 
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
+    console.log(suggestions);
     const dispatch = useDispatch();
 
     useEffect(() =>

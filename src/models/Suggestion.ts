@@ -1,6 +1,6 @@
 import IHalLinks from "../shared/models/HalLinks";
 
-interface ISuggestionItem extends IHalLinks
+export interface ISuggestionItem extends IHalLinks
 {
     Id : string,
     CreatedBy : string,
@@ -28,18 +28,6 @@ export interface ISuggestionVoteRequest
 {
     SuggestionId : string,
     IsPositive : boolean,
-}
-
-export const emptySuggestion : ISuggestionItem =
-{
-    Content : '',
-    Comments : [],
-    Votes : [],
-    NegativeVoteCount : 0,
-    PositiveVoteCount : 0,
-    Id : '',
-    CreatedBy :'',
-    _links : {}
 }
 
 export default ISuggestionItem;
