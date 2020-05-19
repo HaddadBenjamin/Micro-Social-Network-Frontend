@@ -78,6 +78,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
             case SuggestionActionTypes.ADDED_VOTE :
                 const suggestionToUpdate = action.payload.suggestion;
+                // @ts-ignore
                 const suggestionToUpdateIndex = findIndex(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id === suggestionToUpdate.Id; });
 
                 if (suggestionToUpdateIndex !== -1)
@@ -94,6 +95,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.ADDED_COMMENT :
+                // @ts-ignore
                 draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestion.Id; });
                 draft.suggestions.push(action.payload.suggestion);
                 draft.commentingASuggestionStatus = ApiStatus.LOADED;
@@ -111,6 +113,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.DELETED_SUGGESTION :
+                // @ts-ignore
                 draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestionId; });
                 draft.deletingASuggestionStatus = ApiStatus.LOADED;
                 break;
@@ -127,6 +130,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
                 break;
 
             case SuggestionActionTypes.DELETED_COMMENT :
+                // @ts-ignore
                 draft.suggestions = filter(draft.suggestions, function(suggestion : Suggestion) { return suggestion.Id !== action.payload.suggestion.Id; });
                 draft.suggestions.push(action.payload.suggestion);
                 draft.deletingACommentFromASuggestionStatus = ApiStatus.LOADED;

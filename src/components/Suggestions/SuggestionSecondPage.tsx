@@ -48,6 +48,7 @@ import '../../shared/css/toastify.css'
 import Suggestion from "../../models/Suggestion";
 const SuggestionSecondPage = () =>
 {
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>(emptySuggestion);
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
     const [selectedSuggestion, setSelectedSuggestion] = useState<Suggestion>( new Suggestion());
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
