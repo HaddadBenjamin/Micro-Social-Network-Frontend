@@ -29,10 +29,10 @@ import {
     from,
     of
 } from "rxjs";
-import api from "../shared/utilities/api";
+import api from "../shared/helpers/api";
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";
-import errors from "../shared/utilities/error";
+import errors from "../shared/helpers/error";
 import axios from 'axios'
 import {
     SuggestionActionTypes

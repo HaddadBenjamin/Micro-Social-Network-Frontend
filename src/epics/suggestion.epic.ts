@@ -38,7 +38,7 @@ import {
     from,
     of
 } from "rxjs";
-import api from "../shared/utilities/api";
+import api from "../shared/helpers/api";
 import {AxiosResponse} from 'axios'
 import ISuggestionItem from "../models/Suggestion";
 

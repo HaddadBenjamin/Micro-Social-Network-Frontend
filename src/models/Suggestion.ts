@@ -1,4 +1,4 @@
-import IHalLinks from "../shared/models/HalLinks";
+import IHalLinks from "../shared/models/IHalLinks";
 
 export interface ISuggestionItem extends IHalLinks
 {
