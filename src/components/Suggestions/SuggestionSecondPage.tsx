@@ -180,10 +180,8 @@ const SuggestionSecondPage = () =>
         toggleCommentModal();
     }
 
-    function onDeleteComment(commentId : string)
+    function onDeleteComment(commentId : string, halLinks : HalLinks)
     {
-        const halLinks = new HalLinks(selectedSuggestion._links);
-
         dispatch(deleteComment(commentId, selectedSuggestion.Id, halLinks));
     }
 
@@ -196,7 +194,7 @@ const SuggestionSecondPage = () =>
             const deleteCommentButton = halLinks.GetComponentLink("comment_delete", <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
                 key={'suggestion-comment-button' + comment.Id}
-                onClick={() => onDeleteComment(comment.Id)}/>);
+                onClick={() => onDeleteComment(comment.Id, halLinks)}/>);
 
             return <>
                 <MDBListGroupItem key={comment.Id} className="comment-modal-content">{deleteCommentButton} {comment.Comment}</MDBListGroupItem>
