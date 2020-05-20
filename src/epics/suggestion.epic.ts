@@ -58,7 +58,7 @@ const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
 const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.CREATE_SUGGESTION)),
     mergeMap(action =>
-        from(api.post('suggestions', {
+        from(action.payload.halLinks.NavigateToTheLink("suggestion_create",{
             Content: action.payload.content,
             UserId: state$.value.user.userId
         })).pipe(
@@ -86,7 +86,7 @@ const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
 const commentASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.ADD_COMMENT)),
     mergeMap(action =>
-        from(api.post(`suggestions/${action.payload.suggestionId}/comments`, {
+        from(action.payload.halLinks.NavigateToTheLink("comment_create",{
             Comment: action.payload.comment,
             UserId: state$.value.user.userId
         })).pipe(
@@ -100,7 +100,7 @@ const commentASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe
 const deleteSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.DELETE_SUGGESTION)),
     mergeMap(action =>
-        from(api.delete(`suggestions/${action.payload.suggestionId}`, {
+        from(action.payload.halLinks.NavigateToTheLink("suggestion_delete",{
             UserId: state$.value.user.userId
         })).pipe(
             map((response: AxiosResponse<string>) => deletedSuggestion(response.data)),
@@ -112,7 +112,7 @@ const deleteSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
 const deleteACommentFromASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.DELETE_COMMENT)),
     mergeMap(action =>
-        from(api.delete(`suggestions/${action.payload.suggestionId}/comments/${action.payload.id}`, {
+        from(action.payload.halLinks.NavigateToTheLink("comment_delete",{
             UserId: state$.value.user.userId
         })).pipe(
             map((response: AxiosResponse<Suggestion>) => deletedComment(response.data)),

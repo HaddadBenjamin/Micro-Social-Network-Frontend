@@ -47,6 +47,7 @@ import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import '../../shared/css/toastify.css'
 import HalLinks from "../../shared/utilities/HalLinks";
+import IHalLinksResponse from "../../shared/models/IHalLinks";
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
@@ -60,6 +61,7 @@ const SuggestionSecondPage = () =>
 
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
     const suggestions = useSelector<IGlobalState, ISuggestion[]>(state => state.suggestions.suggestions);
+    const globalHalLinks = useSelector<IGlobalState, IHalLinksResponse>(state => state.suggestions.halLinks);
 
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
@@ -90,12 +92,16 @@ const SuggestionSecondPage = () =>
     //region relative to create a new suggestion component
     const createNewSuggestion = () =>
     {
-        dispatch(createSuggestion(createSuggestionContent));
+        const halLinks = new HalLinks(globalHalLinks._links);
+
+        dispatch(createSuggestion(createSuggestionContent, halLinks));
     };
 
-    const createNewSuggestionComment = (suggestionId : string) =>
+    const createNewSuggestionComment = () =>
     {
-        dispatch(addComment(suggestionId, createSuggestionCommentContent));
+        const halLinks = new HalLinks(selectedSuggestion._links);
+
+        dispatch(addComment(selectedSuggestion.Id, createSuggestionCommentContent, halLinks));
     };
 
     function onChangeCreateSuggestionContent(event: ChangeEvent<HTMLInputElement>): void
@@ -116,9 +122,9 @@ const SuggestionSecondPage = () =>
         toast.info('Creating your suggestion...')
     }
 
-    function onClickOnCreateSuggestionComment(suggestionId : string): void
+    function onClickOnCreateSuggestionComment(): void
     {
-        createNewSuggestionComment(suggestionId);
+        createNewSuggestionComment();
         setCreateSuggestionCommentContent('');
     }
 
@@ -161,9 +167,11 @@ const SuggestionSecondPage = () =>
         };
     }
 
-    function onClickOnDeleteSuggestionButton(suggestionId : string) : void
+    function onClickOnDeleteSuggestionButton(suggestion : ISuggestion) : void
     {
-        dispatch(deleteSuggestion(suggestionId));
+        const halLinks = new HalLinks(suggestion._links);
+
+        dispatch(deleteSuggestion(suggestion.Id, halLinks));
     }
 
     function onClickOnCommentButton(suggestion : ISuggestion) : void
@@ -172,9 +180,11 @@ const SuggestionSecondPage = () =>
         toggleCommentModal();
     }
 
-    function onDeleteComment(commentId : string, suggestionId : string)
+    function onDeleteComment(commentId : string)
     {
-        dispatch(deleteComment(commentId, suggestionId));
+        const halLinks = new HalLinks(selectedSuggestion._links);
+
+        dispatch(deleteComment(commentId, selectedSuggestion.Id, halLinks));
     }
 
     function getCommentsAsListItems(comments : ISuggestionComment[])
@@ -186,7 +196,7 @@ const SuggestionSecondPage = () =>
             const deleteCommentButton = halLinks.GetComponentLink("comment_delete", <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
                 key={'suggestion-comment-button' + comment.Id}
-                onClick={() => onDeleteComment(comment.Id, selectedSuggestion.Id)}/>);
+                onClick={() => onDeleteComment(comment.Id)}/>);
 
             return <>
                 <MDBListGroupItem key={comment.Id} className="comment-modal-content">{deleteCommentButton} {comment.Comment}</MDBListGroupItem>
@@ -203,9 +213,18 @@ const SuggestionSecondPage = () =>
                        value={createSuggestionCommentContent}
                        className=" create-suggestion-comment text-left flex-fill bd-highlight"
                        placeholder="Enter your comment"/>
-                <i onClick={() => onClickOnCreateSuggestionComment(selectedSuggestion.Id)}
+                <i onClick={() => onClickOnCreateSuggestionComment()}
                    className="create-suggestion-comment-button center fa-lg right ">📨</i>
             </>);
+    }
+
+    function createSuggestionComponent()
+    {
+        return (
+            <MDBRow className="create-suggestion-comment-container d-flex bd-highlight">
+                {addSuggestionCommentComponent()}
+            </MDBRow>
+        );
     }
 
     //region create item data table
@@ -302,7 +321,7 @@ const SuggestionSecondPage = () =>
         const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = halLinks.GetComponentLink("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion, halLinks)}></i>);
         const voteNegatively = halLinks.GetComponentLink("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion, halLinks)}></i>);
-        const deleteButton = halLinks.GetComponentLink("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>);
+        const deleteButton = halLinks.GetComponentLink("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion)}></i>);
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
