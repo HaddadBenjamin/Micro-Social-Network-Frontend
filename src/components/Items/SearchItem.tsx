@@ -2,7 +2,7 @@ import React from 'react';
 import SearchItemDto, {ItemSubCategory} from "./SearchItemDto";
 import ItemCategoriesFilters from './ItemCategoriesFilter'
 import {map} from 'lodash'
-import scrollTo from '../../shared/helpers/animate'
+import animationHelpers from '../../shared/helpers/animationHelpers'
 import {useDispatch} from "react-redux";
 import {searchItems} from "../../actions/item.action";
 
@@ -187,7 +187,7 @@ const SearchItem = (props: Props) =>
 
         dispatch(searchItems(subCategories));
 
-        scrollTo('#item-filter-view');
+        animationHelpers.scrollTo('#item-filter-view');
     }
 
     return (

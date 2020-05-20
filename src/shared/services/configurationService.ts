@@ -14,8 +14,8 @@ const productionConfiguration : ApplicationConfiguration =
     apiUrl : "https://diablo-2-enriched-documentation.azurewebsites.net/api/v1"
 };
 
-const config = process.env.NODE_ENV === "production" ?
+const configurationService = process.env.NODE_ENV === "production" ?
     productionConfiguration :
     developmentConfiguration;
 
-export default config;
+export default configurationService;

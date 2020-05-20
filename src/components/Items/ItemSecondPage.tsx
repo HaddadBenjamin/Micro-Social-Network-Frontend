@@ -18,7 +18,7 @@ import {
     MDBRow,
     MDBCol,
 } from 'mdbreact';
-import maths from '../../shared/helpers/maths'
+import mathHelpers from '../../shared/helpers/mathHelpers'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
@@ -296,7 +296,7 @@ const ItemSecondPage = () =>
         {
             if (item.ImageName === imageData.imageName)
             {
-                imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
+                imageName = `${imageData.newImageName}${mathHelpers.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
         });

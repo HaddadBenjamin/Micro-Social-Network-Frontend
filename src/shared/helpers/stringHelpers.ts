@@ -1,4 +1,4 @@
-class Strings
+class StringHelpers
 {
     public toTitleCase(text: string)
     {
@@ -16,6 +16,6 @@ class Strings
     }
 }
 
-const strings: Strings = new Strings();
+const stringHelpers : StringHelpers = new StringHelpers();
 
-export default strings;
+export default stringHelpers;

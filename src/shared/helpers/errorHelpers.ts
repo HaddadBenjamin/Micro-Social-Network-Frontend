@@ -1,4 +1,4 @@
-class Errors
+class ErrorHelpers
 {
     public getErrorMessage(error: any) : string
     {
@@ -6,6 +6,6 @@ class Errors
     }
 }
 
-const errors: Errors = new Errors();
+const errorHelpers : ErrorHelpers = new ErrorHelpers();
 
-export default errors;
+export default errorHelpers;

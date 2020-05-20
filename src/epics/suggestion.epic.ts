@@ -38,7 +38,7 @@ import {
     from,
     of
 } from "rxjs";
-import api from "../shared/helpers/api";
+import apiHelpers from "../shared/helpers/apiHelpers";
 import {AxiosResponse} from 'axios'
 import Suggestion, {ISuggestions} from "../models/Suggestion";
 
@@ -47,7 +47,7 @@ type SuggestionEpic = Epic<SuggestionsAction, SuggestionsAction, IGlobalState>;
 const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
     switchMap(action =>
-        from(api.get('suggestions')).pipe(
+        from(apiHelpers.get('suggestions')).pipe(
             map((response: AxiosResponse<ISuggestions>) => gotAllSuggestions(response.data.Elements, response.data)),
             startWith(gettingAllSuggestions()),
             catchError(() => of(gettingAllSuggestionsFailed()))

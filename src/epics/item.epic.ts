@@ -11,7 +11,7 @@ import {
     of
 } from "rxjs";
 import {AxiosResponse} from "axios";
-import api from "../shared/helpers/api";
+import apiHelpers from "../shared/helpers/apiHelpers";
 import {
     combineEpics,
     Epic
@@ -31,7 +31,7 @@ type ItemEpic = Epic<ItemsAction, ItemsAction, IGlobalState>;
 const searchItemsEpic: ItemEpic = (action$, state$) => action$.pipe(
     filter(isOfType(ItemActionTypes.SEARCH_ITEMS)),
     switchMap(action =>
-        from(api.get('items/search', {
+        from(apiHelpers.get('items/search', {
             SubCategories: action.payload.subCategories
         })).pipe(
             map((response: AxiosResponse<IItem[]>) => searchedItems(response.data)),
