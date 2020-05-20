@@ -1,5 +1,6 @@
 import IDictionary from "../shared/models/IDictionary";
 import IHalLinksResponse, {IHalLink} from "../shared/models/IHalLinks";
+import HalLinks from "../shared/utilities/HalLinks";
 
 export interface ISuggestionItem
 {
@@ -29,6 +30,7 @@ export interface ISuggestionVoteRequest
 {
     SuggestionId : string,
     IsPositive : boolean,
+    HalLinks : HalLinks
 }
 
 export default interface ISuggestion extends IHalLinksResponse, ISuggestionItem
@@ -37,6 +39,11 @@ export default interface ISuggestion extends IHalLinksResponse, ISuggestionItem
 
 export interface ISuggestionComment extends IHalLinksResponse, ISuggestionCommentItem
 {
+}
+
+export interface ISuggestions extends IHalLinksResponse
+{
+    Elements : ISuggestion[]
 }
 
 class EmptySuggestion implements ISuggestion

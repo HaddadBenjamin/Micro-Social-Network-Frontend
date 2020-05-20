@@ -40,7 +40,7 @@ import {
 } from "rxjs";
 import api from "../shared/helpers/api";
 import {AxiosResponse} from 'axios'
-import Suggestion from "../models/Suggestion";
+import Suggestion, {ISuggestions} from "../models/Suggestion";
 
 type SuggestionEpic = Epic<SuggestionsAction, SuggestionsAction, IGlobalState>;
 
@@ -48,7 +48,7 @@ const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
     switchMap(action =>
         from(api.get('suggestions')).pipe(
-            map((response: AxiosResponse<Suggestion[]>) => gotAllSuggestions(response.data)),
+            map((response: AxiosResponse<ISuggestions>) => gotAllSuggestions(response.data.Elements, response.data)),
             startWith(gettingAllSuggestions()),
             catchError(() => of(gettingAllSuggestionsFailed()))
         )
@@ -72,7 +72,7 @@ const createSuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
 const voteToASuggestionEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.ADD_VOTE)),
     mergeMap(action =>
-        from(api.post(`suggestions/${action.payload.suggestionId}/votes`, {
+        from(action.payload.halLinks.NavigateToTheLink("vote_create",{
             IsPositive: action.payload.isPositive,
             UserId: state$.value.user.userId
         })).pipe(

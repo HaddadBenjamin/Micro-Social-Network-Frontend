@@ -9,6 +9,7 @@ import {
     filter,
     findIndex
 } from "lodash";
+import IHalLinksResponse from "../shared/models/IHalLinks";
 
 export const initialSuggestionState: ISuggestionState = {
     creatingASuggestionStatus: ApiStatus.LOADED,
@@ -17,7 +18,11 @@ export const initialSuggestionState: ISuggestionState = {
     commentingASuggestionStatus: ApiStatus.LOADED,
     deletingASuggestionStatus: ApiStatus.LOADED,
     deletingACommentFromASuggestionStatus: ApiStatus.LOADED,
-    suggestions: []
+    suggestions: [],
+    halLinks :
+    {
+        _links : {}
+    }
 }
 
 export interface ISuggestionState {
@@ -28,6 +33,7 @@ export interface ISuggestionState {
     deletingASuggestionStatus: ApiStatus;
     deletingACommentFromASuggestionStatus: ApiStatus;
     suggestions: Suggestion[];
+    halLinks : IHalLinksResponse;
 }
 
 export default function suggestionsReducer(state : ISuggestionState = initialSuggestionState, action : SuggestionsAction)
@@ -46,6 +52,7 @@ export default function suggestionsReducer(state : ISuggestionState = initialSug
 
             case SuggestionActionTypes.GOT_ALL_SUGGESTIONS :
                 draft.suggestions = action.payload.suggestions;
+                draft.halLinks = action.payload.halLinks;
                 draft.gettingAllSuggestionsStatus = ApiStatus.LOADED;
                 break;
             //endregion

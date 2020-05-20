@@ -32,7 +32,7 @@ class HalLinks implements IHalLinks
                 componentIfLinkDontExist;
     }
 
-    public (linkName : string, body?: any, bearerToken? : string) : AxiosPromise
+    public NavigateToTheLink(linkName : string, body?: any, bearerToken? : string) : AxiosPromise
     {
         const link = this.GetLink(linkName);
 

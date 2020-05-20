@@ -1,5 +1,7 @@
 import ISuggestion from "../models/Suggestion";
 import {ISuggestionVoteRequest} from "../models/Suggestion";
+import HalLinks from "../shared/utilities/HalLinks";
+import IHalLinksResponse from "../shared/models/IHalLinks";
 
 export enum SuggestionActionTypes
 {
@@ -50,7 +52,8 @@ export interface IGotAllSuggestionsAction
 {
     type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS;
     payload: {
-        suggestions: ISuggestion[]
+        suggestions: ISuggestion[],
+        halLinks : IHalLinksResponse
     }
 }
 
@@ -94,7 +97,8 @@ export interface IAddVoteAction
     type : SuggestionActionTypes.ADD_VOTE,
     payload : {
         suggestionId : string,
-        isPositive : boolean
+        isPositive : boolean,
+        halLinks : HalLinks
     }
 }
 
@@ -220,12 +224,13 @@ export function gettingAllSuggestions(): IGettingAllSuggestionsAction
     }
 }
 
-export function gotAllSuggestions(suggestions: ISuggestion[]): IGotAllSuggestionsAction
+export function gotAllSuggestions(suggestions: ISuggestion[], halLinks : IHalLinksResponse): IGotAllSuggestionsAction
 {
     return {
         type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS,
         payload: {
-            suggestions : suggestions
+            suggestions : suggestions,
+            halLinks : halLinks
         }
     }
 }
@@ -281,7 +286,8 @@ export function addVote(request : ISuggestionVoteRequest) : IAddVoteAction
         type : SuggestionActionTypes.ADD_VOTE,
         payload : {
             suggestionId : request.SuggestionId,
-            isPositive : request.IsPositive
+            isPositive : request.IsPositive,
+            halLinks : request.HalLinks
         }
     }
 }

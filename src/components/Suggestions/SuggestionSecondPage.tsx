@@ -39,7 +39,7 @@ import ApiStatus from "../../shared/models/ApiStatus";
 import ISuggestion, {
     emptySuggestion,
     ISuggestionComment,
-    ISuggestionVote
+    ISuggestionVote, ISuggestionVoteRequest
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex } from 'lodash';
@@ -138,26 +138,26 @@ const SuggestionSecondPage = () =>
     }
     //endregion
 
-    function onClickOnPositiveVote(suggestion : ISuggestion) : void
+    function onClickOnPositiveVote(suggestion : ISuggestion, halLinks : HalLinks) : void
     {
-        console.log(JSON.stringify(suggestion))
-        const voteRequest = createVoteRequest(suggestion, true);
+        const voteRequest = createVoteRequest(suggestion, true, halLinks);
 
         dispatch(addVote(voteRequest));
     }
 
-    function onClickOnNegativeVote(suggestion : ISuggestion) : void
+    function onClickOnNegativeVote(suggestion : ISuggestion, halLinks : HalLinks) : void
     {
-        const voteRequest = createVoteRequest(suggestion, false);
+        const voteRequest = createVoteRequest(suggestion, false, halLinks);
 
         dispatch(addVote(voteRequest));
     }
 
-    function createVoteRequest(suggestion : ISuggestion, isPositive : boolean)
+    function createVoteRequest(suggestion : ISuggestion, isPositive : boolean, halLinks : HalLinks) : ISuggestionVoteRequest
     {
         return {
             SuggestionId : suggestion.Id,
-            IsPositive : isPositive
+            IsPositive : isPositive,
+            HalLinks : halLinks
         };
     }
 
@@ -282,10 +282,7 @@ const SuggestionSecondPage = () =>
         const halLinks = new HalLinks(suggestion._links);
 
         const voteValue: number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
-        const voteClass: string =
-            voteValue === 0 ? "default-vote" :
-                voteValue < 0 ? "negative-vote" :
-                    "positive-vote";
+        const voteClass: string = voteValue === 0 ? "default-vote" : voteValue < 0 ? "negative-vote" : "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
         const commentCount = suggestion.Comments.length;
@@ -293,7 +290,7 @@ const SuggestionSecondPage = () =>
         const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionComment) { return comment.CreatedBy === userId });
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
 
-        const isMySuggestion : boolean = suggestion.CreatedBy === userId;
+        const isMySuggestion : boolean = halLinks.DoesLinkExist("suggestion_delete");
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
         const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVote) { return vote.CreatedBy === userId && vote.IsPositive });
@@ -303,8 +300,8 @@ const SuggestionSecondPage = () =>
 
         const content = <MDBListGroupItem className={contentClass}>{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;
-        const votePositively = halLinks.GetComponentLink("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>);
-        const voteNegatively = halLinks.GetComponentLink("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>);
+        const votePositively = halLinks.GetComponentLink("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion, halLinks)}></i>);
+        const voteNegatively = halLinks.GetComponentLink("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion, halLinks)}></i>);
         const deleteButton = halLinks.GetComponentLink("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>);
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
