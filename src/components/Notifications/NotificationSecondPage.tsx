@@ -10,7 +10,7 @@ import React from "react";
 import Loader from "../../shared/components/Loader";
 import {useSelector} from "react-redux";
 import {IGlobalState} from "../../reducers";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../../shared/models/ApiStatus";
 import {IUserNotificationItem} from "../../models/User";
 import {map} from 'lodash'
 import './NotificationSecondPage.css'

@@ -3,7 +3,7 @@ import {
     ItemsAction
 } from "../actions/item.action";
 import IItem from "../models/Items";
-import ApiStatus from "../models/ApiStatus";
+import ApiStatus from "../shared/models/ApiStatus";
 import produce from "immer";
 
 export interface IItemState

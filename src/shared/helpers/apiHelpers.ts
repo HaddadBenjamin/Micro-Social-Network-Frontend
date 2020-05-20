@@ -1,17 +1,17 @@
-import config from './config'
+import configurationService from '../services/configurationService'
 import axios, {
     AxiosPromise,
 } from "axios";
 import qs from "qs";
 
-class Api
+class ApiHelpers
 {
     public get(endpoint: string, queryParameters?: any, bearerToken? : string) : AxiosPromise
     {
         return axios({
             method: 'GET',
-            url: api.getUrl(endpoint, queryParameters),
-            headers: api.getHeaders(bearerToken),
+            url: this.getUrl(endpoint, queryParameters),
+            headers: this.getHeaders(bearerToken),
             data: {}
         });
     }
@@ -20,8 +20,8 @@ class Api
     {
         return axios({
             method: 'POST',
-            url: api.getUrl(endpoint),
-            headers: api.getHeaders(bearerToken),
+            url: this.getUrl(endpoint),
+            headers: this.getHeaders(bearerToken),
             data: body
         });
     }
@@ -30,8 +30,8 @@ class Api
     {
         return axios({
             method: 'PUT',
-            url: api.getUrl(endpoint),
-            headers: api.getHeaders(bearerToken),
+            url: this.getUrl(endpoint),
+            headers: this.getHeaders(bearerToken),
             data: body
         });
     }
@@ -40,15 +40,15 @@ class Api
     {
         return axios({
             method: 'DELETE',
-            url: api.getUrl(endpoint),
-            headers: api.getHeaders(bearerToken),
+            url: this.getUrl(endpoint),
+            headers: this.getHeaders(bearerToken),
             data: body
         });
     }
 
     public getUrl(endpoint: string, queryParameters?: string, bearerToken? : string): string
     {
-        return `${config.apiUrl}/${endpoint}${queryParameters ? '/?' + qs.stringify(queryParameters) : ''}`;
+        return `${configurationService.apiUrl}/${endpoint}${queryParameters ? '/?' + qs.stringify(queryParameters) : ''}`;
     }
 
     public getHeaders(bearerToken? : string) : any
@@ -61,6 +61,6 @@ class Api
     }
 }
 
-const api = new Api();
+const apiHelpers = new ApiHelpers();
 
-export default api;
+export default apiHelpers;

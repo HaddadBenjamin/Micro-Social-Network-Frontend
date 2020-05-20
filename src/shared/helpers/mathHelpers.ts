@@ -1,4 +1,4 @@
-class Maths
+class MathHelpers
 {
     public random(minimum : number, maximum : number) : number
     {
@@ -6,6 +6,6 @@ class Maths
     }
 }
 
-const maths = new Maths();
+const mathHelpers = new MathHelpers();
 
-export default maths;
+export default mathHelpers;

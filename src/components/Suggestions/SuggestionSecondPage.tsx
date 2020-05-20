@@ -35,21 +35,24 @@ import {
     getAllSuggestions
 } from "../../actions/suggestion.action";
 import {IGlobalState} from "../../reducers";
-import ApiStatus from "../../models/ApiStatus";
-import ISuggestionItem, {
-    ISuggestionCommentItem,
-    ISuggestionVoteItem
+import ApiStatus from "../../shared/models/ApiStatus";
+import ISuggestion, {
+    emptySuggestion,
+    ISuggestionComment,
+    ISuggestionVote,
+    ISuggestionVoteRequest
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
-import {map, orderBy, some, findIndex} from 'lodash';
+import {map, orderBy, some, findIndex } from 'lodash';
 import {useToggle} from 'react-use';
 import Loader from "../../shared/components/Loader";
 import '../../shared/css/toastify.css'
-
+import HalLinks from "../../shared/utilities/HalLinks";
+import IHalLinksResponse from "../../shared/models/IHalLinks";
 const SuggestionSecondPage = () =>
 {
     const [commentModalIsOpen, toggleCommentModal] = useToggle(false);
-    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestionItem>( { Content : '', Comments : [], Votes : [], NegativeVoteCount : 0, PositiveVoteCount : 0, Id : '', CreatedBy :''});
+    const [selectedSuggestion, setSelectedSuggestion] = useState<ISuggestion>(emptySuggestion);
     const [createSuggestionCommentContent, setCreateSuggestionCommentContent] = useState<string>('');
 
     const [firstLoad, setFirstLoad] = useState<boolean>(true);
@@ -58,7 +61,8 @@ const SuggestionSecondPage = () =>
     const creatingSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.creatingASuggestionStatus);
 
     const gettingAllSuggestionStatus = useSelector<IGlobalState, ApiStatus>(state => state.suggestions.gettingAllSuggestionsStatus);
-    const suggestions = useSelector<IGlobalState, ISuggestionItem[]>(state => state.suggestions.suggestions);
+    const suggestions = useSelector<IGlobalState, ISuggestion[]>(state => state.suggestions.suggestions);
+    const globalHalLinks = useSelector<IGlobalState, IHalLinksResponse>(state => state.suggestions.halLinks);
 
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
@@ -81,7 +85,7 @@ const SuggestionSecondPage = () =>
 
     useEffect(() =>
     {
-        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestionItem) { return suggestion.Id === selectedSuggestion.Id; });
+        const suggestionIndex = findIndex(suggestions, function(suggestion : ISuggestion) { return suggestion.Id === selectedSuggestion.Id; });
         if (suggestionIndex !== -1)
             setSelectedSuggestion(suggestions[suggestionIndex]);
     }, [suggestions]);
@@ -89,12 +93,16 @@ const SuggestionSecondPage = () =>
     //region relative to create a new suggestion component
     const createNewSuggestion = () =>
     {
-        dispatch(createSuggestion(createSuggestionContent));
+        const halLinks = new HalLinks(globalHalLinks._links);
+
+        dispatch(createSuggestion(createSuggestionContent, halLinks));
     };
 
-    const createNewSuggestionComment = (suggestionId : string) =>
+    const createNewSuggestionComment = () =>
     {
-        dispatch(addComment(suggestionId, createSuggestionCommentContent));
+        const halLinks = new HalLinks(selectedSuggestion._links);
+
+        dispatch(addComment(selectedSuggestion.Id, createSuggestionCommentContent, halLinks));
     };
 
     function onChangeCreateSuggestionContent(event: ChangeEvent<HTMLInputElement>): void
@@ -115,9 +123,9 @@ const SuggestionSecondPage = () =>
         toast.info('Creating your suggestion...')
     }
 
-    function onClickOnCreateSuggestionComment(suggestionId : string): void
+    function onClickOnCreateSuggestionComment(): void
     {
-        createNewSuggestionComment(suggestionId);
+        createNewSuggestionComment();
         setCreateSuggestionCommentContent('');
     }
 
@@ -137,55 +145,59 @@ const SuggestionSecondPage = () =>
     }
     //endregion
 
-    function onClickOnPositiveVote(suggestion : ISuggestionItem) : void
+    function onClickOnPositiveVote(suggestion : ISuggestion, halLinks : HalLinks) : void
     {
-        const voteRequest = createVoteRequest(suggestion, true);
+        const voteRequest = createVoteRequest(suggestion, true, halLinks);
 
         dispatch(addVote(voteRequest));
     }
 
-    function onClickOnNegativeVote(suggestion : ISuggestionItem) : void
+    function onClickOnNegativeVote(suggestion : ISuggestion, halLinks : HalLinks) : void
     {
-        const voteRequest = createVoteRequest(suggestion, false);
+        const voteRequest = createVoteRequest(suggestion, false, halLinks);
 
         dispatch(addVote(voteRequest));
     }
 
-    function createVoteRequest(suggestion : ISuggestionItem, isPositive : boolean)
+    function createVoteRequest(suggestion : ISuggestion, isPositive : boolean, halLinks : HalLinks) : ISuggestionVoteRequest
     {
         return {
             SuggestionId : suggestion.Id,
-            IsPositive : isPositive
+            IsPositive : isPositive,
+            HalLinks : halLinks
         };
     }
 
-    function onClickOnDeleteSuggestionButton(suggestionId : string) : void
+    function onClickOnDeleteSuggestionButton(suggestion : ISuggestion) : void
     {
-        dispatch(deleteSuggestion(suggestionId));
+        const halLinks = new HalLinks(suggestion._links);
+
+        dispatch(deleteSuggestion(suggestion.Id, halLinks));
     }
 
-    function onClickOnCommentButton(suggestion : ISuggestionItem) : void
+    function onClickOnCommentButton(suggestion : ISuggestion) : void
     {
         setSelectedSuggestion(suggestion);
         toggleCommentModal();
     }
 
-    function onDeleteComment(commentId : string, suggestionId : string)
+    function onDeleteComment(commentId : string, halLinks : HalLinks)
     {
-        dispatch(deleteComment(commentId, suggestionId));
+        dispatch(deleteComment(commentId, selectedSuggestion.Id, halLinks));
     }
 
-    function getCommentsAsListItems(comments : ISuggestionCommentItem[])
+    function getCommentsAsListItems(comments : ISuggestionComment[])
     {
-        return map(comments, function(comment : ISuggestionCommentItem)
+        return map(comments, function(comment : ISuggestionComment)
         {
-            const isMyComment = comment.CreatedBy === userId;
-            const deleteCommentButton = isMyComment ? <i
+            const halLinks = new HalLinks(comment._links);
+
+            const deleteCommentButton = halLinks.GetLinkComponent("comment_delete", <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
                 key={'suggestion-comment-button' + comment.Id}
-                onClick={() => onDeleteComment(comment.Id, selectedSuggestion.Id)}></i> : <></>;
-            return <>
+                onClick={() => onDeleteComment(comment.Id, halLinks)}/>);
 
+            return <>
                 <MDBListGroupItem key={comment.Id} className="comment-modal-content">{deleteCommentButton} {comment.Comment}</MDBListGroupItem>
             </>
         })
@@ -200,9 +212,18 @@ const SuggestionSecondPage = () =>
                        value={createSuggestionCommentContent}
                        className=" create-suggestion-comment text-left flex-fill bd-highlight"
                        placeholder="Enter your comment"/>
-                <i onClick={() => onClickOnCreateSuggestionComment(selectedSuggestion.Id)}
+                <i onClick={() => onClickOnCreateSuggestionComment()}
                    className="create-suggestion-comment-button center fa-lg right ">📨</i>
             </>);
+    }
+
+    function createSuggestionComponent()
+    {
+        return (
+            <MDBRow className="create-suggestion-comment-container d-flex bd-highlight">
+                {addSuggestionCommentComponent()}
+            </MDBRow>
+        );
     }
 
     //region create item data table
@@ -264,43 +285,42 @@ const SuggestionSecondPage = () =>
 
     function getSuggestionDataTableRows(): any
     {
-        const orderedSuggestions = orderBy(suggestions, [function(suggestion : ISuggestionItem)
+        const orderedSuggestions = orderBy(suggestions, [function(suggestion : ISuggestion)
         {
             return suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
-        }, function(suggestion : ISuggestionItem)
+        }, function(suggestion : ISuggestion)
         {
             return suggestion.Comments.length;
         }], ["desc", "desc"]);
         return map(orderedSuggestions, toSuggestionDataTableRow);
     }
 
-    function toSuggestionDataTableRow(suggestion: ISuggestionItem)
+    function toSuggestionDataTableRow(suggestion: ISuggestion)
     {
+        const halLinks = new HalLinks(suggestion._links);
+
         const voteValue: number = suggestion.PositiveVoteCount - suggestion.NegativeVoteCount;
-        const voteClass: string =
-            voteValue === 0 ? "default-vote" :
-                voteValue < 0 ? "negative-vote" :
-                    "positive-vote";
+        const voteClass: string = voteValue === 0 ? "default-vote" : voteValue < 0 ? "negative-vote" : "positive-vote";
         const rateClass = `suggestion ${voteClass}`;
 
         const commentCount = suggestion.Comments.length;
         const commentCountClass = `suggestion-comment-count ${commentCount > 0 ? "positive-comment-count" : ""}`;
-        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionCommentItem) { return comment.CreatedBy === userId });
+        const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionComment) { return comment.CreatedBy === userId });
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
 
-        const isMySuggestion : boolean = suggestion.CreatedBy === userId;
+        const isMySuggestion : boolean = halLinks.DoesLinkExists("suggestion_delete");
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
-        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && vote.IsPositive });
-        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVoteItem) { return vote.CreatedBy === userId && !vote.IsPositive });
-        const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
-        const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""} ${isMySuggestion ? "thumbs-disable" : ""}`;
+        const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVote) { return vote.CreatedBy === userId && vote.IsPositive });
+        const iVotedNegatively: boolean = some(suggestion.Votes, function(vote : ISuggestionVote) { return vote.CreatedBy === userId && !vote.IsPositive });
+        const votePositivelyClass : string = `fas fa-thumbs-up thumbs-up ${iVotedPositively ? "fa-lg" : ""}`;
+        const voteNegativelyClass : string = `fas fa-thumbs-down thumbs-down ${iVotedNegatively ? "fa-lg" : ""}`;
 
         const content = <MDBListGroupItem className={contentClass}>{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;
-        const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
-        const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
-        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
+        const votePositively = halLinks.GetLinkComponent("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion, halLinks)}></i>);
+        const voteNegatively = halLinks.GetLinkComponent("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion, halLinks)}></i>);
+        const deleteButton = halLinks.GetLinkComponent("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion)}></i>);
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 

@@ -18,14 +18,14 @@ import {
     MDBRow,
     MDBCol,
 } from 'mdbreact';
-import maths from '../../shared/utilities/maths'
+import mathHelpers from '../../shared/helpers/mathHelpers'
 import Search from '../../shared/components/Search'
 import Highlight from "../../shared/components/Highlight";
 import {useSelector} from "react-redux";
 import CSS from 'csstype';
 import {IGlobalState} from "../../reducers";
 import IItem, {IItemProperty} from "../../models/Items";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../../shared/models/ApiStatus";
 import Loader from "../../shared/components/Loader";
 
 // Ce compossant fait tellement trop de choses, je gagnerais à le découper.
@@ -296,7 +296,7 @@ const ItemSecondPage = () =>
         {
             if (item.ImageName === imageData.imageName)
             {
-                imageName = `${imageData.newImageName}${maths.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
+                imageName = `${imageData.newImageName}${mathHelpers.random(imageData.firstImageIndex, imageData.lastImageIndex).toString()}`;
                 width = newWidth;
             }
         });

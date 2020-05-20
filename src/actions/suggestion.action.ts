@@ -1,6 +1,7 @@
-import ISuggestionItem, {
-    ISuggestionVoteRequest,
-} from "../models/Suggestion";
+import ISuggestion from "../models/Suggestion";
+import {ISuggestionVoteRequest} from "../models/Suggestion";
+import HalLinks from "../shared/utilities/HalLinks";
+import IHalLinksResponse from "../shared/models/IHalLinks";
 
 export enum SuggestionActionTypes
 {
@@ -51,7 +52,8 @@ export interface IGotAllSuggestionsAction
 {
     type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS;
     payload: {
-        suggestions: ISuggestionItem[]
+        suggestions: ISuggestion[],
+        halLinks : IHalLinksResponse
     }
 }
 
@@ -66,7 +68,8 @@ export interface ICreateSuggestionAction
 {
     type : SuggestionActionTypes.CREATE_SUGGESTION,
     payload : {
-        content : string
+        content : string,
+        halLinks : HalLinks
     }
 }
 
@@ -79,7 +82,7 @@ export interface ICreatedSuggestionAction
 {
     type : SuggestionActionTypes.CREATED_SUGGESTION,
     payload : {
-        suggestion : ISuggestionItem
+        suggestion : ISuggestion
     }
 }
 
@@ -95,7 +98,8 @@ export interface IAddVoteAction
     type : SuggestionActionTypes.ADD_VOTE,
     payload : {
         suggestionId : string,
-        isPositive : boolean
+        isPositive : boolean,
+        halLinks : HalLinks
     }
 }
 
@@ -108,7 +112,7 @@ export interface IAddedVoteAction
 {
     type : SuggestionActionTypes.ADDED_VOTE,
     payload : {
-        suggestion : ISuggestionItem
+        suggestion : ISuggestion
     }
 }
 
@@ -124,7 +128,8 @@ export interface IAddCommentAction
     type : SuggestionActionTypes.ADD_COMMENT,
     payload: {
         suggestionId : string,
-        comment : string
+        comment : string;
+        halLinks : HalLinks
     }
 }
 
@@ -137,7 +142,7 @@ export interface IAddedCommentAction
 {
     type : SuggestionActionTypes.ADDED_COMMENT,
     payload : {
-        suggestion : ISuggestionItem
+        suggestion : ISuggestion
     }
 }
 
@@ -152,7 +157,8 @@ export interface IDeleteSuggestionAction
 {
     type : SuggestionActionTypes.DELETE_SUGGESTION,
     payload : {
-        suggestionId : string
+        suggestionId : string,
+        halLinks : HalLinks
     }
 }
 
@@ -181,7 +187,8 @@ export interface IDeleteCommentAction
     type : SuggestionActionTypes.DELETE_COMMENT,
     payload : {
         id : string,
-        suggestionId : string
+        suggestionId : string,
+        halLinks : HalLinks
     }
 }
 
@@ -194,7 +201,7 @@ export interface IDeletedCommentAction
 {
     type : SuggestionActionTypes.DELETED_COMMENT,
     payload : {
-        suggestion : ISuggestionItem
+        suggestion : ISuggestion
     }
 }
 
@@ -221,12 +228,13 @@ export function gettingAllSuggestions(): IGettingAllSuggestionsAction
     }
 }
 
-export function gotAllSuggestions(suggestions: ISuggestionItem[]): IGotAllSuggestionsAction
+export function gotAllSuggestions(suggestions: ISuggestion[], halLinks : IHalLinksResponse): IGotAllSuggestionsAction
 {
     return {
         type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS,
         payload: {
-            suggestions : suggestions
+            suggestions : suggestions,
+            halLinks : halLinks
         }
     }
 }
@@ -240,12 +248,13 @@ export function gettingAllSuggestionsFailed(): IGettingAllSuggestionsFailedActio
 //endregion
 
 //region Create a suggestion
-export function createSuggestion(content : string) : ICreateSuggestionAction
+export function createSuggestion(content : string, halLinks : HalLinks) : ICreateSuggestionAction
 {
     return {
         type : SuggestionActionTypes.CREATE_SUGGESTION,
         payload : {
-            content : content
+            content : content,
+            halLinks : halLinks
         }
     }
 }
@@ -257,7 +266,7 @@ export function creatingSuggestion() : ICreatingSuggestionAction
     }
 }
 
-export function createdSuggestion(suggestion : ISuggestionItem) : ICreatedSuggestionAction
+export function createdSuggestion(suggestion : ISuggestion) : ICreatedSuggestionAction
 {
     return {
         type : SuggestionActionTypes.CREATED_SUGGESTION,
@@ -282,7 +291,8 @@ export function addVote(request : ISuggestionVoteRequest) : IAddVoteAction
         type : SuggestionActionTypes.ADD_VOTE,
         payload : {
             suggestionId : request.SuggestionId,
-            isPositive : request.IsPositive
+            isPositive : request.IsPositive,
+            halLinks : request.HalLinks
         }
     }
 }
@@ -294,7 +304,7 @@ export function addindVote() : IAddingVoteAction
     }
 }
 
-export function addedVote(suggestion : ISuggestionItem) : IAddedVoteAction
+export function addedVote(suggestion : ISuggestion) : IAddedVoteAction
 {
     return {
         type : SuggestionActionTypes.ADDED_VOTE,
@@ -313,13 +323,14 @@ export function addingVoteFailed() : IAddingVoteFailedAction
 //endregion
 
 //region Add a comment to a suggestion
-export function addComment(suggestionId : string, comment : string) : IAddCommentAction
+export function addComment(suggestionId : string, comment : string, halLinks : HalLinks) : IAddCommentAction
 {
     return {
         type : SuggestionActionTypes.ADD_COMMENT,
         payload : {
             suggestionId : suggestionId,
-            comment : comment
+            comment : comment,
+            halLinks : halLinks
         }
     }
 }
@@ -331,7 +342,7 @@ export function addingComment() : IAddingCommentAction
     }
 }
 
-export function addedComment(suggestion : ISuggestionItem) : IAddedCommentAction
+export function addedComment(suggestion : ISuggestion) : IAddedCommentAction
 {
     return {
         type: SuggestionActionTypes.ADDED_COMMENT,
@@ -351,12 +362,13 @@ export function addingCommentFailed() : IAddingCommentFailedAction
 //endregion
 
 //region Delete a suggestion
-export function deleteSuggestion(suggestionId : string) : IDeleteSuggestionAction
+export function deleteSuggestion(suggestionId : string, halLinks : HalLinks) : IDeleteSuggestionAction
 {
     return {
         type : SuggestionActionTypes.DELETE_SUGGESTION,
         payload : {
-            suggestionId : suggestionId
+            suggestionId : suggestionId,
+            halLinks : halLinks
         }
     }
 }
@@ -387,13 +399,14 @@ export function deletingSuggestionFailed() : IDeletingSuggestionFailedAction
 //endregion
 
 //region Delete a suggestion comment
-export function deleteComment(id : string, suggestionId : string) : IDeleteCommentAction
+export function deleteComment(id : string, suggestionId : string, halLinks : HalLinks) : IDeleteCommentAction
 {
     return {
         type : SuggestionActionTypes.DELETE_COMMENT,
         payload : {
             id : id,
-            suggestionId : suggestionId
+            suggestionId : suggestionId,
+            halLinks : halLinks
         }
     }
 }
@@ -405,7 +418,7 @@ export function deletingComment() : IDeletingCommentAction
     }
 }
 
-export function deletedComment(suggestion : ISuggestionItem) : IDeletedCommentAction
+export function deletedComment(suggestion : ISuggestion) : IDeletedCommentAction
 {
     return {
         type: SuggestionActionTypes.DELETED_COMMENT,

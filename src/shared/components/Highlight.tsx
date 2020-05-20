@@ -1,5 +1,5 @@
 import React from "react";
-import strings from '../../shared/utilities/strings'
+import stringHelpers from '../helpers/stringHelpers'
 
 interface Props
 {
@@ -13,9 +13,9 @@ const Highlight = (props: Props) =>
 {
     let termColor = props.color || 'red';
     let textColor = props.textColor == null ? 'white' : props.textColor;
-    let term = strings.toTitleCase(props.searchTerm || '');
+    let term = stringHelpers.toTitleCase(props.searchTerm || '');
     let replaceText = "<span style='color : " + termColor + " !important'>" + term + "</span>";
-    let newText = "<span  style='color : " + textColor + " !important'>" + strings.toTitleCase(props.text || '').replace(term, replaceText) + "</span>";
+    let newText = "<span  style='color : " + textColor + " !important'>" + stringHelpers.toTitleCase(props.text || '').replace(term, replaceText) + "</span>";
 
     return (<span dangerouslySetInnerHTML={{__html: newText}}></span>);
 }

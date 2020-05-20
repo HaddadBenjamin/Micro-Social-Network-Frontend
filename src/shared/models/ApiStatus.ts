@@ -1,4 +1,4 @@
-export enum ApiStatus {
+enum ApiStatus {
     LOADING = 'loading',
     LOADED = 'loaded',
     FAILED = 'failed'

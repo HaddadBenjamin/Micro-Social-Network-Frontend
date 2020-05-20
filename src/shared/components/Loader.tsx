@@ -1,7 +1,7 @@
 import React, {
     ReactNode
 } from "react";
-import ApiStatus from "../../models/ApiStatus";
+import ApiStatus from "../models/ApiStatus";
 import {
     MDBAlert,
 } from "mdbreact";

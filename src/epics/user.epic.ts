@@ -29,15 +29,14 @@ import {
     from,
     of
 } from "rxjs";
-import publicIp from "public-ip";
-import api from "../shared/utilities/api";
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";
-import errors from "../shared/utilities/error";
+import errors from "../shared/helpers/errorHelpers";
 import axios from 'axios'
 import {
     SuggestionActionTypes
 } from "../actions/suggestion.action";
+import apiHelpers from "../shared/helpers/apiHelpers";
 
 type UserEpic = Epic<UsersAction, UsersAction, IGlobalState>;
 
@@ -67,7 +66,7 @@ const gettingIpFailedEpic: UserEpic = (action$, state$) => action$.pipe(
 const createUserEpic: UserEpic = (action$, state$) => action$.pipe(
     filter(isOfType(UserActionTypes.CREATE_USER)),
     mergeMap(action =>
-        from(api.post('users', {
+        from(apiHelpers.post('users', {
             UserId : action.payload.id,
             Email: action.payload.email
         })).pipe(
@@ -81,7 +80,7 @@ const createUserEpic: UserEpic = (action$, state$) => action$.pipe(
 const updateUserEpic: UserEpic = (action$, state$) => action$.pipe(
     filter(isOfType(UserActionTypes.UPDATE_USER)),
     mergeMap(action =>
-        from(api.put(`users/${action.payload.userId}`, {
+        from(apiHelpers.put(`users/${action.payload.userId}`, {
             UserId : action.payload.userId,
             Email: action.payload.email,
             AcceptedNotifications : action.payload.acceptedNotifications,
