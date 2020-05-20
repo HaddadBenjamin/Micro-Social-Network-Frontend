@@ -62,7 +62,6 @@ const SuggestionSecondPage = () =>
 
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
 
-    console.log(suggestions);
     const dispatch = useDispatch();
 
     useEffect(() =>
@@ -301,7 +300,7 @@ const SuggestionSecondPage = () =>
         const rate = <p className={rateClass}>{voteValue}</p>;
         const votePositively = <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion)}></i>;
         const voteNegatively = <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion)}></i>;
-        const deleteButton = isMySuggestion ? <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>: <></>;
+        const deleteButton = suggestion.GetComponentLink("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion.Id)}></i>);
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 
