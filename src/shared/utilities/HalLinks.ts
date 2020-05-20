@@ -18,21 +18,18 @@ class HalLinks implements IHalLinks
         return this._links.GetValueOrDefault(linkName);
     }
 
-    public DoesLinkExist(linkName : string) : boolean
+    public DoesLinkExists(linkName : string) : boolean
     {
         return this.GetLink(linkName) != undefined;
     }
 
-    public GetComponentLink(linkName : string, componentIfLinkExists : any, componentIfLinkDontExist? : any) : any
+    public GetLinkComponent(linkName : string, componentIfLinkExists : any, componentIfLinkDontExist? : any) : any
     {
-        return this.DoesLinkExist(linkName) ?
-            componentIfLinkExists :
-            componentIfLinkDontExist == undefined ?
-                '' :
-                componentIfLinkDontExist;
+        return this.DoesLinkExists(linkName) ? componentIfLinkExists :
+            componentIfLinkDontExist == undefined ?  '' : componentIfLinkDontExist;
     }
 
-    public NavigateToTheLink(linkName : string, body?: any, bearerToken? : string) : AxiosPromise
+    public BrowseLink(linkName : string, body?: any, bearerToken? : string) : AxiosPromise
     {
         const link = this.GetLink(linkName);
 

@@ -39,7 +39,8 @@ import ApiStatus from "../../shared/models/ApiStatus";
 import ISuggestion, {
     emptySuggestion,
     ISuggestionComment,
-    ISuggestionVote, ISuggestionVoteRequest
+    ISuggestionVote,
+    ISuggestionVoteRequest
 } from "../../models/Suggestion";
 import 'react-toastify/dist/ReactToastify.css';
 import {map, orderBy, some, findIndex } from 'lodash';
@@ -191,7 +192,7 @@ const SuggestionSecondPage = () =>
         {
             const halLinks = new HalLinks(comment._links);
 
-            const deleteCommentButton = halLinks.GetComponentLink("comment_delete", <i
+            const deleteCommentButton = halLinks.GetLinkComponent("comment_delete", <i
                 className="fas fa-trash-alt remove-suggestion-comment-button"
                 key={'suggestion-comment-button' + comment.Id}
                 onClick={() => onDeleteComment(comment.Id, halLinks)}/>);
@@ -307,7 +308,7 @@ const SuggestionSecondPage = () =>
         const iCommentedThisSuggestion = some(suggestion.Comments, function(comment : ISuggestionComment) { return comment.CreatedBy === userId });
         const commentClass = `fas fa-comments comment-suggestion-button ${iCommentedThisSuggestion ? "fa-lg" : ""}`;
 
-        const isMySuggestion : boolean = halLinks.DoesLinkExist("suggestion_delete");
+        const isMySuggestion : boolean = halLinks.DoesLinkExists("suggestion_delete");
         const contentClass : string = `suggestion d-flex justify-content-between align-items-center ${isMySuggestion ? "my-suggestion" : ""}`;
 
         const iVotedPositively : boolean = some(suggestion.Votes, function(vote : ISuggestionVote) { return vote.CreatedBy === userId && vote.IsPositive });
@@ -317,9 +318,9 @@ const SuggestionSecondPage = () =>
 
         const content = <MDBListGroupItem className={contentClass}>{suggestion.Content}</MDBListGroupItem>;
         const rate = <p className={rateClass}>{voteValue}</p>;
-        const votePositively = halLinks.GetComponentLink("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion, halLinks)}></i>);
-        const voteNegatively = halLinks.GetComponentLink("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion, halLinks)}></i>);
-        const deleteButton = halLinks.GetComponentLink("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion)}></i>);
+        const votePositively = halLinks.GetLinkComponent("vote_create", <i className={votePositivelyClass} onClick={() => onClickOnPositiveVote(suggestion, halLinks)}></i>);
+        const voteNegatively = halLinks.GetLinkComponent("vote_create", <i className={voteNegativelyClass} onClick={() => onClickOnNegativeVote(suggestion, halLinks)}></i>);
+        const deleteButton = halLinks.GetLinkComponent("suggestion_delete", <i className="fas fa-trash-alt remove-suggestion-button" onClick={() => onClickOnDeleteSuggestionButton(suggestion)}></i>);
         const comments = <i className={commentClass} onClick={() => onClickOnCommentButton(suggestion)}></i>;
         const commentsCount = <p className={commentCountClass}>{commentCount}</p>;
 

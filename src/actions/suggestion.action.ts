@@ -418,8 +418,7 @@ export function deletingComment() : IDeletingCommentAction
     }
 }
 
-export function deletedComment(suggestion : ISuggestion
-) : IDeletedCommentAction
+export function deletedComment(suggestion : ISuggestion) : IDeletedCommentAction
 {
     return {
         type: SuggestionActionTypes.DELETED_COMMENT,
