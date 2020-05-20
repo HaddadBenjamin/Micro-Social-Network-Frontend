@@ -41,7 +41,6 @@ import {
 import api from "../shared/helpers/api";
 import {AxiosResponse} from 'axios'
 import Suggestion from "../models/Suggestion";
-import {plainToClass} from "class-transformer";
 
 type SuggestionEpic = Epic<SuggestionsAction, SuggestionsAction, IGlobalState>;
 
@@ -49,8 +48,7 @@ const getAllSuggestionsEpic: SuggestionEpic = (action$, state$) => action$.pipe(
     filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
     switchMap(action =>
         from(api.get('suggestions')).pipe(
-            // Allow to get a definition for all the methods of your objects
-            map((response: AxiosResponse<Suggestion[]>) => gotAllSuggestions(plainToClass(Suggestion, response.data))),
+            map((response: AxiosResponse<Suggestion[]>) => gotAllSuggestions(response.data)),
             startWith(gettingAllSuggestions()),
             catchError(() => of(gettingAllSuggestionsFailed()))
         )

@@ -1,16 +1,14 @@
-import Dictionary from "./IDictionary";
 import HttpMethod from "./HttpMethod";
-import {AxiosPromise} from "axios";
-import {ReactNode} from "react";
+import IDictionary from "./IDictionary";
 
-interface IHalLinks
+interface IHalLinksResponse
 {
-    _links : Dictionary<IHalLink>
+    _links : { [index: string] : IHalLink }
+}
 
-    GetLink(linkName : string) : IHalLink
-    DoesLinkExist(linkName : string) : boolean
-    GetComponentLink(linkName : string, componentIfLinkExists : ReactNode, componentIfLinkDontExist? : ReactNode) : ReactNode
-    BrowseLink(linkName : string, body?: any, bearerToken? : string) : AxiosPromise
+export interface IHalLinks
+{
+    _links : IDictionary<IHalLink>
 }
 
 export interface IHalLink
@@ -19,4 +17,4 @@ export interface IHalLink
     method : HttpMethod
 }
 
-export default IHalLinks;
+export default IHalLinksResponse;

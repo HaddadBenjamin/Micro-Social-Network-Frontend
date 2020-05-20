@@ -1,5 +1,5 @@
-import Suggestion from "../models/Suggestion";
-import {ISuggestionVoteRequest} from "../models/ISuggestion";
+import ISuggestion from "../models/Suggestion";
+import {ISuggestionVoteRequest} from "../models/Suggestion";
 
 export enum SuggestionActionTypes
 {
@@ -50,7 +50,7 @@ export interface IGotAllSuggestionsAction
 {
     type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS;
     payload: {
-        suggestions: Suggestion[]
+        suggestions: ISuggestion[]
     }
 }
 
@@ -78,7 +78,7 @@ export interface ICreatedSuggestionAction
 {
     type : SuggestionActionTypes.CREATED_SUGGESTION,
     payload : {
-        suggestion : Suggestion
+        suggestion : ISuggestion
     }
 }
 
@@ -107,7 +107,7 @@ export interface IAddedVoteAction
 {
     type : SuggestionActionTypes.ADDED_VOTE,
     payload : {
-        suggestion : Suggestion
+        suggestion : ISuggestion
     }
 }
 
@@ -136,7 +136,7 @@ export interface IAddedCommentAction
 {
     type : SuggestionActionTypes.ADDED_COMMENT,
     payload : {
-        suggestion : Suggestion
+        suggestion : ISuggestion
     }
 }
 
@@ -193,7 +193,7 @@ export interface IDeletedCommentAction
 {
     type : SuggestionActionTypes.DELETED_COMMENT,
     payload : {
-        suggestion : Suggestion
+        suggestion : ISuggestion
     }
 }
 
@@ -220,7 +220,7 @@ export function gettingAllSuggestions(): IGettingAllSuggestionsAction
     }
 }
 
-export function gotAllSuggestions(suggestions: Suggestion[]): IGotAllSuggestionsAction
+export function gotAllSuggestions(suggestions: ISuggestion[]): IGotAllSuggestionsAction
 {
     return {
         type: SuggestionActionTypes.GOT_ALL_SUGGESTIONS,
@@ -256,7 +256,7 @@ export function creatingSuggestion() : ICreatingSuggestionAction
     }
 }
 
-export function createdSuggestion(suggestion : Suggestion) : ICreatedSuggestionAction
+export function createdSuggestion(suggestion : ISuggestion) : ICreatedSuggestionAction
 {
     return {
         type : SuggestionActionTypes.CREATED_SUGGESTION,
@@ -293,7 +293,7 @@ export function addindVote() : IAddingVoteAction
     }
 }
 
-export function addedVote(suggestion : Suggestion) : IAddedVoteAction
+export function addedVote(suggestion : ISuggestion) : IAddedVoteAction
 {
     return {
         type : SuggestionActionTypes.ADDED_VOTE,
@@ -330,7 +330,7 @@ export function addingComment() : IAddingCommentAction
     }
 }
 
-export function addedComment(suggestion : Suggestion) : IAddedCommentAction
+export function addedComment(suggestion : ISuggestion) : IAddedCommentAction
 {
     return {
         type: SuggestionActionTypes.ADDED_COMMENT,
@@ -404,7 +404,8 @@ export function deletingComment() : IDeletingCommentAction
     }
 }
 
-export function deletedComment(suggestion : Suggestion) : IDeletedCommentAction
+export function deletedComment(suggestion : ISuggestion
+) : IDeletedCommentAction
 {
     return {
         type: SuggestionActionTypes.DELETED_COMMENT,
