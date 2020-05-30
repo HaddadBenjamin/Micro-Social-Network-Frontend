@@ -1,10 +1,7 @@
 import {
-    createdUser,
-    creatingUser,
-    creatingUserFailed,
-    gettingIp,
-    gettingIpFailed,
-    gotIp,
+    identifiedUser,
+    identifyingUser,
+    identifyingUserFailed,
     updatedUser,
     updatingUser,
     updatingUserFailed,
@@ -18,7 +15,6 @@ import {
 } from "redux-observable";
 import {isOfType} from "typesafe-actions";
 import {
-    switchMap,
     map,
     startWith,
     catchError,
@@ -32,47 +28,17 @@ import {
 import {AxiosResponse} from "axios";
 import IUserItem from "../models/User";
 import errors from "../shared/helpers/errorHelpers";
-import axios from 'axios'
-import {
-    SuggestionActionTypes
-} from "../actions/suggestion.action";
 import apiHelpers from "../shared/helpers/apiHelpers";
 
 type UserEpic = Epic<UsersAction, UsersAction, IGlobalState>;
 
-
-const getIpEpic: UserEpic = (action$, state$) => action$.pipe(
-    filter(isOfType(SuggestionActionTypes.GET_ALL_SUGGESTIONS)),
-    switchMap(action =>
-        from(axios.get<string>('https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=text')).pipe(
-            map((response: AxiosResponse<string>) => gotIp(response.data)),
-            startWith(gettingIp()),
-            catchError(() => of(gettingIpFailed()))
-        )
-    )
-);
-
-const gettingIpFailedEpic: UserEpic = (action$, state$) => action$.pipe(
-    filter(isOfType(UserActionTypes.GETTING_IP_FAILED)),
-    switchMap(action =>
-        from(axios.get<string>('https://cors-anywhere.herokuapp.com/http://api.ipify.org/?format=text')).pipe(
-            map((response: AxiosResponse<string>) => gotIp(response.data)),
-            startWith(gettingIp()),
-            catchError(() => of(gettingIpFailed()))
-        )
-    )
-);
-
-const createUserEpic: UserEpic = (action$, state$) => action$.pipe(
-    filter(isOfType(UserActionTypes.CREATE_USER)),
+const identifyUserEpic: UserEpic = (action$, state$) => action$.pipe(
+    filter(isOfType(UserActionTypes.IDENTIFY_USER)),
     mergeMap(action =>
-        from(apiHelpers.post('users', {
-            UserId : action.payload.id,
-            Email: action.payload.email
-        })).pipe(
-            map((response: AxiosResponse<IUserItem>) => createdUser(response.data)),
-            startWith(creatingUser()),
-            catchError(() => of(creatingUserFailed()))
+        from(apiHelpers.get('users/identifyme')).pipe(
+            map((response: AxiosResponse<IUserItem>) => identifiedUser(response.data)),
+            startWith(identifyingUser()),
+            catchError(() => of(identifyingUserFailed()))
         )
     )
 );
@@ -94,7 +60,5 @@ const updateUserEpic: UserEpic = (action$, state$) => action$.pipe(
 );
 
 export default combineEpics(
-    getIpEpic,
-    gettingIpFailedEpic,
-    createUserEpic,
+    identifyUserEpic,
     updateUserEpic);

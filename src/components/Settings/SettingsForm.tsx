@@ -34,7 +34,7 @@ const SettingsForm = () =>
     const userFromServer = useSelector<IGlobalState, IUserItem | undefined>(state => state.user.user);
     const userId = useSelector<IGlobalState, string>(state => state.user.userId);
     const errorMessage = useSelector<IGlobalState, string>(state => state.user.errorMessage);
-    const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
+    const identifyingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.identifyingUserStatus);
     const updatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.updatingUserStatus);
 
     const [acceptedNotifications, setAcceptedNotifications] = useState<string[]>([]);
@@ -167,7 +167,7 @@ const SettingsForm = () =>
     <>
         <div className="white-text text-center text-md-left mt-xl-5 mb-5">
             <Loader
-                loadingStatus={creatingUserStatus}
+                loadingStatus={identifyingUserStatus}
                 resourceName="user"
                 resourceToLoad={getUserForm()}/>
         </div>

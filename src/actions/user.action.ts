@@ -2,15 +2,10 @@ import IUserItem from "../models/User";
 
 export enum UserActionTypes
 {
-    GET_IP = 'users/getip',
-    GETTING_IP = 'users/gettingip',
-    GOT_IP = 'users/gotip',
-    GETTING_IP_FAILED = 'users/gettingip_failed',
-
-    CREATE_USER = 'users/createuser',
-    CREATING_USER = 'users/creatinguser',
-    CREATED_USER = "users/createduser",
-    CREATING_USER_FAILED = "users/creatinguser_failed",
+    IDENTIFY_USER = 'users/identifyuser',
+    IDENTIFYING_USER = 'users/identifyinguser',
+    IDENTIFIED_USER = "users/identifieduser",
+    IDENTIFYING_USER_FAILED = "users/identifyinguser_failed",
 
     UPDATE_USER = 'users/updateuser',
     UPDATING_USER = 'users/updatinguser',
@@ -19,57 +14,28 @@ export enum UserActionTypes
 }
 
 //region interfaces
-//region get ip
-export interface IGetIpAction
+//region identify user
+export interface IIdentifyUserAction
 {
-    type: UserActionTypes.GET_IP
+    type: UserActionTypes.IDENTIFY_USER
 }
 
-export interface IGettingIpAction
+export interface IIdentifyingUserAction
 {
-    type: UserActionTypes.GETTING_IP
+    type: UserActionTypes.IDENTIFYING_USER
 }
 
-export interface IGotIpAction
+export interface IIdentifiedUserAction
 {
-    type: UserActionTypes.GOT_IP
+    type: UserActionTypes.IDENTIFIED_USER
     payload: {
-        ip : string
-    }
-}
-
-export interface IGettingIpFailedAction
-{
-    type: UserActionTypes.GETTING_IP_FAILED
-}
-//endregion
-
-//region create user
-export interface ICreateUserAction
-{
-    type : UserActionTypes.CREATE_USER,
-    payload : {
-        id : string,
-        email? : string
-    }
-}
-
-export interface ICreatingUserAction
-{
-    type : UserActionTypes.CREATING_USER
-}
-
-export interface ICreatedUserAction
-{
-    type : UserActionTypes.CREATED_USER,
-    payload : {
         user : IUserItem
     }
 }
 
-export interface ICreatingUserFailedAction
+export interface IIdentifyingUserFailedAction
 {
-    type : UserActionTypes.CREATING_USER_FAILED
+    type: UserActionTypes.IDENTIFYING_USER_FAILED
 }
 //endregion
 
@@ -109,72 +75,35 @@ export interface IUpdatingUserFailedAction
 //endregion
 
 //region implementation
-//region get ip
-export function getIp(): IGetIpAction
+//region identify user
+export function identifyUser(): IIdentifyUserAction
 {
     return {
-        type: UserActionTypes.GET_IP
+        type: UserActionTypes.IDENTIFY_USER
     }
 }
 
-export function gettingIp(): IGettingIpAction
+export function identifyingUser(): IIdentifyingUserAction
 {
     return {
-        type: UserActionTypes.GETTING_IP
+        type: UserActionTypes.IDENTIFYING_USER
     }
 }
 
-export function gotIp(ip : string): IGotIpAction
+export function identifiedUser(user : IUserItem): IIdentifiedUserAction
 {
     return {
-        type: UserActionTypes.GOT_IP,
-        payload : {
-            ip : ip
-        }
-    }
-}
-
-export function gettingIpFailed(): IGettingIpFailedAction
-{
-    return {
-        type: UserActionTypes.GETTING_IP_FAILED
-    }
-}
-//endregion
-
-//region create user
-export function createUser(id : string, email? : string) : ICreateUserAction
-{
-    return {
-        type : UserActionTypes.CREATE_USER,
-        payload : {
-            id : id,
-            email : email
-        }
-    }
-}
-
-export function creatingUser() : ICreatingUserAction
-{
-    return {
-        type : UserActionTypes.CREATING_USER
-    }
-}
-
-export function createdUser(user : IUserItem) : ICreatedUserAction
-{
-    return {
-        type : UserActionTypes.CREATED_USER,
+        type: UserActionTypes.IDENTIFIED_USER,
         payload : {
             user : user
         }
     }
 }
 
-export function creatingUserFailed() : ICreatingUserFailedAction
+export function identifyingUserFailed(): IIdentifyingUserFailedAction
 {
     return {
-        type : UserActionTypes.CREATING_USER_FAILED
+        type: UserActionTypes.IDENTIFYING_USER_FAILED
     }
 }
 //endregion
@@ -226,15 +155,10 @@ export function updatingUserFailed(errorMessage : string) : IUpdatingUserFailedA
 //endregion
 
 export type UsersAction =
-    IGetIpAction |
-    IGettingIpAction |
-    IGotIpAction |
-    IGettingIpFailedAction |
-
-    ICreateUserAction |
-    ICreatingUserAction |
-    ICreatedUserAction |
-    ICreatingUserFailedAction |
+    IIdentifyUserAction |
+    IIdentifyingUserAction |
+    IIdentifiedUserAction |
+    IIdentifyingUserFailedAction |
 
     IUpdateUserAction |
     IUpdatingUserAction |

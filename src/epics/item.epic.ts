@@ -24,7 +24,7 @@ import {
     searchingItems,
     searchingItemsFailed
 } from "../actions/item.action";
-import IItem from "../models/Items";
+import {IItems} from "../models/Items";
 
 type ItemEpic = Epic<ItemsAction, ItemsAction, IGlobalState>;
 
@@ -34,7 +34,7 @@ const searchItemsEpic: ItemEpic = (action$, state$) => action$.pipe(
         from(apiHelpers.get('items/search', {
             SubCategories: action.payload.subCategories
         })).pipe(
-            map((response: AxiosResponse<IItem[]>) => searchedItems(response.data)),
+            map((response: AxiosResponse<IItems>) => searchedItems(response.data.Elements)),
             startWith(searchingItems()),
             catchError(() => of(searchingItemsFailed()))
         ))

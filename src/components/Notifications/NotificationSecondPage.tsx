@@ -18,7 +18,7 @@ import '../../shared/css/toastify.css'
 
 const NotificationSecondPage = () =>
 {
-    const creatingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.creatingUserStatus);
+    const identifyingUserStatus = useSelector<IGlobalState, ApiStatus>(state => state.user.identifyingUserStatus);
     const notifications = useSelector<IGlobalState, IUserNotificationItem[]>(state => state.user.user.NotificationSetting.UserNotifications);
 
     function getNotificationDataTable(): any
@@ -71,7 +71,7 @@ const NotificationSecondPage = () =>
                             <MDBRow>
                                 <MDBCol>
                                     <Loader
-                                        loadingStatus={creatingUserStatus}
+                                        loadingStatus={identifyingUserStatus}
                                         resourceName="notifications"
                                         resourceToLoad={<MDBDataTable data={getNotificationDataTable()} entries={3}/>}
                                     />

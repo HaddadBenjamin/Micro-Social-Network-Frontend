@@ -26,16 +26,13 @@ import SettingsPage from "../Settings/SettingsPage";
 import {ToastContainer} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 import {
-    createUser,
-    getIp
-} from "../../actions/user.action";
-import {
     useDispatch,
     useSelector
 } from "react-redux";
 import {IGlobalState} from "../../reducers";
 import NotificationFirstPage from "../Notifications/NotificationFirstPage";
 import NotificationSecondPage from "../Notifications/NotificationSecondPage";
+import {identifyUser} from "../../actions/user.action";
 
 enum ApplicationPage
 {
@@ -65,20 +62,13 @@ const AppPage = () =>
         return applicationPage === activePage;
     }
 
-    const userId = useSelector<IGlobalState, string>(state => state.user.userId);
     const notificationCount = useSelector<IGlobalState, number>(state => state.user.user.NotificationSetting.UserNotifications.length);
     const dispatch = useDispatch();
 
     useEffect(() =>
     {
-        dispatch(getIp());
+        dispatch(identifyUser());
     }, []);
-
-    useEffect(() =>
-    {
-        if (userId != '')
-            dispatch(createUser(userId))
-    }, [userId]);
 
     const overlay = (
         <div
