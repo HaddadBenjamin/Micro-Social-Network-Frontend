@@ -32,6 +32,11 @@ interface IItem
     DexterityRequired : number,
 }
 
+export interface IItems
+{
+    Elements : IItem[]
+}
+
 export interface IItemProperty
 {
     Name : string,

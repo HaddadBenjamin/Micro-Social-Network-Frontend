@@ -9,8 +9,7 @@ import IUserItem from "../models/User";
 
 export interface IUserState
 {
-    gettingIpStatus : ApiStatus,
-    creatingUserStatus : ApiStatus,
+    identifyingUserStatus : ApiStatus,
     updatingUserStatus : ApiStatus,
     user : IUserItem,
     userId : string,
@@ -19,8 +18,7 @@ export interface IUserState
 
 export const initialUserState : IUserState =
 {
-    gettingIpStatus : ApiStatus.LOADED,
-    creatingUserStatus : ApiStatus.LOADED,
+    identifyingUserStatus : ApiStatus.LOADED,
     updatingUserStatus : ApiStatus.LOADED,
     user : {
         Id : '',
@@ -42,36 +40,19 @@ export default function userReducer(state : IUserState = initialUserState, actio
     {
         switch (action.type)
         {
-            case UserActionTypes.GET_IP :
-            case UserActionTypes.GETTING_IP :
-                draft.gettingIpStatus = ApiStatus.LOADING;
+            case UserActionTypes.IDENTIFY_USER :
+            case UserActionTypes.IDENTIFYING_USER :
+                draft.identifyingUserStatus = ApiStatus.LOADING;
                 break;
 
-            case UserActionTypes.GOT_IP :
-                var shasum = crypto.createHash('sha1');
-
-                shasum.update(action.payload.ip);
-
-                draft.userId = shasum.digest('hex');
-                draft.gettingIpStatus = ApiStatus.LOADED;
-                break;
-
-            case UserActionTypes.GETTING_IP_FAILED :
-                draft.gettingIpStatus = ApiStatus.FAILED;
-                break;
-
-            case UserActionTypes.CREATE_USER :
-            case UserActionTypes.CREATING_USER :
-                draft.creatingUserStatus = ApiStatus.LOADING;
-                break;
-
-            case UserActionTypes.CREATED_USER :
+            case UserActionTypes.IDENTIFIED_USER :
                 draft.user = action.payload.user;
-                draft.creatingUserStatus = ApiStatus.LOADED;
+                draft.userId = draft.user.Id;
+                draft.identifyingUserStatus = ApiStatus.LOADED;
                 break;
 
-            case UserActionTypes.CREATING_USER_FAILED :
-                draft.creatingUserStatus = ApiStatus.LOADED;
+            case UserActionTypes.IDENTIFYING_USER_FAILED :
+                draft.identifyingUserStatus = ApiStatus.FAILED;
                 break;
 
             case UserActionTypes.UPDATE_USER :
