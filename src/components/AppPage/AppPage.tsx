@@ -91,7 +91,7 @@ const AppPage = () =>
                     >
                         <MDBContainer>
                             <MDBNavbarBrand>
-                                <strong className="white-text">Diablo II - Documentation</strong>
+                                <strong className="white-text">Micro - Social Network</strong>
                             </MDBNavbarBrand>
                             <MDBNavbarToggler onClick={onClickOnNavigationBar}/>
                             <MDBCollapse isOpen={isNavigationBarIsCollapsed} navbar>
