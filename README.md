@@ -1,7 +1,7 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5687a48f-a72b-4a05-8071-fca20cb66902/deploy-status)](https://app.netlify.com/sites/diablo-2-enriched-documentation/deploys)
 
 # Micro réseau social - Interface
-**Date du développement du projet :** 2020.</br>
+**Année de développement :** 2020.</br>
 
 Vous pouvez tester l'application sur PC ou mobile grâce à ce lien https://micro-social-network.netlify.app/
 </br>
