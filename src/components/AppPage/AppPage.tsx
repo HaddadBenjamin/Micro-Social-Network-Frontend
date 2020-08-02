@@ -45,7 +45,7 @@ enum ApplicationPage
 const AppPage = () =>
 {
     const [isNavigationBarIsCollapsed, setIsNavigationBarIsCollapsed] = useState(false);
-    const [activePage, setActivePage] = useState(ApplicationPage.Suggestions);
+    const [activePage, setActivePage] = useState(ApplicationPage.Items);
 
     function onClickOnNavigationBar(): void
     {
