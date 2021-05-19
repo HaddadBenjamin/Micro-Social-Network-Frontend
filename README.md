@@ -16,8 +16,9 @@ __L'application propose trois services :__
 __Contexte technologique :__
 - __Technologies :__ React, Typescript.
 - __UI :__ Mdbreact, Toastify.
-- __Librairies :__ Redux-Observable, Lodash, Axios, QS, Immer, Public-Ip.
-- __CI & CD :__ Netlify.
+- __Gestion de l'état :__ Redux Observable, Immer.
+- __Librairies :__ Lodash, Axios, QS, Public-Ip.
+- __CI & CD :__ Netlify, GitHub Actions, Microsoft Azure.
 </br>
 
 ![Image of Yaktocat](https://imgur.com/0qA66wz.png)
