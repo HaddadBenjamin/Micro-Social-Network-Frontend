@@ -3,6 +3,7 @@
 # Micro réseau social - Interface
 **Année de développement :** 2020.</br>
 
+Le code de cette application est vraiment de piètre qualité, merci de vous référer au repository Learning pour juger de mon niveau.
 Vous pouvez tester l'application sur PC ou mobile grâce à ce lien https://micro-social-network.netlify.app/
 </br>Si vous souhaitez voir du clean code, parcouré plutôt ce projet https://github.com/HaddadBenjamin/Learning/tree/master/Learning.React
 </br>
