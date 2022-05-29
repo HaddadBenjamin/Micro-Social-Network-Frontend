@@ -1,11 +1,12 @@
 [![Netlify Status](https://api.netlify.com/api/v1/badges/5687a48f-a72b-4a05-8071-fca20cb66902/deploy-status)](https://app.netlify.com/sites/diablo-2-enriched-documentation/deploys)
 
 # Micro réseau social - Interface
-**Année de développement :** 2020.</br>
+**Année de développement :** 2018.</br>
 
-Le code de cette application est vraiment de piètre qualité, merci de vous référer au repository Learning pour juger de mon niveau.
+Le code de cette application est de piètre qualité, si vous souhaiter lire du code propre, référez-vous au projet https://github.com/HaddadBenjamin/Learning/tree/master/Learning.React.
+</br>
+
 Vous pouvez tester l'application sur PC ou mobile grâce à ce lien https://micro-social-network.netlify.app/
-</br>Si vous souhaitez voir du clean code, parcouré plutôt ce projet https://github.com/HaddadBenjamin/Learning/tree/master/Learning.React
 </br>
 
 __L'application propose trois services :__
