@@ -3,7 +3,7 @@
 # Micro réseau social - Interface
 **Année de développement :** 2018.</br>
 
-Le code de cette application est de piètre qualité, si vous souhaiter lire du code propre, référez-vous au projet https://github.com/HaddadBenjamin/Learning/tree/master/Learning.React.
+Le code de cette application est très sale.
 </br>
 
 __L'application propose trois services :__
