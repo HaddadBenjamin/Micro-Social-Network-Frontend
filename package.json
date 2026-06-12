@@ -19,7 +19,7 @@
     "crypto": "^1.0.1",
     "cssnano": "^4.1.10",
     "csstools": "^0.1.5",
-    "immer": "^6.0.3",
+    "immer": "^9.0.6",
     "jest-mock": "^24.8.0",
     "jquery": "^3.4.1",
     "mdbreact": "^4.19.0",
